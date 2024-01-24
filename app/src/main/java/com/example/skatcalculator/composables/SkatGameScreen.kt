@@ -76,7 +76,6 @@ fun SkatGameScreen(
     val rounds = skatGame.rounds
     val players = GroupPlayerWithScore(skatGame.skatGame.getPlayers(), skatGame.scores).group()
     val currentRound = rounds.size + 1
-    // TODO: Implement
     val specialRounds = specialRoundsState.specialRounds
     var showBottomSheet by remember { mutableStateOf(false) }
 
