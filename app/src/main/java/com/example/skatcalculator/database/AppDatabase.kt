@@ -15,6 +15,7 @@ import com.example.skatcalculator.database.tables.Score
 import com.example.skatcalculator.database.tables.SkatGame
 import com.example.skatcalculator.database.tables.SkatRound
 import com.example.skatcalculator.database.tables.SpecialRounds
+import com.example.skatcalculator.database.typeConverters.IntListTypeConverter
 import com.example.skatcalculator.database.typeConverters.LocalDateTypeConverter
 import com.example.skatcalculator.database.typeConverters.PlayerTypeConverter
 import com.example.skatcalculator.database.typeConverters.RoundModifierTypeConverter
@@ -41,7 +42,8 @@ import com.example.skatcalculator.enums.SpecialRound
     RoundVariantTypeConverter::class,
     TrickColorTypeConverter::class,
     PlayerTypeConverter::class,
-    SpecialRoundListTypeConverter::class
+    SpecialRoundListTypeConverter::class,
+    IntListTypeConverter::class
 
 )
 abstract class AppDatabase : RoomDatabase() {

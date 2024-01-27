@@ -7,6 +7,7 @@ import com.example.skatcalculator.composables.SkatGameScreen
 import com.example.skatcalculator.database.tables.SkatGameWithRounds
 import com.example.skatcalculator.database.tables.SkatGameWithRoundsAndScores
 import com.example.skatcalculator.database.tables.SpecialRounds
+import com.example.skatcalculator.states.SkatRoundInformationState
 import com.example.skatcalculator.states.SkatRoundState
 
 interface SkatDestination {
@@ -30,7 +31,16 @@ object SkatGame : SkatDestination {
     override val route: String
         get() = "game"
     override val screen: @Composable () -> Unit
-        get() = { SkatGameScreen(skatGame = SkatGameWithRoundsAndScores(), skatRoundState = SkatRoundState(), specialRoundsState = SpecialRounds(), onSkatRoundEvent = {}, onSkatGameEvent = {}) }
+        get() = {
+            SkatGameScreen(
+                skatGame = SkatGameWithRoundsAndScores(),
+                skatRoundState = SkatRoundState(),
+                specialRoundsState = SpecialRounds(),
+                roundInformationState = SkatRoundInformationState(),
+                onSkatRoundEvent = {},
+                onSkatGameEvent = {}
+            )
+        }
 }
 
 val skatScreens = listOf<SkatDestination>(MainMenu, SkatGame)

@@ -33,4 +33,6 @@ sealed interface SkatRoundEvent {
     data class onIsSpaltarschChanged(val isSpaltarsch: Boolean): SkatRoundEvent
     data class onSuccessfulSchwarzCheckedChanged(val successfulSchwarzChecked: Boolean) : SkatRoundEvent
     data class onSuccessfulSchneiderChanged(val successfulSchneider: Boolean) : SkatRoundEvent
+
+    data class onUpdateRoundInformationState(val round: SkatRound, val player: Player) : SkatRoundEvent
 }

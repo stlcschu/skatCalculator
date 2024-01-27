@@ -13,13 +13,13 @@ data class SkatRound(
     val pointsGainedPlayerOne: Int = 0,
     val pointsGainedPlayerTwo: Int = 0,
     val pointsGainedPlayerThree: Int = 0,
-    val roundModifier: RoundModifier,
-    val isBockRound: Boolean,
-    val trickColor: TrickColor,
-    val roundType: RoundType,
-    val roundVariant: RoundVariant,
-    val roundIndex: Int,
-    val skatGameId: String,
+    val roundModifier: RoundModifier = RoundModifier(emptyList(), emptyList()),
+    val isBockRound: Boolean = false,
+    val trickColor: TrickColor = TrickColor.CROSSES,
+    val roundType: RoundType = RoundType.WITH_WITHOUT_ONE,
+    val roundVariant: RoundVariant = RoundVariant.NORMAL,
+    val roundIndex: Int = 0,
+    val skatGameId: String = "",
     @PrimaryKey(autoGenerate = true)
     val skatRoundId: Int = 0
 )

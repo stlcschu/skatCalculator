@@ -59,6 +59,7 @@ import com.example.skatcalculator.enums.RoundVariant
 import com.example.skatcalculator.enums.RoundType
 import com.example.skatcalculator.enums.SpecialRound
 import com.example.skatcalculator.enums.TrickColor
+import com.example.skatcalculator.states.SkatRoundInformationState
 import com.example.skatcalculator.states.SkatRoundState
 import com.example.skatcalculator.util.GroupPlayerWithScore
 import com.example.skatcalculator.util.ScoreCalculator
@@ -70,6 +71,7 @@ fun SkatGameScreen(
     skatGame: SkatGameWithRoundsAndScores,
     skatRoundState: SkatRoundState,
     specialRoundsState: SpecialRounds,
+    roundInformationState: SkatRoundInformationState,
     onSkatRoundEvent: (SkatRoundEvent) -> Unit,
     onSkatGameEvent: (SkatGameEvent) -> Unit
 ) {
@@ -118,7 +120,13 @@ fun SkatGameScreen(
         }
         HistoryGameScreen(
             players,
-            rounds
+            rounds,
+            roundInformationState,
+            onRoundStateChange = { round,player ->
+                onSkatRoundEvent(
+                    SkatRoundEvent.onUpdateRoundInformationState(round, player)
+                )
+            }
         )
     }
 
@@ -920,7 +928,8 @@ fun MainGameScreen(
                                 )
                                 onSkatRoundEvent(
                                     SkatRoundEvent.onSuccessfulSchneiderChanged (
-                                        roundState.roundScore.roundToInt() > 90
+                                        if  (roundState.schneiderChecked) roundState.roundScore.roundToInt() > 90
+                                        else false
                                     )
                                 )
                             },
@@ -1047,13 +1056,19 @@ fun MainGameScreen(
                         skatRound
                     )
                 )
-                val score = roundState.selectedPlayer.score.copy(
-                    score = roundState.selectedPlayer.score.score + scoreAndSpecialRounds.first
+                val newScore = roundState.selectedPlayer.score.score + scoreAndSpecialRounds.first
+//                val newScores = roundState.selectedPlayer.score.scores.toMutableList()
+//                newScores.add(newScore)
+                val scorePrime = roundState.selectedPlayer.score.copy(
+                    score = newScore,
+//                    scores = newScores
                 )
+
+
 
                 onSkatGameEvent(
                     SkatGameEvent.saveScore(
-                        score
+                        scorePrime
                     )
                 )
                 val newSpecialRounds = addSpecialRounds(specialRounds, scoreAndSpecialRounds.second)
@@ -1075,8 +1090,20 @@ fun MainGameScreen(
 @Composable
 fun HistoryGameScreen(
     players: List<PlayerWithScore>,
-    rounds: List<SkatRound>
+    rounds: List<SkatRound>,
+    roundInformationState: SkatRoundInformationState,
+    onRoundStateChange: (SkatRound, Player) -> Unit
 ) {
+    var showHistoryInfo by remember { mutableStateOf(false) }
+
+    if (showHistoryInfo) {
+        SkatRoundInformation(
+            skatRound = roundInformationState.round ,
+            player = roundInformationState.player,
+            onDismissRequest = { showHistoryInfo = false }
+        )
+    }
+
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -1124,7 +1151,12 @@ fun HistoryGameScreen(
                 currentScorePlayerOne,
                 currentScorePlayerTwo,
                 currentScorePlayerThree,
-                round = round
+                round = round,
+                onClick = {
+                    showHistoryInfo = true
+                    val player = if(round.pointsGainedPlayerOne != 0) players[0].player else if (round.pointsGainedPlayerTwo != 0) players[1].player else players[2].player
+                    onRoundStateChange(round, player)
+                }
             )
         }
     }
@@ -1135,10 +1167,13 @@ fun HistoryRound(
     currentScorePlayerOne: Int,
     currentScorePlayerTwo: Int,
     currentScorePlayerThree: Int,
-    round: SkatRound
+    round: SkatRound,
+    onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
     ) {
         Text(text = round.roundIndex.toString())
         Column(

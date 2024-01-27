@@ -44,10 +44,12 @@ fun SkatNavHost(
             val skatGame = skatGameViewModel.state.collectAsState().value
             val skatRoundState = skatRoundViewModel.state.collectAsState().value
             val specialRounds = skatGameViewModel.upcomingSpecialRounds.collectAsState().value
+            val roundInformationState = skatRoundViewModel.roundInformationState.collectAsState().value
             SkatGameScreen(
                 skatGame = skatGame,
                 skatRoundState = skatRoundState,
                 specialRoundsState = specialRounds,
+                roundInformationState = roundInformationState,
                 onSkatRoundEvent = skatRoundViewModel::onEvent,
                 onSkatGameEvent = skatGameViewModel::onEvent
             )

@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Score(
     val score: Int = 0,
+//    val scores: List<Int> = listOf(0),
     val skatGameId: String = "",
     val playerId: String = "NA",
     @PrimaryKey(autoGenerate = true)

@@ -13,7 +13,7 @@ class SpecialRoundListTypeConverter {
                 stringBuilder.append(specialRound.value)
             } else {
                 stringBuilder.append(specialRound.value)
-                stringBuilder.append("|")
+                stringBuilder.append(SEPARATOR)
             }
         }
         specialRounds.toString()
@@ -23,12 +23,17 @@ class SpecialRoundListTypeConverter {
     @TypeConverter
     fun specialRoundListFromString(specialRoundListString: String) : List<SpecialRound> {
         if (specialRoundListString.isEmpty() || specialRoundListString.isBlank()) return emptyList()
-        val splits = specialRoundListString.split("|")
+        val splits = specialRoundListString.split(SEPARATOR)
         val specialRounds = mutableListOf<SpecialRound>()
         for (split in splits) {
+            if (split.isBlank() || split.isEmpty()) continue
             specialRounds.add(SpecialRound.fromString(split))
         }
         return specialRounds
+    }
+
+    companion object {
+        const val SEPARATOR = "|"
     }
 
 }
