@@ -114,53 +114,55 @@ fun MainMenuScreen(
                                 .height(230.dp)
                         ) {
                             items(players) { player ->
-                                Card(
-                                    onClick = {
-                                        when(addPlayerOnIndex) {
-                                            2 -> {
-                                                playerTwo = player
+                                if (player.name != playerOne.name && player.name != playerTwo.name && player.name != playerThree.name) {
+                                    Card(
+                                        onClick = {
+                                            when(addPlayerOnIndex) {
+                                                2 -> {
+                                                    playerTwo = player
+                                                }
+                                                3 -> {
+                                                    playerThree = player
+                                                }
+                                                else -> {
+                                                    playerOne = player
+                                                }
                                             }
-                                            3 -> {
-                                                playerThree = player
-                                            }
-                                            else -> {
-                                                playerOne = player
-                                            }
-                                        }
-                                        showNewPlayerDialog = false
-                                    },
-                                    modifier = Modifier
-                                        .padding()
-                                ) {
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                            showNewPlayerDialog = false
+                                        },
+                                        modifier = Modifier
+                                            .padding()
+                                    ) {
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
 
-                                        ) {
-                                        Text(
-                                            text = player.name,
-                                            maxLines = 1,
-                                            overflow = TextOverflow.Ellipsis
-                                        )
-                                        IconButton(onClick = {
-                                            onPlayerEvent(
-                                                PlayerEvent.deletePlayer(player)
+                                            ) {
+                                            Text(
+                                                text = player.name,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
                                             )
-                                            if (playerOne.equalsPlayer(player)) {
-                                                playerOne = Player("")
+                                            IconButton(onClick = {
+                                                onPlayerEvent(
+                                                    PlayerEvent.deletePlayer(player)
+                                                )
+                                                if (playerOne.equalsPlayer(player)) {
+                                                    playerOne = Player("")
+                                                }
+                                                if (playerTwo.equalsPlayer(player)){
+                                                    playerTwo = Player("")
+                                                }
+                                                if (playerThree.equalsPlayer(player)) {
+                                                    playerThree = Player("")
+                                                }
+                                            }) {
+                                                Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove player")
                                             }
-                                            if (playerTwo.equalsPlayer(player)){
-                                                playerTwo = Player("")
-                                            }
-                                            if (playerThree.equalsPlayer(player)) {
-                                                playerThree = Player("")
-                                            }
-                                        }) {
-                                            Icon(imageVector = Icons.Default.Delete, contentDescription = "Remove player")
                                         }
                                     }
+                                    Divider()
                                 }
-                                Divider()
                             }
                         }
                         Row(
