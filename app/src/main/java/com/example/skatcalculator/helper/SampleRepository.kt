@@ -5,6 +5,7 @@ import com.example.skatcalculator.database.tables.Score
 import com.example.skatcalculator.database.tables.SkatGame
 import com.example.skatcalculator.database.tables.SkatGameWithScores
 import com.example.skatcalculator.database.tables.SkatRound
+import com.example.skatcalculator.dataclasses.PlayerWithScore
 import com.example.skatcalculator.dataclasses.RoundModifier
 import com.example.skatcalculator.enums.Declaration
 import com.example.skatcalculator.enums.RoundType
@@ -21,8 +22,8 @@ class SampleRepository() {
     )
 
     fun getSkatRound() = SkatRound(
-        roundIndex = 12,
-        pointsGainedPlayerOne = 120,
+        roundIndex = 1200,
+        pointsGainedPlayerOne = 0,
         roundModifier = RoundModifier(
             declarations = listOf(
                 Declaration.RE,
@@ -49,16 +50,39 @@ class SampleRepository() {
         skatGame = getSkatGame(),
         scores = listOf(
             Score(
-                score = -1200000,
+                score = 0,
                 playerId = "player1"
             ),
             Score(
-                score = -3120,
+                score = 0,
                 playerId = "player2"
             ),
             Score(
-                score = 10,
+                score = 0,
                 playerId = "player3"
+            )
+        )
+    )
+
+    fun getPlayerWithScore() = PlayerWithScore(
+        Player("Anna"),
+        Score(
+            score = 0
+        )
+    )
+
+    fun getPlayersWithScore () = listOf<PlayerWithScore>(
+        getPlayerWithScore(),
+        PlayerWithScore(
+            Player("Florionae"),
+            Score(
+                score = 0
+            )
+        ),
+        PlayerWithScore(
+            Player("dsfsdfsfsfsfs"),
+            Score(
+                score = 0
             )
         )
     )

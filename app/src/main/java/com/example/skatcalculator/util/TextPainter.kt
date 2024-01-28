@@ -5,18 +5,21 @@ import androidx.compose.ui.graphics.Color
 class TextPainter(private val paintValue: PaintValue) {
 
     fun getColor() : Color {
-        when(paintValue) {
+        return when(paintValue) {
             PaintValue.RED -> {
-                return Color.Red
+                Color.Red
             }
+
             PaintValue.GREEN -> {
-                return Color.Green
+                Color.Green
             }
+
             PaintValue.HIGHLIGHT -> {
-                return Color.Magenta
+                Color.Magenta
             }
+
             else -> {
-                return Color.Black
+                Color.Black
             }
         }
     }

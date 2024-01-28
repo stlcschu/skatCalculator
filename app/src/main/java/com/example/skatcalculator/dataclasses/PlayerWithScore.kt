@@ -16,4 +16,8 @@ data class PlayerWithScore(
         return score.score.toString()
     }
 
+    fun getScore() : Int {
+        return score.score
+    }
+
 }
