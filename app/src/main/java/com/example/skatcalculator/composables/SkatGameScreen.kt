@@ -17,8 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -41,7 +39,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -64,7 +61,6 @@ import com.example.skatcalculator.database.events.SkatGameEvent
 import com.example.skatcalculator.database.events.SkatRoundEvent
 import com.example.skatcalculator.database.tables.Player
 import com.example.skatcalculator.database.tables.Score
-import com.example.skatcalculator.database.tables.SkatGameWithRounds
 import com.example.skatcalculator.database.tables.SkatGameWithRoundsAndScores
 import com.example.skatcalculator.database.tables.SkatRound
 import com.example.skatcalculator.database.tables.SpecialRounds
@@ -84,7 +80,6 @@ import com.example.skatcalculator.util.GroupPlayerWithScore
 import com.example.skatcalculator.util.ScoreCalculator
 import com.example.skatcalculator.util.TextPainter
 import com.example.skatcalculator.util.TextPainter.Companion.PaintValue
-import kotlin.math.round
 import kotlin.math.roundToInt
 
 @Composable

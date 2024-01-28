@@ -3,7 +3,6 @@ package com.example.skatcalculator.database.events
 import com.example.skatcalculator.database.tables.Score
 import com.example.skatcalculator.database.tables.SkatGame
 import com.example.skatcalculator.database.tables.SpecialRounds
-import com.example.skatcalculator.enums.SpecialRound
 
 sealed interface SkatGameEvent {
 

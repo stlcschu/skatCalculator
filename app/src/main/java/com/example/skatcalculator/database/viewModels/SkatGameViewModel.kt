@@ -7,12 +7,9 @@ import com.example.skatcalculator.database.daos.ScoreDao
 import com.example.skatcalculator.database.daos.SkatGameDao
 import com.example.skatcalculator.database.daos.SpecialRoundsDao
 import com.example.skatcalculator.database.events.SkatGameEvent
-import com.example.skatcalculator.database.tables.SkatGame
-import com.example.skatcalculator.database.tables.SkatGameWithRounds
 import com.example.skatcalculator.database.tables.SkatGameWithRoundsAndScores
 import com.example.skatcalculator.database.tables.SkatGameWithScores
 import com.example.skatcalculator.database.tables.SpecialRounds
-import com.example.skatcalculator.enums.SpecialRound
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

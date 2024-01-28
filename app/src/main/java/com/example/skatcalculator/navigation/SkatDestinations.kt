@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.skatcalculator.composables.MainMenuScreen
 import com.example.skatcalculator.composables.SkatGameScreen
-import com.example.skatcalculator.database.tables.SkatGameWithRounds
 import com.example.skatcalculator.database.tables.SkatGameWithRoundsAndScores
 import com.example.skatcalculator.database.tables.SpecialRounds
 import com.example.skatcalculator.states.SkatRoundInformationState

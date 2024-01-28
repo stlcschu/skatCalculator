@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey
 import com.example.skatcalculator.dataclasses.RoundModifier
 import com.example.skatcalculator.enums.RoundVariant
 import com.example.skatcalculator.enums.RoundType
-import com.example.skatcalculator.enums.SpecialRound
 import com.example.skatcalculator.enums.TrickColor
 
 @Entity

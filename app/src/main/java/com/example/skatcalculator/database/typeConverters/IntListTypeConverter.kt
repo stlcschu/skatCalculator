@@ -1,7 +1,6 @@
 package com.example.skatcalculator.database.typeConverters
 
 import androidx.room.TypeConverter
-import com.example.skatcalculator.enums.SpecialRound
 
 class IntListTypeConverter {
 

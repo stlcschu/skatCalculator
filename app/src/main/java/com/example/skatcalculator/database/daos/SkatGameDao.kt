@@ -5,9 +5,7 @@ import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.example.skatcalculator.database.tables.Player
 import com.example.skatcalculator.database.tables.SkatGame
-import com.example.skatcalculator.database.tables.SkatGameWithRounds
 import com.example.skatcalculator.database.tables.SkatGameWithRoundsAndScores
 import com.example.skatcalculator.database.tables.SkatGameWithScores
 import kotlinx.coroutines.flow.Flow

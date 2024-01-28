@@ -3,12 +3,8 @@ package com.example.skatcalculator.database.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.skatcalculator.composables.SkatRoundInformation
-import com.example.skatcalculator.database.daos.SkatGameDao
 import com.example.skatcalculator.database.daos.SkatRoundDao
 import com.example.skatcalculator.database.events.SkatRoundEvent
-import com.example.skatcalculator.database.tables.Player
-import com.example.skatcalculator.database.tables.SkatRound
 import com.example.skatcalculator.dataclasses.PlayerWithScore
 import com.example.skatcalculator.enums.RoundType
 import com.example.skatcalculator.enums.RoundVariant

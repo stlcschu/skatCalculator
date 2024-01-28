@@ -23,7 +23,6 @@ import com.example.skatcalculator.database.typeConverters.RoundTypeTypeConverter
 import com.example.skatcalculator.database.typeConverters.RoundVariantTypeConverter
 import com.example.skatcalculator.database.typeConverters.SpecialRoundListTypeConverter
 import com.example.skatcalculator.database.typeConverters.TrickColorTypeConverter
-import com.example.skatcalculator.enums.SpecialRound
 
 @Database(
     entities =[

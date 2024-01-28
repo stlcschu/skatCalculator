@@ -1,6 +1,5 @@
 package com.example.skatcalculator.states
 
-import com.example.skatcalculator.database.tables.Player
 import com.example.skatcalculator.dataclasses.PlayerWithScore
 import com.example.skatcalculator.enums.RoundType
 import com.example.skatcalculator.enums.RoundVariant

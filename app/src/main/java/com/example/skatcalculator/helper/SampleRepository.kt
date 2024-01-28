@@ -12,7 +12,6 @@ import com.example.skatcalculator.enums.RoundType
 import com.example.skatcalculator.enums.RoundVariant
 import com.example.skatcalculator.enums.TrickColor
 import java.time.LocalDate
-import java.time.Month
 
 class SampleRepository() {
 

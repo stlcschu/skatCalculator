@@ -1,7 +1,5 @@
 package com.example.skatcalculator.util
 
-import android.widget.GridLayout.Spec
-import com.example.skatcalculator.database.tables.SkatRound
 import com.example.skatcalculator.enums.Declaration
 import com.example.skatcalculator.enums.RoundOutcome
 import com.example.skatcalculator.enums.RoundVariant

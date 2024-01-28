@@ -1,6 +1,5 @@
 package com.example.skatcalculator.enums
 
-import android.graphics.drawable.Drawable
 import com.example.skatcalculator.R
 
 enum class TrickColor(val value: String, val drawableId: Int, val baseValue: Int) {
