@@ -24,6 +24,7 @@ import com.example.skatcalculator.database.viewModels.SkatRoundViewModelFactory
 import com.example.skatcalculator.navigation.MainMenu
 import com.example.skatcalculator.navigation.SkatNavHost
 import com.example.skatcalculator.navigation.skatScreens
+import com.example.skatcalculator.util.CardIconProvider
 
 class MainActivity : ComponentActivity() {
 
@@ -52,14 +53,14 @@ class MainActivity : ComponentActivity() {
     fun SkatApp() {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
-        val currentDestination = currentBackStack?.destination
-        val currentScreen = skatScreens.find { it.route == currentDestination?.route } ?: MainMenu
+        val cardIconProvider = CardIconProvider()
         var resetRoundState by remember { mutableStateOf(false) }
         Scaffold() { innerPadding ->
             SkatNavHost(
                 navController = navController,
                 modifier = Modifier.padding(innerPadding),
                 resetRoundState = resetRoundState,
+                cardIconProvider = cardIconProvider,
                 playerViewModel = playerViewModel,
                 skatGameViewModel = skatGameViewModel,
                 skatRoundViewModel = skatRoundViewModel,

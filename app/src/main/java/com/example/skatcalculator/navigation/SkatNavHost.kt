@@ -13,12 +13,14 @@ import com.example.skatcalculator.database.events.SkatRoundEvent
 import com.example.skatcalculator.database.viewModels.PlayerViewModel
 import com.example.skatcalculator.database.viewModels.SkatGameViewModel
 import com.example.skatcalculator.database.viewModels.SkatRoundViewModel
+import com.example.skatcalculator.util.CardIconProvider
 
 @Composable
 fun SkatNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
     resetRoundState: Boolean,
+    cardIconProvider: CardIconProvider,
     playerViewModel: PlayerViewModel,
     skatGameViewModel: SkatGameViewModel,
     skatRoundViewModel: SkatRoundViewModel,
@@ -36,6 +38,7 @@ fun SkatNavHost(
             MainMenuScreen(
                 players = players,
                 historyGames = historyGames,
+                cardIconProvider = cardIconProvider,
                 onPlayerEvent = playerViewModel::onEvent,
                 onSkatGameEvent = skatGameViewModel::onEvent,
                 onClickStartSkatGame = {

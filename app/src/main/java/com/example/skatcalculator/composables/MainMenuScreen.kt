@@ -1,9 +1,11 @@
 package com.example.skatcalculator.composables
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,8 +18,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -34,8 +38,10 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -45,13 +51,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.window.Dialog
+import com.example.skatcalculator.R
+import com.example.skatcalculator.composables.defaults.DefaultCardClickable
+import com.example.skatcalculator.composables.defaults.DefaultCardClickableWithButton
+import com.example.skatcalculator.composables.defaults.LoadingCard
 import com.example.skatcalculator.database.events.PlayerEvent
 import com.example.skatcalculator.database.events.SkatGameEvent
 import com.example.skatcalculator.database.tables.Player
@@ -60,6 +75,7 @@ import com.example.skatcalculator.database.tables.SkatGame
 import com.example.skatcalculator.database.tables.SkatGameWithScores
 import com.example.skatcalculator.database.tables.SpecialRounds
 import com.example.skatcalculator.helper.SampleRepository
+import com.example.skatcalculator.util.CardIconProvider
 import com.example.skatcalculator.util.GroupPlayerWithScore
 import com.example.skatcalculator.util.IdGenerator
 import kotlinx.coroutines.delay
@@ -70,10 +86,12 @@ import java.time.Month
 fun MainMenuScreen(
     players: List<Player>,
     historyGames: List<SkatGameWithScores>,
+    cardIconProvider: CardIconProvider,
     onPlayerEvent: (PlayerEvent) -> Unit,
     onSkatGameEvent: (SkatGameEvent) -> Unit,
     onClickStartSkatGame: () -> Unit = {}
 ) {
+    val historyLazyListState = rememberLazyListState()
     Column(
 //        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -176,7 +194,9 @@ fun MainMenuScreen(
                                 placeholder = { Text(text = "New player name") },
                                 maxLines = 1,
                                 shape = AbsoluteCutCornerShape(0.dp),
-                                modifier = Modifier.fillMaxWidth(0.8f).fillMaxHeight()
+                                modifier = Modifier
+                                    .fillMaxWidth(0.8f)
+                                    .fillMaxHeight()
                             )
                             IconButton(
                                 onClick = {
@@ -212,128 +232,158 @@ fun MainMenuScreen(
                 }
             }
         }
-        ElevatedCard(
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 3.dp
-            ),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            ),
-            shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 5.dp, bottomEnd = 5.dp),
-            modifier = Modifier.fillMaxWidth(),
+        val topHeightFraction = if (historyLazyListState.firstVisibleItemIndex > 10) 0.1f else 0.5f
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(topHeightFraction),
+
         ) {
-            Spacer(
-                modifier = Modifier.height(50.dp)
+            Image(
+                painter = painterResource(id = R.drawable.menu_background_2),
+                contentDescription = "Menu Background",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+                    .clip(
+                        RoundedCornerShape(
+                            topStart = 0.dp,
+                            topEnd = 0.dp,
+                            bottomStart = 20.dp,
+                            bottomEnd = 20.dp
+                        )
+                    ),
+                contentScale = ContentScale.Crop,
             )
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+            Card(
+                backgroundColor = Color.Transparent,
+                shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 5.dp, bottomEnd = 5.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
+
             ) {
-                PlayerInsert(
-                    playerOne,
-                    onClick = {
-                        addPlayerOnIndex = 1
-                        showNewPlayerDialog = true
-                    },
-                    onRemove = {
-                        playerOne = Player("")
-                    }
-                )
-                PlayerInsert(
-                    playerTwo,
-                    onClick = {
-                        addPlayerOnIndex = 2
-                        showNewPlayerDialog = true
-                    },
-                    onRemove = {
-                        playerTwo = Player("")
-                    }
-                )
-                PlayerInsert(
-                    playerThree,
-                    onClick = {
-                        addPlayerOnIndex = 3
-                        showNewPlayerDialog = true
-                    },
-                    onRemove = {
-                        playerThree = Player("")
-                    }
-                )
-                Spacer(
-                    modifier = Modifier
-                        .height(25.dp)
-                )
-                Button(
-                    onClick = {
-                        val gameId = IdGenerator().generateGameId()
-                        val skatGame = SkatGame(
-                            playerOne = playerOne,
-                            playerTwo = playerTwo,
-                            playerThree = playerThree,
-                            skatGameId = gameId
-                        )
-                        onSkatGameEvent(
-                            SkatGameEvent.saveSkatGame(skatGame)
-                        )
-                        onSkatGameEvent(
-                            SkatGameEvent.saveScore(
-                                Score(
-                                    score = 0,
-                                    skatGameId = gameId,
-                                    playerId = playerOne.playerId
-                                )
-                            )
-                        )
-                        onSkatGameEvent(
-                            SkatGameEvent.saveScore(
-                                Score(
-                                    score = 0,
-                                    skatGameId = gameId,
-                                    playerId = playerTwo.playerId
-                                )
-                            )
-                        )
-                        onSkatGameEvent(
-                            SkatGameEvent.saveScore(
-                                Score(
-                                    score = 0,
-                                    skatGameId = gameId,
-                                    playerId = playerThree.playerId
-                                )
-                            )
-                        )
-                        onSkatGameEvent(
-                            SkatGameEvent.setSkatGameId(gameId)
-                        )
-                        onSkatGameEvent(
-                            SkatGameEvent.saveSpecialRounds(SpecialRounds(specialRounds = emptyList(), gameId))
-                        )
-                        onClickStartSkatGame()
-                    },
-                    enabled = gameIsReady
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "Start game")
+                    var playerOneIcon by remember { mutableIntStateOf(cardIconProvider.getAvailableIcon()) }
+                    PlayerInsert(
+                        playerOne,
+                        playerOneIcon,
+                        onClick = {
+                            addPlayerOnIndex = 1
+                            showNewPlayerDialog = true
+                        },
+                        onRemove = {
+                            playerOne = Player("")
+                            cardIconProvider.cardIconReturned(playerOneIcon)
+                            playerOneIcon = cardIconProvider.getAvailableIcon()
+                        }
+                    )
+                    var playerTwoIcon by remember { mutableIntStateOf(cardIconProvider.getAvailableIcon()) }
+                    PlayerInsert(
+                        playerTwo,
+                        playerTwoIcon,
+                        onClick = {
+                            addPlayerOnIndex = 2
+                            showNewPlayerDialog = true
+                        },
+                        onRemove = {
+                            playerTwo = Player("")
+                            cardIconProvider.cardIconReturned(playerTwoIcon)
+                            playerTwoIcon = cardIconProvider.getAvailableIcon()
+                        }
+                    )
+                    var playerThreeIcon by remember { mutableIntStateOf(cardIconProvider.getAvailableIcon()) }
+                    PlayerInsert(
+                        playerThree,
+                        playerThreeIcon,
+                        onClick = {
+                            addPlayerOnIndex = 3
+                            showNewPlayerDialog = true
+                        },
+                        onRemove = {
+                            playerThree = Player("")
+                            cardIconProvider.cardIconReturned(playerThreeIcon)
+                            playerThreeIcon = cardIconProvider.getAvailableIcon()
+                        }
+                    )
+                    Spacer(
+                        modifier = Modifier
+                            .height(25.dp)
+                    )
+                    Button(
+                        onClick = {
+                            val gameId = IdGenerator().generateGameId()
+                            val skatGame = SkatGame(
+                                playerOne = playerOne,
+                                playerTwo = playerTwo,
+                                playerThree = playerThree,
+                                skatGameId = gameId
+                            )
+                            onSkatGameEvent(
+                                SkatGameEvent.saveSkatGame(skatGame)
+                            )
+                            onSkatGameEvent(
+                                SkatGameEvent.saveScore(
+                                    Score(
+                                        score = 0,
+                                        skatGameId = gameId,
+                                        playerId = playerOne.playerId
+                                    )
+                                )
+                            )
+                            onSkatGameEvent(
+                                SkatGameEvent.saveScore(
+                                    Score(
+                                        score = 0,
+                                        skatGameId = gameId,
+                                        playerId = playerTwo.playerId
+                                    )
+                                )
+                            )
+                            onSkatGameEvent(
+                                SkatGameEvent.saveScore(
+                                    Score(
+                                        score = 0,
+                                        skatGameId = gameId,
+                                        playerId = playerThree.playerId
+                                    )
+                                )
+                            )
+                            onSkatGameEvent(
+                                SkatGameEvent.setSkatGameId(gameId)
+                            )
+                            onSkatGameEvent(
+                                SkatGameEvent.saveSpecialRounds(SpecialRounds(specialRounds = emptyList(), gameId))
+                            )
+                            onClickStartSkatGame()
+                        },
+                        enabled = gameIsReady
+                    ) {
+                        Text(text = "Start game")
+                    }
                 }
-                Spacer(
-                    modifier = Modifier
-                        .height(25.dp)
-                )
             }
         }
+
+//        BottomShadow(
+//            alpha = 1f,
+//            height = 10.dp
+//        )
         if (historyGames.isEmpty() && showLoadingHistory) {
-            LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
-                color = MaterialTheme.colorScheme.secondary,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant,
-            )
+            LoadingCard(icon = R.drawable.card_icon_crosses_2)
             return
         }
         if(historyGames.isEmpty()) {
             Text(text = "No Games found")
             return
         }
-        LazyColumn() {
+        LazyColumn(
+            state = historyLazyListState
+        ) {
             items(historyGames) {game ->
                 HistoryGamePreview(
                     game,
@@ -350,62 +400,38 @@ fun MainMenuScreen(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PlayerInsert(
     player: Player,
+    playerIcon: Int,
     onClick: () -> Unit,
     onRemove: () -> Unit
 ) {
-    Card(
-        onClick = onClick,
-        modifier = Modifier
-            .width(200.dp)
-            .height(30.dp)
-            .padding(top = 5.dp),
-        shape = AbsoluteCutCornerShape(0.dp),
-        backgroundColor = Color.White,
-    ) {
-        Row(
-            modifier = Modifier
-                .height(30.dp)
-                .border(1.dp, Color.LightGray),
-            horizontalArrangement = Arrangement.SpaceBetween,
+
+    if (player.isEmpty()) {
+        DefaultCardClickable(
+            header = "Player",
+            onClick = onClick
         ) {
-            if (player.isEmpty()) {
-                Column {
-                    Text(text = "Click to add player")
-                }
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add new player",
-                    modifier = Modifier.size(30.dp)
-                )
-            } else {
-                Column {
-                    Text(
-                        text = player.name,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = "Remove player",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .clickable {
-                            onRemove()
-                        }
-                )
-            }
+            Text(text = "Click to add player")
         }
+        return
     }
-    Divider(
-        modifier = Modifier
-            .width(200.dp)
-            .height(2.dp)
-    )
+
+    DefaultCardClickableWithButton(
+        header = "Player",
+        buttonIcon = R.drawable.baseline_remove_24,
+        onClick = onClick,
+        buttonFunction = onRemove
+    ) {
+        Icon(painter = painterResource(id = playerIcon), contentDescription = "Player icon")
+        Text(
+            text = player.name,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
 }
 
 @Composable
@@ -536,6 +562,7 @@ fun PreviewMainComposable() {
     MainMenuScreen(
         SampleRepository().getPlayerData(),
         emptyList(),
+        CardIconProvider(),
         onPlayerEvent = {},
         onSkatGameEvent = {}
     )
@@ -544,7 +571,12 @@ fun PreviewMainComposable() {
 @Preview
 @Composable
 fun PreviewPlayerInsert() {
-    PlayerInsert(player = Player("dfdf"), onClick = {}, onRemove = {})
+    PlayerInsert(
+        player = Player("tmp"),
+        playerIcon = R.drawable.card_icon_crosses_2,
+        onClick = {},
+        onRemove = {}
+    )
 }
 
 @Preview

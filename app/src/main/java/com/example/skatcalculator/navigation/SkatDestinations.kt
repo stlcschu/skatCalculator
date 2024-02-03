@@ -8,6 +8,7 @@ import com.example.skatcalculator.database.tables.SkatGameWithRoundsAndScores
 import com.example.skatcalculator.database.tables.SpecialRounds
 import com.example.skatcalculator.states.SkatRoundInformationState
 import com.example.skatcalculator.states.SkatRoundState
+import com.example.skatcalculator.util.CardIconProvider
 
 interface SkatDestination {
     val icon: ImageVector
@@ -21,7 +22,15 @@ object MainMenu : SkatDestination {
     override val route: String
         get() = "mainMenu"
     override val screen: @Composable () -> Unit
-        get() = { MainMenuScreen(players = emptyList(), historyGames = emptyList(), onPlayerEvent = {}, onSkatGameEvent = {}) }
+        get() = {
+            MainMenuScreen(
+                players = emptyList(),
+                historyGames = emptyList(),
+                cardIconProvider = CardIconProvider(),
+                onPlayerEvent = {},
+                onSkatGameEvent = {}
+            )
+        }
 }
 
 object SkatGame : SkatDestination {
