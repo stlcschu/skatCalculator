@@ -281,10 +281,13 @@ fun MainGameScreen(
                         onSkatRoundEvent(
                             SkatRoundEvent.onRoundVariantChanged(RoundVariant.NORMAL)
                         )
+                        onSkatRoundEvent(
+                            SkatRoundEvent.onResetNormalVariant
+                        )
                     }
                 )
                 Text(
-                    text = "Normal",
+                    text = RoundVariant.NORMAL.value,
                     fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
                 )
             }
@@ -298,10 +301,13 @@ fun MainGameScreen(
                         onSkatRoundEvent(
                             SkatRoundEvent.onRoundVariantChanged(RoundVariant.GRAND)
                         )
+                        onSkatRoundEvent(
+                            SkatRoundEvent.onResetGrandVariant
+                        )
                     }
                 )
                 Text(
-                    text = "Grand",
+                    text = RoundVariant.GRAND.value,
                     fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
                 )
             }
@@ -313,10 +319,13 @@ fun MainGameScreen(
                         onSkatRoundEvent(
                             SkatRoundEvent.onRoundVariantChanged(RoundVariant.NULLSPIEL)
                         )
+                        onSkatRoundEvent(
+                            SkatRoundEvent.onResetNullSpielVariant
+                        )
                     }
                 )
                 Text(
-                    text = "Nullspiel",
+                    text = RoundVariant.NULLSPIEL.value,
                     fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
                 )
             }
@@ -328,10 +337,13 @@ fun MainGameScreen(
                         onSkatRoundEvent(
                             SkatRoundEvent.onRoundVariantChanged(RoundVariant.RAMSCH)
                         )
+                        onSkatRoundEvent(
+                            SkatRoundEvent.onResetRamschVariant
+                        )
                     }
                 )
                 Text(
-                    text = "Ramsch",
+                    text = RoundVariant.RAMSCH.value,
                     fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
                 )
             }
@@ -411,7 +423,7 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = "Re")
+                            Text(text = Declaration.RE.value)
                         }
                     }
                     Box(
@@ -430,7 +442,7 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = "Ouver")
+                            Text(text = Declaration.OUVER.value)
                         }
                     }
                 }
@@ -453,7 +465,7 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = "Kontra")
+                            Text(text = Declaration.KONTRA.value)
                         }
                     }
 
@@ -473,7 +485,7 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = "Hand")
+                            Text(text = Declaration.HAND.value)
                         }
                     }
                 }
@@ -677,7 +689,7 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = "Re")
+                            Text(text = Declaration.RE.value)
                         }
                     }
                     Box(
@@ -696,7 +708,7 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = "Ouver")
+                            Text(text = Declaration.OUVER.value)
                         }
                     }
                     Box(
@@ -721,7 +733,7 @@ fun MainGameScreen(
                                 }
                             )
                             Text(
-                                text = "Schneider"
+                                text = Declaration.SCHNEIDER.value
                             )
                         }
                     }
@@ -746,7 +758,7 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = "Kontra")
+                            Text(text = Declaration.KONTRA.value)
                         }
                     }
 
@@ -766,7 +778,7 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = "Hand")
+                            Text(text = Declaration.HAND.value)
                         }
                     }
 
@@ -788,7 +800,7 @@ fun MainGameScreen(
                                 enabled = roundState.schneiderChecked
                             )
                             Text(
-                                text = "Schwarz"
+                                text = Declaration.SCHWARZ.value
                             )
                         }
                     }
@@ -2217,7 +2229,7 @@ fun PreviewMainGameScreen() {
             ),
             showBottomSheet = false,
             roundState = SkatRoundState(
-                roundVariant = RoundVariant.NULLSPIEL
+                roundVariant = RoundVariant.NORMAL
             ),
             currentRound = 5,
             gameId = "",

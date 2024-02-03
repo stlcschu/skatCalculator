@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SkatCalculator</string>
+    <string name="end_round">End Round</string>
 </resources>

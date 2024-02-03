@@ -217,6 +217,106 @@ class SkatRoundViewModel(
                     )
                 }
             }
+
+            SkatRoundEvent.onFullReset -> {
+                _state.update {
+                    it.copy(
+                        roundVariant = RoundVariant.NORMAL,
+                        selectedPlayer = PlayerWithScore(),
+                        selectedShove = 0,
+                        selectedRoundType = RoundType.WITH_WITHOUT_ONE,
+                        selectedTrick = TrickColor.CROSSES,
+                        reChecked = false,
+                        kontraChecked = false,
+                        schneiderChecked = false,
+                        schwarzChecked = false,
+                        ouverChecked = false,
+                        handChecked = false,
+                        jungfrauChecked = false,
+                        roundScore = 0f,
+                        successfulNullSpielChecked = false,
+                        successfulDurchmarschChecked = false,
+                        playerDropdownExpanded = false,
+                        shoveDropdownExpanded = false,
+                        roundTypeDropDownExpanded = false,
+                        isSpaltarsch = false,
+                        successfulSchwarz = false,
+                        successfulSchneider = false
+                    )
+                }
+            }
+
+            SkatRoundEvent.onResetGrandVariant -> {
+                _state.update {
+                    it.copy(
+                        selectedPlayer = PlayerWithScore(),
+                        selectedRoundType = RoundType.WITH_WITHOUT_ONE,
+                        reChecked = false,
+                        kontraChecked = false,
+                        schneiderChecked = false,
+                        schwarzChecked = false,
+                        ouverChecked = false,
+                        handChecked = false,
+                        roundScore = 0f,
+                        playerDropdownExpanded = false,
+                        roundTypeDropDownExpanded = false,
+                        isSpaltarsch = false,
+                        successfulSchwarz = false,
+                        successfulSchneider = false
+                    )
+                }
+            }
+
+            SkatRoundEvent.onResetNormalVariant -> {
+                _state.update {
+                    it.copy(
+                        selectedPlayer = PlayerWithScore(),
+                        selectedRoundType = RoundType.WITH_WITHOUT_ONE,
+                        selectedTrick = TrickColor.CROSSES,
+                        reChecked = false,
+                        kontraChecked = false,
+                        schneiderChecked = false,
+                        schwarzChecked = false,
+                        ouverChecked = false,
+                        handChecked = false,
+                        roundScore = 0f,
+                        playerDropdownExpanded = false,
+                        roundTypeDropDownExpanded = false,
+                        isSpaltarsch = false,
+                        successfulSchwarz = false,
+                        successfulSchneider = false
+                    )
+                }
+            }
+
+            SkatRoundEvent.onResetNullSpielVariant -> {
+                _state.update {
+                    it.copy(
+                        selectedPlayer = PlayerWithScore(),
+                        reChecked = false,
+                        kontraChecked = false,
+                        ouverChecked = false,
+                        handChecked = false,
+                        successfulNullSpielChecked = false,
+                        playerDropdownExpanded = false
+                    )
+                }
+            }
+
+            SkatRoundEvent.onResetRamschVariant -> {
+                _state.update {
+                    it.copy(
+                        selectedPlayer = PlayerWithScore(),
+                        selectedShove = 0,
+                        playerDropdownExpanded = false,
+                        shoveDropdownExpanded = false,
+                        jungfrauChecked = false,
+                        roundScore = 0f,
+                        successfulDurchmarschChecked = false
+
+                    )
+                }
+            }
         }
     }
 
