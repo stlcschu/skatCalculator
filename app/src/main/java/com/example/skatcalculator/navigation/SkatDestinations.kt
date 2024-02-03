@@ -2,6 +2,7 @@ package com.example.skatcalculator.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.vectorResource
 import com.example.skatcalculator.composables.MainMenuScreen
 import com.example.skatcalculator.composables.SkatGameScreen
 import com.example.skatcalculator.database.tables.SkatGameWithRoundsAndScores
@@ -9,16 +10,17 @@ import com.example.skatcalculator.database.tables.SpecialRounds
 import com.example.skatcalculator.states.SkatRoundInformationState
 import com.example.skatcalculator.states.SkatRoundState
 import com.example.skatcalculator.util.CardIconProvider
+import com.example.skatcalculator.util.MainMenuBackgroundProvider
 
 interface SkatDestination {
-    val icon: ImageVector
+    val icon: Int
     val route: String
     val screen: @Composable () -> Unit
 }
 
 object MainMenu : SkatDestination {
-    override val icon: ImageVector
-        get() = TODO("Not yet implemented")
+    override val icon: Int
+        get() = MainMenuBackgroundProvider().getRandomBackGround()
     override val route: String
         get() = "mainMenu"
     override val screen: @Composable () -> Unit
@@ -27,6 +29,7 @@ object MainMenu : SkatDestination {
                 players = emptyList(),
                 historyGames = emptyList(),
                 cardIconProvider = CardIconProvider(),
+                icon,
                 onPlayerEvent = {},
                 onSkatGameEvent = {}
             )
@@ -34,7 +37,7 @@ object MainMenu : SkatDestination {
 }
 
 object SkatGame : SkatDestination {
-    override val icon: ImageVector
+    override val icon: Int
         get() = TODO("Not yet implemented")
     override val route: String
         get() = "game"

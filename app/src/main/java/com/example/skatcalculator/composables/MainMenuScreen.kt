@@ -87,6 +87,7 @@ fun MainMenuScreen(
     players: List<Player>,
     historyGames: List<SkatGameWithScores>,
     cardIconProvider: CardIconProvider,
+    menuBackground: Int,
     onPlayerEvent: (PlayerEvent) -> Unit,
     onSkatGameEvent: (SkatGameEvent) -> Unit,
     onClickStartSkatGame: () -> Unit = {}
@@ -240,7 +241,7 @@ fun MainMenuScreen(
 
         ) {
             Image(
-                painter = painterResource(id = R.drawable.menu_background_2),
+                painter = painterResource(id = menuBackground),
                 contentDescription = "Menu Background",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -563,6 +564,7 @@ fun PreviewMainComposable() {
         SampleRepository().getPlayerData(),
         emptyList(),
         CardIconProvider(),
+        R.drawable.menu_background_1,
         onPlayerEvent = {},
         onSkatGameEvent = {}
     )

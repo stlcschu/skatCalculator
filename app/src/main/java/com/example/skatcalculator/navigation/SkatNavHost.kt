@@ -39,6 +39,7 @@ fun SkatNavHost(
                 players = players,
                 historyGames = historyGames,
                 cardIconProvider = cardIconProvider,
+                menuBackground = MainMenu.icon,
                 onPlayerEvent = playerViewModel::onEvent,
                 onSkatGameEvent = skatGameViewModel::onEvent,
                 onClickStartSkatGame = {
