@@ -3,24 +3,30 @@ package com.example.skatcalculator.util
 import com.example.skatcalculator.R
 import kotlin.random.Random
 
-class CardIconProvider {
+class CardIconProvider(seed: Long = SeedGenerator().generateRandomSeed()) {
 
-    private val availableIcons: List<Int> = ICONS
+    private var availableIcons: List<Int>
+    private var random: Random
+
+    init {
+        random = Random(seed)
+        availableIcons = ICONS
+    }
 
     fun getAllIcons() = ICONS
 
+    fun getAllIconsBgColored() = ICONS_BG_COLORED
+
     fun cardIconReturned(icon: Int) = availableIcons.toMutableList().add(icon)
 
-    fun getAvailableIcon(seed: Long = SeedGenerator().generateRandomSeed()) : Int {
-        val random = Random(seed)
+    fun getAvailableIcon() : Int {
         val selectedIconIndex = random.nextInt(0,availableIcons.size)
         val selectedIcon = availableIcons[selectedIconIndex]
         availableIcons.toMutableList().removeAt(selectedIconIndex)
         return selectedIcon
     }
 
-    fun getIconsForLoadingAnimation(seed: Long = SeedGenerator().generateRandomSeed()) : List<Int> {
-        val random = Random(seed)
+    fun getIconsForLoadingAnimation() : List<Int> {
         val selectedIcons = mutableListOf<Int>()
         for(i in 0..5) {
             val selectedIconIndex = random.nextInt(0, ICONS_BG_COLORED.size)
