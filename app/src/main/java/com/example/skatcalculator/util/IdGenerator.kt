@@ -2,7 +2,7 @@ package com.example.skatcalculator.util
 
 import kotlin.random.Random
 
-class IdGenerator() {
+class IdGenerator {
 
     private val charPool : List<Char> = ('a'..'z') + ('A'..'Z') + ('0'..'9')
 
