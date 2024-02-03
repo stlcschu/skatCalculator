@@ -103,7 +103,8 @@ fun DefaultCardClickable(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(start = 5.dp, end = 5.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 content()
             }
