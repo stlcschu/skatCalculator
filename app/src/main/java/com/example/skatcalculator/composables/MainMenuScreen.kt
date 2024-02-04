@@ -1,5 +1,6 @@
 package com.example.skatcalculator.composables
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.AbsoluteCutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -66,6 +68,7 @@ import androidx.compose.ui.window.Dialog
 import com.example.skatcalculator.R
 import com.example.skatcalculator.composables.defaults.DefaultCardClickable
 import com.example.skatcalculator.composables.defaults.DefaultCardClickableWithButton
+import com.example.skatcalculator.composables.defaults.DefaultColumnRowWithButton
 import com.example.skatcalculator.composables.defaults.DefaultLoadingAnimation
 import com.example.skatcalculator.composables.defaults.LoadingCard
 import com.example.skatcalculator.database.events.PlayerEvent
@@ -98,11 +101,11 @@ fun MainMenuScreen(
 //        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .background(color = Color.LightGray)
+            .background(color = colorResource(id = R.color.anti_flash_white))
             .fillMaxHeight()
     ) {
 
-        var showLoadingHistory by remember { mutableStateOf(true) }
+        var showLoadingHistory by remember { mutableStateOf(false) }
         val loadingIcons = cardIconProvider.getIconsForLoadingAnimation()
 
         LaunchedEffect(key1 = Unit){
@@ -240,8 +243,15 @@ fun MainMenuScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(topHeightFraction),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
+            GradientBox(
+                fromColor = colorResource(id = R.color.Davys_gray),
+                toColor = colorResource(id = R.color.Davys_gray),
+                toColorAlpha = 0.5f,
+                height = 25.dp,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
             Image(
                 painter = painterResource(id = menuBackground),
                 contentDescription = "Menu Background",
@@ -262,18 +272,14 @@ fun MainMenuScreen(
                 backgroundColor = colorResource(id = R.color.Lavender_web).copy(alpha = 0.6f),
                 contentColor = colorResource(id = R.color.philippine_silver),
                 shape = RoundedCornerShape(10.dp),
+                border = BorderStroke(width = 0.dp, color = Color.Transparent),
                 modifier = Modifier
                     .padding(start = 5.dp, end = 5.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(
-                            start = 10.dp,
-                            end = 10.dp,
-                            top = 20.dp,
-                            bottom = 20.dp
-                        ),
+                        .padding(10.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -318,10 +324,6 @@ fun MainMenuScreen(
                             cardIconProvider.cardIconReturned(playerThreeIcon)
                             playerThreeIcon = cardIconProvider.getAvailableIcon()
                         }
-                    )
-                    Spacer(
-                        modifier = Modifier
-                            .height(25.dp)
                     )
                 }
             }
@@ -389,28 +391,65 @@ fun MainMenuScreen(
                 )
             }
         }
+        BottomShadow(
+            shadowColor = colorResource(id = R.color.Davys_gray),
+            alpha = 0.5f,
+            height = 8.dp
+        )
 
         if (historyGames.isEmpty() && showLoadingHistory) {
             DefaultLoadingAnimation(cardIcons = loadingIcons)
             return
         }
         if(historyGames.isEmpty()) {
-            Text(text = "No Games found")
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 5.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_bookmarks_24),
+                        contentDescription = "No games found icon",
+                        modifier = Modifier
+                            .size(50.dp),
+                        tint = colorResource(id = R.color.Davys_gray)
+                    )
+                    Text(
+                        text = "No Games found",
+                        color = colorResource(id = R.color.Davys_gray),
+                        fontSize = 7.em
+                    )
+                }
+            }
             return
         }
         LazyColumn(
-            state = historyLazyListState
+            state = historyLazyListState,
+            modifier = Modifier
+                .padding(top = 5.dp)
         ) {
-            items(historyGames) {game ->
-                HistoryGamePreview(
-                    game,
-                    onClick = {
+            itemsIndexed(historyGames) {index, game ->
+                DefaultColumnRowWithButton(
+                    buttonIcon = R.drawable.baseline_play_arrow_24,
+                    height = 50.dp,
+                    buttonFunction = {
                         onSkatGameEvent(
-                            SkatGameEvent.setSkatGameId(it)
+                            SkatGameEvent.setSkatGameId(game.skatGame.skatGameId)
                         )
                         onClickStartSkatGame()
                     }
-                )
+                ) {
+                    HistoryGamePreview(game)
+                }
+                if (index < historyGames.lastIndex)
+                    Divider()
             }
         }
 
@@ -454,107 +493,83 @@ private fun PlayerInsert(
 
 @Composable
 fun HistoryGamePreview(
-    game: SkatGameWithScores,
-    onClick: (String) -> Unit
+    game: SkatGameWithScores
 ) {
     val playerWithScores = GroupPlayerWithScore(game.skatGame.getPlayers(), game.scores).group()
-    Row(
+    Column(
         modifier = Modifier
-            .height(50.dp)
-            .padding(top = 10.dp)
-            .background(color = Color.White),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+            .width(75.dp)
+            .padding(start = 5.dp, end = 5.dp)
     ) {
-        IconButton(
-            onClick = {
-                onClick(game.skatGame.skatGameId)
-            },
-            modifier = Modifier
-                .fillMaxHeight()
-                .width(50.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = "Start history game",
-                modifier = Modifier.size(30.dp)
-            )
-        }
-        Column(
-            modifier = Modifier
-                .width(75.dp)
-                .padding(start = 5.dp, end = 5.dp)
-        ) {
-            Text(
-                text = playerWithScores[0].getPlayerName(),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = playerWithScores[0].getScoreString(),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-        }
-        Divider(
-            color = Color.Gray,
-            modifier = Modifier
-                .height(47.dp)
-                .width(1.dp)
-        )
-        Column(
-            modifier = Modifier
-                .width(75.dp)
-                .padding(start = 5.dp, end = 5.dp)
-        ) {
-            Text(
-                text = playerWithScores[1].getPlayerName(),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = playerWithScores[1].getScoreString(),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-        }
-        Divider(
-            color = Color.Gray,
-            modifier = Modifier
-                .height(47.dp)
-                .width(1.dp)
-        )
-        Column(
-            modifier = Modifier
-                .width(75.dp)
-                .padding(start = 5.dp, end = 5.dp)
-        ) {
-            Text(
-                text = playerWithScores[2].getPlayerName(),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-            Text(
-                text = playerWithScores[2].getScoreString(),
-                modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Center
-            )
-        }
-        val date ="${game.skatGame.lastPlayed.dayOfMonth}." +
-                "${shortenMonth(game.skatGame.lastPlayed.month)} " +
-                "${game.skatGame.lastPlayed.year}"
         Text(
-            text = date,
-            fontSize = 2.5.em,
-            modifier = Modifier.padding(end = 10.dp)
+            text = playerWithScores[0].getPlayerName(),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = playerWithScores[0].getScoreString(),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
     }
+    Divider(
+        color = Color.Gray,
+        modifier = Modifier
+            .height(47.dp)
+            .width(1.dp)
+    )
+    Column(
+        modifier = Modifier
+            .width(75.dp)
+            .padding(start = 5.dp, end = 5.dp)
+    ) {
+        Text(
+            text = playerWithScores[1].getPlayerName(),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = playerWithScores[1].getScoreString(),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+    }
+    Divider(
+        color = Color.Gray,
+        modifier = Modifier
+            .height(47.dp)
+            .width(1.dp)
+    )
+    Column(
+        modifier = Modifier
+            .width(75.dp)
+            .padding(start = 5.dp, end = 5.dp)
+    ) {
+        Text(
+            text = playerWithScores[2].getPlayerName(),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+        Text(
+            text = playerWithScores[2].getScoreString(),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+    }
+    val date ="${game.skatGame.lastPlayed.dayOfMonth}." +
+            "${shortenMonth(game.skatGame.lastPlayed.month)} " +
+            "${game.skatGame.lastPlayed.year}"
+    Text(
+        text = date,
+        fontSize = 2.5.em,
+        modifier = Modifier.padding(end = 10.dp)
+    )
 }
 
 private fun shortenMonth(month: Month) : String {
@@ -602,5 +617,5 @@ fun PreviewPlayerInsert() {
 @Composable
 fun PreviewHistoryGamePreview() {
     val game = SampleRepository().getSkatGameWithScores()
-    HistoryGamePreview(game = game, onClick = {})
+    HistoryGamePreview(game = game)
 }
