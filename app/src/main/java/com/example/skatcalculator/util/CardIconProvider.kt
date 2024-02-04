@@ -28,7 +28,7 @@ class CardIconProvider(seed: Long = SeedGenerator().generateRandomSeed()) {
 
     fun getIconsForLoadingAnimation() : List<Int> {
         val selectedIcons = mutableListOf<Int>()
-        for(i in 0..5) {
+        for(i in 0..7) {
             val selectedIconIndex = random.nextInt(0, ICONS_BG_COLORED.size)
             selectedIcons.add(ICONS_BG_COLORED[selectedIconIndex])
         }

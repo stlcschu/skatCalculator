@@ -66,6 +66,7 @@ import androidx.compose.ui.window.Dialog
 import com.example.skatcalculator.R
 import com.example.skatcalculator.composables.defaults.DefaultCardClickable
 import com.example.skatcalculator.composables.defaults.DefaultCardClickableWithButton
+import com.example.skatcalculator.composables.defaults.DefaultLoadingAnimation
 import com.example.skatcalculator.composables.defaults.LoadingCard
 import com.example.skatcalculator.database.events.PlayerEvent
 import com.example.skatcalculator.database.events.SkatGameEvent
@@ -102,6 +103,7 @@ fun MainMenuScreen(
     ) {
 
         var showLoadingHistory by remember { mutableStateOf(true) }
+        val loadingIcons = cardIconProvider.getIconsForLoadingAnimation()
 
         LaunchedEffect(key1 = Unit){
             delay(5000)
@@ -370,12 +372,8 @@ fun MainMenuScreen(
             }
         }
 
-//        BottomShadow(
-//            alpha = 1f,
-//            height = 10.dp
-//        )
         if (historyGames.isEmpty() && showLoadingHistory) {
-            LoadingCard(icon = R.drawable.card_icon_crosses_2)
+            DefaultLoadingAnimation(cardIcons = loadingIcons)
             return
         }
         if(historyGames.isEmpty()) {
