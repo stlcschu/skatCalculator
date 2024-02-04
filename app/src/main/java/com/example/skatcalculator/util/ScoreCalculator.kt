@@ -63,20 +63,32 @@ class ScoreCalculator {
             else skatRoundState.selectedTrick.baseValue
         }
 
+        if (skatRoundState.schneiderChecked) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.schwarzChecked) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.successfulSchwarz) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.successfulSchneider) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
         if (skatRoundState.kontraChecked) {
             base *= Declaration.KONTRA.multiplier
         }
 
         if (skatRoundState.reChecked) {
             base *= Declaration.RE.multiplier
-        }
-
-        if (skatRoundState.schneiderChecked) {
-            base *= Declaration.SCHNEIDER.multiplier
-        }
-
-        if (skatRoundState.schwarzChecked) {
-            base *= Declaration.SCHWARZ.multiplier
         }
 
         if (isBockRound) {
@@ -156,6 +168,26 @@ class ScoreCalculator {
             else skatRoundState.selectedTrick.baseValue
         }
 
+        if (skatRoundState.schneiderChecked) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.schwarzChecked) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.successfulSchwarz) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.successfulSchneider) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
         if (skatRoundState.kontraChecked) {
             base *= com.example.skatcalculator.enums.Declaration.KONTRA.multiplier
         }
@@ -164,25 +196,29 @@ class ScoreCalculator {
             base *= com.example.skatcalculator.enums.Declaration.RE.multiplier
         }
 
-        if (skatRoundState.schneiderChecked) {
-            base *= com.example.skatcalculator.enums.Declaration.SCHNEIDER.multiplier
-        }
-
-        if (skatRoundState.schwarzChecked) {
-            base *= com.example.skatcalculator.enums.Declaration.SCHWARZ.multiplier
-        }
-
         if (isBockRound) {
             base *= 2
         }
 
+        if(skatRoundState.schwarzChecked && !skatRoundState.successfulSchwarz) {
+
+            val multiplier = if(skatRoundState.successfulSchneider) 1 else 2
+
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) (24 * multiplier)
+            else (skatRoundState.selectedTrick.baseValue * multiplier)
+
+            val loss = base * -2
+            if (skatRoundState.kontraChecked) specialRounds.addAll(arrayOf(SpecialRound.BOCK, SpecialRound.RAMSCH))
+            return Pair(loss, specialRounds)
+        }
+
         if (skatRoundState.roundScore.roundToInt() <= 60 ||
-            (skatRoundState.schwarzChecked && !skatRoundState.successfulSchwarz) ||
             (skatRoundState.schneiderChecked && !skatRoundState.successfulSchneider)) {
             val loss = base * -2
             if (skatRoundState.kontraChecked) specialRounds.addAll(arrayOf(SpecialRound.BOCK, SpecialRound.RAMSCH))
             return Pair(loss, specialRounds)
         }
+
         val gain = base
         if (skatRoundState.kontraChecked || skatRoundState.reChecked) specialRounds.add(SpecialRound.BOCK)
         return Pair(gain, specialRounds)
@@ -242,6 +278,26 @@ class ScoreCalculator {
             else skatRoundState.selectedTrick.baseValue
         }
 
+        if (skatRoundState.schneiderChecked) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.schwarzChecked) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.successfulSchwarz) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
+        if (skatRoundState.successfulSchneider) {
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
+            else skatRoundState.selectedTrick.baseValue
+        }
+
         if (skatRoundState.kontraChecked) {
             base *= com.example.skatcalculator.enums.Declaration.KONTRA.multiplier
         }
@@ -250,23 +306,24 @@ class ScoreCalculator {
             base *= com.example.skatcalculator.enums.Declaration.RE.multiplier
         }
 
-        if (skatRoundState.schneiderChecked) {
-            base *= com.example.skatcalculator.enums.Declaration.SCHNEIDER.multiplier
-        }
-
-        if (skatRoundState.schwarzChecked) {
-            base *= com.example.skatcalculator.enums.Declaration.SCHWARZ.multiplier
-        }
-
         if (isBockRound) {
             base *= 2
         }
 
-        if (skatRoundState.roundScore.roundToInt() <= 60 ||
-            (skatRoundState.schwarzChecked && !skatRoundState.successfulSchwarz) ||
-            (skatRoundState.schneiderChecked && !skatRoundState.successfulSchneider)) {
+        if(skatRoundState.schwarzChecked && !skatRoundState.successfulSchwarz) {
+
+            val multiplier = if(skatRoundState.successfulSchneider) 1 else 2
+
+            base += if (skatRoundState.roundVariant == RoundVariant.GRAND) (24 * multiplier)
+            else (skatRoundState.selectedTrick.baseValue * multiplier)
+
             return base * -2
         }
+
+        if (skatRoundState.roundScore.roundToInt() <= 60 ||
+            (skatRoundState.schneiderChecked && !skatRoundState.successfulSchneider)) return base * -2
+
+
         return base
     }
 

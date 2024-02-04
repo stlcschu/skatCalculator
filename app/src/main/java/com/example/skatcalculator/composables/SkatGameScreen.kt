@@ -1381,10 +1381,16 @@ fun MainGameScreen(
                                     )
                                     onSkatRoundEvent(
                                         SkatRoundEvent.onSuccessfulSchneiderChanged(
-                                            if (roundState.schneiderChecked) roundState.roundScore.roundToInt() > 90
-                                            else false
+                                            roundState.roundScore.roundToInt() > 90
                                         )
                                     )
+                                    if (roundState.successfulSchwarz && roundState.roundScore.roundToInt() < 120) {
+                                        onSkatRoundEvent(
+                                            SkatRoundEvent.onSuccessfulSchwarzCheckedChanged(
+                                                false
+                                            )
+                                        )
+                                    }
                                 },
                                 valueRange = 0f..120f,
                                 steps = 119,
@@ -1471,32 +1477,30 @@ fun MainGameScreen(
                                 }
                             }
                         }
-                        if (roundState.schwarzChecked) {
-                            val checkBoxWidth = 175.dp
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
+                        val checkBoxWidth = 175.dp
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(checkBoxWidth)
                             ) {
-                                Box(
-                                    modifier = Modifier
-                                        .height(50.dp)
-                                        .width(checkBoxWidth)
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Checkbox(
-                                            checked = roundState.successfulSchwarz,
-                                            onCheckedChange = { isChecked ->
-                                                onSkatRoundEvent(
-                                                    SkatRoundEvent.onSuccessfulSchwarzCheckedChanged(isChecked)
-                                                )
-                                            },
-                                            enabled = roundState.roundScore.roundToInt() == 120
-                                        )
-                                        Text(
-                                            text = "Successful Schwarz"
-                                        )
-                                    }
+                                    Checkbox(
+                                        checked = roundState.successfulSchwarz,
+                                        onCheckedChange = { isChecked ->
+                                            onSkatRoundEvent(
+                                                SkatRoundEvent.onSuccessfulSchwarzCheckedChanged(isChecked)
+                                            )
+                                        },
+                                        enabled = roundState.roundScore.roundToInt() == 120
+                                    )
+                                    Text(
+                                        text = "Successful Schwarz"
+                                    )
                                 }
                             }
                         }
