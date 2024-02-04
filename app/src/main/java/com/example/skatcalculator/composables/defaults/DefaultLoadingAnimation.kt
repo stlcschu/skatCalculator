@@ -45,11 +45,13 @@ import com.example.skatcalculator.R
 fun DefaultLoadingAnimation(
     cardIcons: List<Int>,
 ) {
+    //TODO: make size and animation speed variable
     if (cardIcons.size < 8) return
 
     Box(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(top = 5.dp),
         contentAlignment = Alignment.TopCenter
     ) {
 

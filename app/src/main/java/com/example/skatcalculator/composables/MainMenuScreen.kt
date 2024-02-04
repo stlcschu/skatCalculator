@@ -240,7 +240,7 @@ fun MainMenuScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .fillMaxHeight(topHeightFraction),
-
+            contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = menuBackground),
@@ -259,15 +259,21 @@ fun MainMenuScreen(
                 contentScale = ContentScale.Crop,
             )
             Card(
-                backgroundColor = Color.Transparent,
-                shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 5.dp, bottomEnd = 5.dp),
+                backgroundColor = colorResource(id = R.color.Lavender_web).copy(alpha = 0.6f),
+                contentColor = colorResource(id = R.color.philippine_silver),
+                shape = RoundedCornerShape(10.dp),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight()
-
+                    .padding(start = 5.dp, end = 5.dp)
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = 10.dp,
+                            end = 10.dp,
+                            top = 20.dp,
+                            bottom = 20.dp
+                        ),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -317,58 +323,70 @@ fun MainMenuScreen(
                         modifier = Modifier
                             .height(25.dp)
                     )
-                    Button(
-                        onClick = {
-                            val gameId = IdGenerator().generateGameId()
-                            val skatGame = SkatGame(
-                                playerOne = playerOne,
-                                playerTwo = playerTwo,
-                                playerThree = playerThree,
-                                skatGameId = gameId
-                            )
-                            onSkatGameEvent(
-                                SkatGameEvent.saveSkatGame(skatGame)
-                            )
-                            onSkatGameEvent(
-                                SkatGameEvent.saveScore(
-                                    Score(
-                                        score = 0,
-                                        skatGameId = gameId,
-                                        playerId = playerOne.playerId
-                                    )
-                                )
-                            )
-                            onSkatGameEvent(
-                                SkatGameEvent.saveScore(
-                                    Score(
-                                        score = 0,
-                                        skatGameId = gameId,
-                                        playerId = playerTwo.playerId
-                                    )
-                                )
-                            )
-                            onSkatGameEvent(
-                                SkatGameEvent.saveScore(
-                                    Score(
-                                        score = 0,
-                                        skatGameId = gameId,
-                                        playerId = playerThree.playerId
-                                    )
-                                )
-                            )
-                            onSkatGameEvent(
-                                SkatGameEvent.setSkatGameId(gameId)
-                            )
-                            onSkatGameEvent(
-                                SkatGameEvent.saveSpecialRounds(SpecialRounds(specialRounds = emptyList(), gameId))
-                            )
-                            onClickStartSkatGame()
-                        },
-                        enabled = gameIsReady
-                    ) {
-                        Text(text = "Start game")
-                    }
                 }
+            }
+
+            Button(
+                onClick = {
+                    val gameId = IdGenerator().generateGameId()
+                    val skatGame = SkatGame(
+                        playerOne = playerOne,
+                        playerTwo = playerTwo,
+                        playerThree = playerThree,
+                        skatGameId = gameId
+                    )
+                    onSkatGameEvent(
+                        SkatGameEvent.saveSkatGame(skatGame)
+                    )
+                    onSkatGameEvent(
+                        SkatGameEvent.saveScore(
+                            Score(
+                                score = 0,
+                                skatGameId = gameId,
+                                playerId = playerOne.playerId
+                            )
+                        )
+                    )
+                    onSkatGameEvent(
+                        SkatGameEvent.saveScore(
+                            Score(
+                                score = 0,
+                                skatGameId = gameId,
+                                playerId = playerTwo.playerId
+                            )
+                        )
+                    )
+                    onSkatGameEvent(
+                        SkatGameEvent.saveScore(
+                            Score(
+                                score = 0,
+                                skatGameId = gameId,
+                                playerId = playerThree.playerId
+                            )
+                        )
+                    )
+                    onSkatGameEvent(
+                        SkatGameEvent.setSkatGameId(gameId)
+                    )
+                    onSkatGameEvent(
+                        SkatGameEvent.saveSpecialRounds(SpecialRounds(specialRounds = emptyList(), gameId))
+                    )
+                    onClickStartSkatGame()
+                },
+                enabled = gameIsReady,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(
+                        start = 10.dp,
+                        end = 10.dp,
+                        bottom = 20.dp
+                    )
+            ) {
+                Text(
+                    text = "Start game",
+                    color = colorResource(id = R.color.gunmetal)
+                )
             }
         }
 
@@ -428,7 +446,8 @@ private fun PlayerInsert(
         Text(
             text = player.name,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            color = colorResource(id = R.color.gunmetal)
         )
     }
 }

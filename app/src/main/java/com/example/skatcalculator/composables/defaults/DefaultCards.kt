@@ -39,7 +39,7 @@ fun DefaultCardSimple(
     ) {
         Text(
             text = header,
-            color = colorResource(id = R.color.Davys_gray)
+            color = colorResource(id = R.color.gunmetal)
         )
 
         ElevatedCard(
@@ -83,7 +83,7 @@ fun DefaultCardClickable(
     ) {
         Text(
             text = header,
-            color = colorResource(id = R.color.Davys_gray)
+            color = colorResource(id = R.color.gunmetal)
         )
 
         ElevatedCard(
@@ -131,7 +131,7 @@ fun DefaultCardClickableWithButton(
     ) {
         Text(
             text = header,
-            color = colorResource(id = R.color.Davys_gray)
+            color = colorResource(id = R.color.gunmetal)
         )
 
         ElevatedCard(
