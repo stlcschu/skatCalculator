@@ -5,7 +5,7 @@ enum class Declaration(val value: String, val multiplier: Int) {
     KONTRA("Kontra", 2),
     SCHNEIDER("Schneider", 2),
     SCHWARZ("Schwarz", 2),
-    OUVER("Ouver", 0),
+    OUVER("Ouvert", 0),
     HAND("Hand", 0);
 
     companion object {
