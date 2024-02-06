@@ -8,6 +8,7 @@ import com.example.skatcalculator.enums.TrickColor
 data class SkatRoundState (
     val roundVariant: RoundVariant = RoundVariant.NORMAL,
     val selectedPlayer: PlayerWithScore = PlayerWithScore(),
+    val selectedPlayerIndex: Int = 1,
     val selectedShove: Int = 0,
     val selectedRoundType: RoundType = RoundType.WITH_WITHOUT_ONE,
     val selectedTrick: TrickColor = TrickColor.CROSSES,
@@ -21,7 +22,6 @@ data class SkatRoundState (
     val roundScore: Float = 0f,
     val successfulNullSpielChecked: Boolean = false,
     val successfulDurchmarschChecked: Boolean = false,
-    val playerDropdownExpanded: Boolean = false,
     val shoveDropdownExpanded: Boolean = false,
     val roundTypeDropDownExpanded: Boolean = false,
     val isSpaltarsch: Boolean = false,

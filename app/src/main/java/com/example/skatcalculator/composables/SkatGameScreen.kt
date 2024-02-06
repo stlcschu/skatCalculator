@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.example.skatcalculator.R
+import com.example.skatcalculator.composables.defaults.DefaultCarouselSelector
 import com.example.skatcalculator.database.events.SkatGameEvent
 import com.example.skatcalculator.database.events.SkatRoundEvent
 import com.example.skatcalculator.database.tables.Player
@@ -350,59 +351,37 @@ fun MainGameScreen(
         }
         when(roundState.roundVariant) {
             RoundVariant.NULLSPIEL -> {
-                ExposedDropdownMenuBox(
-                    expanded = roundState.playerDropdownExpanded,
-                    onExpandedChange = {
+                DefaultCarouselSelector(
+                    values = listOf(
+                        players[2].getPlayerName(),
+                        players[1].getPlayerName(),
+                        players[0].getPlayerName()
+                    ),
+                    currentSelected = roundState.selectedPlayerIndex,
+                    onValueChanged = {
                         onSkatRoundEvent(
-                            SkatRoundEvent.onPlayerDropdownExpandedChanged(!roundState.playerDropdownExpanded)
+                            SkatRoundEvent.onSelectedPlayerIndexChanged(it)
                         )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    TextField(
-                        readOnly = true,
-                        value = roundState.selectedPlayer.getPlayerName(),
-                        onValueChange = {},
-                        label = { Text("Player") },
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = roundState.playerDropdownExpanded
-                            )
-                        },
-                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                        shape = RoundedCornerShape(0.dp),
-                        modifier = Modifier
-                            .menuAnchor()
-                            .fillMaxWidth()
-                    )
-                    ExposedDropdownMenu(
-                        expanded = roundState.playerDropdownExpanded,
-                        onDismissRequest = {
-                            onSkatRoundEvent(
-                                SkatRoundEvent.onPlayerDropdownExpandedChanged(false)
-                            )
-                        },
-                        modifier = Modifier.focusRequester(focusRequester)
-                    ) {
-                        players.forEach { selectionOption ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedPlayerChanged(
-                                            selectionOption
-                                        )
-                                    )
-                                    onSkatRoundEvent(
-                                        SkatRoundEvent.onPlayerDropdownExpandedChanged(false)
-                                    )
-                                },
-                                text = { Text(text = selectionOption.getPlayerName()) }
-                            )
+                        when(it) {
+                            0 -> {
+                                onSkatRoundEvent(
+                                    SkatRoundEvent.onSelectedPlayerChanged(players[2])
+                                )
+                            }
+                            1 -> {
+                                onSkatRoundEvent(
+                                    SkatRoundEvent.onSelectedPlayerChanged(players[1])
+                                )
+
+                            }
+                            else -> {
+                                onSkatRoundEvent(
+                                    SkatRoundEvent.onSelectedPlayerChanged(players[0])
+                                )
+                            }
                         }
                     }
-                }
+                )
                 val checkBoxWidth = 110.dp
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -552,59 +531,37 @@ fun MainGameScreen(
                 }
             }
             else -> {
-                ExposedDropdownMenuBox(
-                    expanded = roundState.playerDropdownExpanded,
-                    onExpandedChange = {
+                DefaultCarouselSelector(
+                    values = listOf(
+                        players[2].getPlayerName(),
+                        players[1].getPlayerName(),
+                        players[0].getPlayerName()
+                    ),
+                    currentSelected = roundState.selectedPlayerIndex,
+                    onValueChanged = {
                         onSkatRoundEvent(
-                            SkatRoundEvent.onPlayerDropdownExpandedChanged(!roundState.playerDropdownExpanded)
+                            SkatRoundEvent.onSelectedPlayerIndexChanged(it)
                         )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    TextField(
-                        readOnly = true,
-                        value = roundState.selectedPlayer.getPlayerName(),
-                        onValueChange = {},
-                        label = { Text("Player") },
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = roundState.playerDropdownExpanded
-                            )
-                        },
-                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                        shape = RoundedCornerShape(0.dp),
-                        modifier = Modifier
-                            .menuAnchor()
-                            .fillMaxWidth()
-                    )
-                    ExposedDropdownMenu(
-                        expanded = roundState.playerDropdownExpanded,
-                        onDismissRequest = {
-                            onSkatRoundEvent(
-                                SkatRoundEvent.onPlayerDropdownExpandedChanged(false)
-                            )
-                        },
-                        modifier = Modifier.focusRequester(focusRequester)
-                    ) {
-                        players.forEach { selectionOption ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedPlayerChanged(
-                                            selectionOption
-                                        )
-                                    )
-                                    onSkatRoundEvent(
-                                        SkatRoundEvent.onPlayerDropdownExpandedChanged(false)
-                                    )
-                                },
-                                text = { Text(text = selectionOption.getPlayerName()) }
-                            )
+                        when(it) {
+                            0 -> {
+                                onSkatRoundEvent(
+                                    SkatRoundEvent.onSelectedPlayerChanged(players[2])
+                                )
+                            }
+                            1 -> {
+                                onSkatRoundEvent(
+                                    SkatRoundEvent.onSelectedPlayerChanged(players[1])
+                                )
+
+                            }
+                            else -> {
+                                onSkatRoundEvent(
+                                    SkatRoundEvent.onSelectedPlayerChanged(players[0])
+                                )
+                            }
                         }
                     }
-                }
+                )
                 if (roundState.roundVariant == RoundVariant.NORMAL) {
                     Row(
                         modifier = Modifier
@@ -932,59 +889,37 @@ fun MainGameScreen(
                 )
                 when (roundState.roundVariant) {
                     RoundVariant.RAMSCH -> {
-                        ExposedDropdownMenuBox(
-                            expanded = roundState.playerDropdownExpanded,
-                            onExpandedChange = {
+                        DefaultCarouselSelector(
+                            values = listOf(
+                                players[2].getPlayerName(),
+                                players[1].getPlayerName(),
+                                players[0].getPlayerName()
+                            ),
+                            currentSelected = roundState.selectedPlayerIndex,
+                            onValueChanged = {
                                 onSkatRoundEvent(
-                                    SkatRoundEvent.onPlayerDropdownExpandedChanged(!roundState.playerDropdownExpanded)
+                                    SkatRoundEvent.onSelectedPlayerIndexChanged(it)
                                 )
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(10.dp)
-                        ) {
-                            TextField(
-                                readOnly = true,
-                                value = roundState.selectedPlayer.getPlayerName(),
-                                onValueChange = {},
-                                label = { Text("Player") },
-                                trailingIcon = {
-                                    ExposedDropdownMenuDefaults.TrailingIcon(
-                                        expanded = roundState.playerDropdownExpanded
-                                    )
-                                },
-                                colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                                shape = RoundedCornerShape(0.dp),
-                                modifier = Modifier
-                                    .menuAnchor()
-                                    .fillMaxWidth()
-                            )
-                            ExposedDropdownMenu(
-                                expanded = roundState.playerDropdownExpanded,
-                                onDismissRequest = {
-                                    onSkatRoundEvent(
-                                        SkatRoundEvent.onPlayerDropdownExpandedChanged(false)
-                                    )
-                                },
-                                modifier = Modifier.focusRequester(focusRequester)
-                            ) {
-                                players.forEach { selectionOption ->
-                                    DropdownMenuItem(
-                                        onClick = {
-                                            onSkatRoundEvent(
-                                                SkatRoundEvent.onSelectedPlayerChanged(
-                                                    selectionOption
-                                                )
-                                            )
-                                            onSkatRoundEvent(
-                                                SkatRoundEvent.onPlayerDropdownExpandedChanged(false)
-                                            )
-                                        },
-                                        text = { Text(text = selectionOption.getPlayerName()) }
-                                    )
+                                when(it) {
+                                    0 -> {
+                                        onSkatRoundEvent(
+                                            SkatRoundEvent.onSelectedPlayerChanged(players[2])
+                                        )
+                                    }
+                                    1 -> {
+                                        onSkatRoundEvent(
+                                            SkatRoundEvent.onSelectedPlayerChanged(players[1])
+                                        )
+
+                                    }
+                                    else -> {
+                                        onSkatRoundEvent(
+                                            SkatRoundEvent.onSelectedPlayerChanged(players[0])
+                                        )
+                                    }
                                 }
                             }
-                        }
+                        )
                         if (!roundState.selectedPlayer.player.isEmpty()) {
                             Row(
                                 modifier = Modifier
@@ -2148,7 +2083,7 @@ private fun constructSkatRound(roundState: SkatRoundState, isBockRound: Boolean,
     val declarations = mutableListOf<Declaration>()
     if (roundState.reChecked) declarations.add(Declaration.RE)
     if (roundState.kontraChecked) declarations.add(Declaration.KONTRA)
-    if (roundState.ouverChecked) declarations.add(Declaration.OUVER)
+    if (roundState.ouvertChecked) declarations.add(Declaration.OUVER)
     if (roundState.handChecked) declarations.add(Declaration.HAND)
     if (roundState.schneiderChecked) declarations.add(Declaration.SCHNEIDER)
     if (roundState.schwarzChecked) declarations.add(Declaration.SCHWARZ)

@@ -25,7 +25,6 @@ sealed interface SkatRoundEvent {
     data class onHandCheckedChanged(val handChecked: Boolean) : SkatRoundEvent
     data class onJungfrauCheckedChanged(val jungfrauChecked: Boolean) : SkatRoundEvent
     data class onSuccessfulDurchmarschCheckedChanged(val successfulDurchmarschChecked: Boolean) : SkatRoundEvent
-    data class onPlayerDropdownExpandedChanged(val playerDropdownExpanded: Boolean) : SkatRoundEvent
     data class onShoveDropdownExpandedChanged(val shoveDropdownExpanded: Boolean) : SkatRoundEvent
     data class onRoundTypeDropDownExpandedChanged(val roundTypeDropDownExpanded: Boolean) : SkatRoundEvent
     data class onRoundScoreValueChanged(val roundScore: Float) : SkatRoundEvent
@@ -33,6 +32,7 @@ sealed interface SkatRoundEvent {
     data class onIsSpaltarschChanged(val isSpaltarsch: Boolean): SkatRoundEvent
     data class onSuccessfulSchwarzCheckedChanged(val successfulSchwarzChecked: Boolean) : SkatRoundEvent
     data class onSuccessfulSchneiderChanged(val successfulSchneider: Boolean) : SkatRoundEvent
+    data class onSelectedPlayerIndexChanged(val selectedPlayerIndex: Int) : SkatRoundEvent
 
     object onFullReset : SkatRoundEvent
     object onResetNormalVariant : SkatRoundEvent

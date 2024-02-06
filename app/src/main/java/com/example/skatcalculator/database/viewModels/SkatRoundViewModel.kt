@@ -48,7 +48,6 @@ class SkatRoundViewModel(
                         roundScore = 0f,
                         successfulNullSpielChecked = false,
                         successfulDurchmarschChecked = false,
-                        playerDropdownExpanded = false,
                         shoveDropdownExpanded = false,
                         roundTypeDropDownExpanded = false,
                         isSpaltarsch = false,
@@ -87,13 +86,6 @@ class SkatRoundViewModel(
                 _state.update {
                     it.copy(
                         ouvertChecked = event.ouvertChecked
-                    )
-                }
-            }
-            is SkatRoundEvent.onPlayerDropdownExpandedChanged -> {
-                _state.update {
-                    it.copy(
-                        playerDropdownExpanded = event.playerDropdownExpanded
                     )
                 }
             }
@@ -217,6 +209,13 @@ class SkatRoundViewModel(
                     )
                 }
             }
+            is SkatRoundEvent.onSelectedPlayerIndexChanged -> {
+                _state.update {
+                    it.copy(
+                        selectedPlayerIndex = event.selectedPlayerIndex
+                    )
+                }
+            }
 
             SkatRoundEvent.onFullReset -> {
                 _state.update {
@@ -236,7 +235,6 @@ class SkatRoundViewModel(
                         roundScore = 0f,
                         successfulNullSpielChecked = false,
                         successfulDurchmarschChecked = false,
-                        playerDropdownExpanded = false,
                         shoveDropdownExpanded = false,
                         roundTypeDropDownExpanded = false,
                         isSpaltarsch = false,
@@ -258,7 +256,6 @@ class SkatRoundViewModel(
                         ouvertChecked = false,
                         handChecked = false,
                         roundScore = 0f,
-                        playerDropdownExpanded = false,
                         roundTypeDropDownExpanded = false,
                         isSpaltarsch = false,
                         successfulSchwarz = false,
@@ -280,7 +277,6 @@ class SkatRoundViewModel(
                         ouvertChecked = false,
                         handChecked = false,
                         roundScore = 0f,
-                        playerDropdownExpanded = false,
                         roundTypeDropDownExpanded = false,
                         isSpaltarsch = false,
                         successfulSchwarz = false,
@@ -298,7 +294,6 @@ class SkatRoundViewModel(
                         ouvertChecked = false,
                         handChecked = false,
                         successfulNullSpielChecked = false,
-                        playerDropdownExpanded = false
                     )
                 }
             }
@@ -308,7 +303,6 @@ class SkatRoundViewModel(
                     it.copy(
                         selectedPlayer = PlayerWithScore(),
                         selectedShove = 0,
-                        playerDropdownExpanded = false,
                         shoveDropdownExpanded = false,
                         jungfrauChecked = false,
                         roundScore = 0f,
