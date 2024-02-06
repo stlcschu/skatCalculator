@@ -17,7 +17,8 @@ class SampleRepository() {
 
     fun getPlayerData() = listOf<Player>(
         Player("Anna"),
-        Player("Test")
+        Player("Florianen"),
+        Player("Luca")
     )
 
     fun getSkatRound() = SkatRound(
