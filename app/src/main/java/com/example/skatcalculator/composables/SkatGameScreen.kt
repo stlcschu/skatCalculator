@@ -103,11 +103,11 @@ fun SkatGameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (players.isEmpty()) {
-            LinearProgressIndicator(
-                modifier = Modifier.width(64.dp),
-                color = MaterialTheme.colorScheme.secondary,
-                trackColor = MaterialTheme.colorScheme.surfaceVariant,
-            )
+//            LinearProgressIndicator(
+//                modifier = Modifier.width(64.dp),
+//                color = MaterialTheme.colorScheme.secondary,
+//                trackColor = MaterialTheme.colorScheme.surfaceVariant,
+//            )
             return
         }
         var currentContent by remember { mutableStateOf(SkatScreen.GAME_SCREEN) }
