@@ -42,7 +42,7 @@ class SkatRoundViewModel(
                         kontraChecked = false,
                         schneiderChecked = false,
                         schwarzChecked = false,
-                        ouverChecked = false,
+                        ouvertChecked = false,
                         handChecked = false,
                         jungfrauChecked = false,
                         roundScore = 0f,
@@ -83,10 +83,10 @@ class SkatRoundViewModel(
                     )
                 }
             }
-            is SkatRoundEvent.onOuverCheckedChanged -> {
+            is SkatRoundEvent.onOuvertCheckedChanged -> {
                 _state.update {
                     it.copy(
-                        ouverChecked = event.ouverChecked
+                        ouvertChecked = event.ouvertChecked
                     )
                 }
             }
@@ -230,7 +230,7 @@ class SkatRoundViewModel(
                         kontraChecked = false,
                         schneiderChecked = false,
                         schwarzChecked = false,
-                        ouverChecked = false,
+                        ouvertChecked = false,
                         handChecked = false,
                         jungfrauChecked = false,
                         roundScore = 0f,
@@ -255,7 +255,7 @@ class SkatRoundViewModel(
                         kontraChecked = false,
                         schneiderChecked = false,
                         schwarzChecked = false,
-                        ouverChecked = false,
+                        ouvertChecked = false,
                         handChecked = false,
                         roundScore = 0f,
                         playerDropdownExpanded = false,
@@ -277,7 +277,7 @@ class SkatRoundViewModel(
                         kontraChecked = false,
                         schneiderChecked = false,
                         schwarzChecked = false,
-                        ouverChecked = false,
+                        ouvertChecked = false,
                         handChecked = false,
                         roundScore = 0f,
                         playerDropdownExpanded = false,
@@ -295,7 +295,7 @@ class SkatRoundViewModel(
                         selectedPlayer = PlayerWithScore(),
                         reChecked = false,
                         kontraChecked = false,
-                        ouverChecked = false,
+                        ouvertChecked = false,
                         handChecked = false,
                         successfulNullSpielChecked = false,
                         playerDropdownExpanded = false

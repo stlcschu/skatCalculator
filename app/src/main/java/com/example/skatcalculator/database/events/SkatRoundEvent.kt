@@ -21,7 +21,7 @@ sealed interface SkatRoundEvent {
     data class onKontraCheckedChanged(val kontraChecked: Boolean) : SkatRoundEvent
     data class onSchneiderCheckedChanged(val schneiderChecked: Boolean) : SkatRoundEvent
     data class onSchwarzCheckedChanged(val schwarzChecked: Boolean) : SkatRoundEvent
-    data class onOuverCheckedChanged(val ouverChecked: Boolean) : SkatRoundEvent
+    data class onOuvertCheckedChanged(val ouvertChecked: Boolean) : SkatRoundEvent
     data class onHandCheckedChanged(val handChecked: Boolean) : SkatRoundEvent
     data class onJungfrauCheckedChanged(val jungfrauChecked: Boolean) : SkatRoundEvent
     data class onSuccessfulDurchmarschCheckedChanged(val successfulDurchmarschChecked: Boolean) : SkatRoundEvent

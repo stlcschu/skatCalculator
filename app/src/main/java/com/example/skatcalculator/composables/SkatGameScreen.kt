@@ -435,10 +435,10 @@ fun MainGameScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Checkbox(
-                                checked = roundState.ouverChecked,
+                                checked = roundState.ouvertChecked,
                                 onCheckedChange = { isChecked ->
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onOuverCheckedChanged(isChecked)
+                                        SkatRoundEvent.onOuvertCheckedChanged(isChecked)
                                     )
                                 }
                             )
@@ -701,10 +701,10 @@ fun MainGameScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Checkbox(
-                                checked = roundState.ouverChecked,
+                                checked = roundState.ouvertChecked,
                                 onCheckedChange = { isChecked ->
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onOuverCheckedChanged(isChecked)
+                                        SkatRoundEvent.onOuvertCheckedChanged(isChecked)
                                     )
                                 }
                             )

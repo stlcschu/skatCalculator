@@ -13,11 +13,11 @@ class ScoreCalculator {
 
         if (skatRoundState.roundVariant == RoundVariant.NULLSPIEL) {
             var base = 23
-            if (skatRoundState.handChecked && skatRoundState.ouverChecked) {
+            if (skatRoundState.handChecked && skatRoundState.ouvertChecked) {
                 base = 59
             } else if (skatRoundState.handChecked) {
                 base = 35
-            } else if (skatRoundState.ouverChecked) {
+            } else if (skatRoundState.ouvertChecked) {
                 base = 46
             }
             if (skatRoundState.kontraChecked) {
@@ -58,7 +58,7 @@ class ScoreCalculator {
             base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
             else skatRoundState.selectedTrick.baseValue
         }
-        if (skatRoundState.ouverChecked) {
+        if (skatRoundState.ouvertChecked) {
             base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
             else skatRoundState.selectedTrick.baseValue
         }
@@ -106,11 +106,11 @@ class ScoreCalculator {
         if (skatRoundState.roundVariant == RoundVariant.NULLSPIEL) {
             var base = 23
 
-            if (skatRoundState.handChecked && skatRoundState.ouverChecked) {
+            if (skatRoundState.handChecked && skatRoundState.ouvertChecked) {
                 base = 59
             } else if (skatRoundState.handChecked) {
                 base = 35
-            } else if (skatRoundState.ouverChecked) {
+            } else if (skatRoundState.ouvertChecked) {
                 base = 46
             }
             if (skatRoundState.kontraChecked) {
@@ -163,7 +163,7 @@ class ScoreCalculator {
             else skatRoundState.selectedTrick.baseValue
             if (skatRoundState.roundVariant == RoundVariant.GRAND) specialRounds.add(SpecialRound.RAMSCH)
         }
-        if (skatRoundState.ouverChecked) {
+        if (skatRoundState.ouvertChecked) {
             base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
             else skatRoundState.selectedTrick.baseValue
         }
@@ -228,11 +228,11 @@ class ScoreCalculator {
 
         if (skatRoundState.roundVariant == RoundVariant.NULLSPIEL) {
             var base = 23
-            if (skatRoundState.handChecked && skatRoundState.ouverChecked) {
+            if (skatRoundState.handChecked && skatRoundState.ouvertChecked) {
                 base = 59
             } else if (skatRoundState.handChecked) {
                 base = 35
-            } else if (skatRoundState.ouverChecked) {
+            } else if (skatRoundState.ouvertChecked) {
                 base = 46
             }
             if (skatRoundState.kontraChecked) {
@@ -273,7 +273,7 @@ class ScoreCalculator {
             base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
             else skatRoundState.selectedTrick.baseValue
         }
-        if (skatRoundState.ouverChecked) {
+        if (skatRoundState.ouvertChecked) {
             base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
             else skatRoundState.selectedTrick.baseValue
         }

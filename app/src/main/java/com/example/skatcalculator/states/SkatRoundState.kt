@@ -15,7 +15,7 @@ data class SkatRoundState (
     val kontraChecked: Boolean = false,
     val schneiderChecked: Boolean = false,
     val schwarzChecked: Boolean = false,
-    val ouverChecked: Boolean = false,
+    val ouvertChecked: Boolean = false,
     val handChecked: Boolean = false,
     val jungfrauChecked: Boolean = false,
     val roundScore: Float = 0f,
