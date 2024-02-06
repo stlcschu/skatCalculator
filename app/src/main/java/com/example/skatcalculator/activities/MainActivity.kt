@@ -21,9 +21,7 @@ import com.example.skatcalculator.database.viewModels.SkatGameViewModel
 import com.example.skatcalculator.database.viewModels.SkatGameViewModelFactory
 import com.example.skatcalculator.database.viewModels.SkatRoundViewModel
 import com.example.skatcalculator.database.viewModels.SkatRoundViewModelFactory
-import com.example.skatcalculator.navigation.MainMenu
 import com.example.skatcalculator.navigation.SkatNavHost
-import com.example.skatcalculator.navigation.skatScreens
 import com.example.skatcalculator.util.CardIconProvider
 
 class MainActivity : ComponentActivity() {
