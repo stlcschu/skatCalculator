@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.example.skatcalculator.R
 import com.example.skatcalculator.composables.defaults.DefaultCarouselSelector
+import com.example.skatcalculator.composables.defaults.DefaultCounter
 import com.example.skatcalculator.database.events.SkatGameEvent
 import com.example.skatcalculator.database.events.SkatRoundEvent
 import com.example.skatcalculator.database.tables.Player
@@ -206,65 +207,15 @@ fun MainGameScreen(
     )
 
     if (currentSpecialRound == SpecialRound.RAMSCH) {
-        ExposedDropdownMenuBox(
-            expanded = roundState.shoveDropdownExpanded,
-            onExpandedChange = {
+        DefaultCounter(
+            currentValue = roundState.selectedShove,
+            maxValue = 3,
+            onClick = {
                 onSkatRoundEvent(
-                    SkatRoundEvent.onShoveDropdownExpandedChanged(
-                        !roundState.shoveDropdownExpanded
-                    )
+                    SkatRoundEvent.onSelectedShoveChanged(it)
                 )
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        ) {
-            TextField(
-                readOnly = true,
-                value = roundState.selectedShove.toString(),
-                onValueChange = {},
-                label = { Text("Shoves") },
-                trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(
-                        expanded = roundState.shoveDropdownExpanded
-                    )
-                },
-                colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                shape = RoundedCornerShape(0.dp),
-                modifier = Modifier
-                    .menuAnchor()
-                    .fillMaxWidth()
-            )
-            ExposedDropdownMenu(
-                expanded = roundState.shoveDropdownExpanded,
-                onDismissRequest = {
-                    onSkatRoundEvent(
-                        SkatRoundEvent.onShoveDropdownExpandedChanged(
-                            false
-                        )
-                    )
-                },
-                modifier = Modifier.focusRequester(focusRequester)
-            ) {
-                shoveList.forEach { selectionOption ->
-                    DropdownMenuItem(
-                        onClick = {
-                            onSkatRoundEvent(
-                                SkatRoundEvent.onSelectedShoveChanged(
-                                    selectionOption
-                                )
-                            )
-                            onSkatRoundEvent(
-                                SkatRoundEvent.onShoveDropdownExpandedChanged(
-                                    false
-                                )
-                            )
-                        },
-                        text = { Text(text = selectionOption.toString()) }
-                    )
-                }
             }
-        }
+        )
     }
     else {
         Row(
@@ -470,65 +421,15 @@ fun MainGameScreen(
                 }
             }
             RoundVariant.RAMSCH -> {
-                ExposedDropdownMenuBox(
-                    expanded = roundState.shoveDropdownExpanded,
-                    onExpandedChange = {
+                DefaultCounter(
+                    currentValue = roundState.selectedShove,
+                    maxValue = 3,
+                    onClick = {
                         onSkatRoundEvent(
-                            SkatRoundEvent.onShoveDropdownExpandedChanged(
-                                !roundState.shoveDropdownExpanded
-                            )
+                            SkatRoundEvent.onSelectedShoveChanged(it)
                         )
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(10.dp)
-                ) {
-                    TextField(
-                        readOnly = true,
-                        value = roundState.selectedShove.toString(),
-                        onValueChange = {},
-                        label = { Text("Shoves") },
-                        trailingIcon = {
-                            ExposedDropdownMenuDefaults.TrailingIcon(
-                                expanded = roundState.shoveDropdownExpanded
-                            )
-                        },
-                        colors = ExposedDropdownMenuDefaults.textFieldColors(),
-                        shape = RoundedCornerShape(0.dp),
-                        modifier = Modifier
-                            .menuAnchor()
-                            .fillMaxWidth()
-                    )
-                    ExposedDropdownMenu(
-                        expanded = roundState.shoveDropdownExpanded,
-                        onDismissRequest = {
-                            onSkatRoundEvent(
-                                SkatRoundEvent.onShoveDropdownExpandedChanged(
-                                    false
-                                )
-                            )
-                        },
-                        modifier = Modifier.focusRequester(focusRequester)
-                    ) {
-                        shoveList.forEach { selectionOption ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedShoveChanged(
-                                            selectionOption
-                                        )
-                                    )
-                                    onSkatRoundEvent(
-                                        SkatRoundEvent.onShoveDropdownExpandedChanged(
-                                            false
-                                        )
-                                    )
-                                },
-                                text = { Text(text = selectionOption.toString()) }
-                            )
-                        }
                     }
-                }
+                )
             }
             else -> {
                 DefaultCarouselSelector(
@@ -869,7 +770,6 @@ fun MainGameScreen(
         Text(text = "End round")
     }
     if (showBottomSheet) {
-
         ModalBottomSheet(
             onDismissRequest = {
                 onShowBottomSheetChanged(false)
@@ -1542,11 +1442,12 @@ fun MainGameScreen(
                             return@Button
                         }
                         onShowBottomSheetChanged(false)
-                        val scoreAndSpecialRounds =
-                            ScoreCalculator().calculateFinalScoreWithSpecialRounds(
+                        val scoreAndSpecialRounds = ScoreCalculator()
+                            .calculateFinalScoreWithSpecialRounds(
                                 roundState,
                                 currentSpecialRound == SpecialRound.BOCK
                             )
+
                         val skatRound = constructSkatRound(
                             roundState = roundState,
                             isBockRound = currentSpecialRound == SpecialRound.BOCK,
@@ -1555,29 +1456,28 @@ fun MainGameScreen(
                             roundScore = scoreAndSpecialRounds.first,
                             players = players
                         )
+
                         onSkatRoundEvent(
                             SkatRoundEvent.addRound(
                                 skatRound
                             )
                         )
+
                         val newScore =
                             roundState.selectedPlayer.score.score + scoreAndSpecialRounds.first
-                        //                val newScores = roundState.selectedPlayer.score.scores.toMutableList()
-                        //                newScores.add(newScore)
                         val scorePrime = roundState.selectedPlayer.score.copy(
                             score = newScore,
-                            //                    scores = newScores
                         )
-
-
 
                         onSkatGameEvent(
                             SkatGameEvent.saveScore(
                                 scorePrime
                             )
                         )
+
                         val newSpecialRounds =
                             addSpecialRounds(specialRounds, scoreAndSpecialRounds.second)
+
                         onSkatGameEvent(
                             SkatGameEvent.saveSpecialRounds(
                                 SpecialRounds(
