@@ -6,10 +6,12 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.AnchoredDraggableState
 import androidx.compose.foundation.gestures.DraggableAnchors
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
+import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +32,7 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,9 +47,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.example.skatcalculator.R
 import com.example.skatcalculator.helper.SampleRepository
+import kotlinx.coroutines.launch
 
 @SuppressLint("RememberReturnType")
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DefaultCarouselSelector(
     values: List<String>,
@@ -66,15 +70,17 @@ fun DefaultCarouselSelector(
             velocityThreshold = {
                                 with(density) { 100.dp.toPx() }
             },
-            animationSpec = tween()
+            animationSpec = tween(
+                durationMillis = 500
+            )
         )
     }
 
     val anchors = with(density) {
         DraggableAnchors {
-            0 at -60.dp.toPx()
+            0 at 60.dp.toPx()
             1 at 0.dp.toPx()
-            2 at 60.dp.toPx()
+            2 at -60.dp.toPx()
         }
     }
 
@@ -87,7 +93,7 @@ fun DefaultCarouselSelector(
     }
 
     val fontSizeOne by animateFloatAsState(
-        targetValue = if (currentSelected == 0) 4.5f else 3f,
+        targetValue = if (currentSelected == 2) 4.5f else 3f,
         animationSpec = tween(500),
         label = "fontSizeOne"
     )
@@ -97,13 +103,13 @@ fun DefaultCarouselSelector(
         label = "fontSizeTwo"
     )
     val fontSizeThree by animateFloatAsState(
-        targetValue = if (currentSelected == 2) 4.5f else 3f,
+        targetValue = if (currentSelected ==  0) 4.5f else 3f,
         animationSpec = tween(500),
         label = "fontSizeThree"
     )
 
     val fontColorOne by animateColorAsState(
-        targetValue = if (currentSelected == 0) colorResource(id = R.color.gunmetal)
+        targetValue = if (currentSelected == 2) colorResource(id = R.color.gunmetal)
         else colorResource(id = R.color.Davys_gray),
         animationSpec = tween(500),
         label = "fontColorOne"
@@ -115,7 +121,7 @@ fun DefaultCarouselSelector(
         label = "fontColorTwo"
     )
     val fontColorThree by animateColorAsState(
-        targetValue = if (currentSelected == 2) colorResource(id = R.color.gunmetal)
+        targetValue = if (currentSelected == 0) colorResource(id = R.color.gunmetal)
         else colorResource(id = R.color.Davys_gray),
         animationSpec = tween(500),
         label = "fontColorThree"
