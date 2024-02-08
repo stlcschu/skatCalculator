@@ -31,30 +31,6 @@ class SkatRoundViewModel(
                 viewModelScope.launch {
                     skatRoundDao.upsertRound(event.skatRound)
                 }
-                _state.update {
-                    it.copy(
-                        roundVariant = RoundVariant.NORMAL,
-                        selectedPlayer = PlayerWithScore(),
-                        selectedShove = 0,
-                        selectedRoundType = RoundType.WITH_WITHOUT_ONE,
-                        selectedTrick = TrickColor.CROSSES,
-                        reChecked = false,
-                        kontraChecked = false,
-                        schneiderChecked = false,
-                        schwarzChecked = false,
-                        ouvertChecked = false,
-                        handChecked = false,
-                        jungfrauChecked = false,
-                        roundScore = 0f,
-                        successfulNullSpielChecked = false,
-                        successfulDurchmarschChecked = false,
-                        shoveDropdownExpanded = false,
-                        roundTypeDropDownExpanded = false,
-                        isSpaltarsch = false,
-                        successfulSchwarz = false,
-                        successfulSchneider = false
-                    )
-                }
             }
             is SkatRoundEvent.deleteRound -> {
                 viewModelScope.launch {
@@ -152,13 +128,6 @@ class SkatRoundViewModel(
                     )
                 }
             }
-            is SkatRoundEvent.onShoveDropdownExpandedChanged -> {
-                _state.update {
-                    it.copy(
-                        shoveDropdownExpanded = event.shoveDropdownExpanded
-                    )
-                }
-            }
             is SkatRoundEvent.onSuccessfulDurchmarschCheckedChanged -> {
                 _state.update {
                     it.copy(
@@ -217,11 +186,12 @@ class SkatRoundViewModel(
                 }
             }
 
-            SkatRoundEvent.onFullReset -> {
+            is SkatRoundEvent.onFullReset -> {
                 _state.update {
                     it.copy(
                         roundVariant = RoundVariant.NORMAL,
-                        selectedPlayer = PlayerWithScore(),
+                        selectedPlayer = event.defaultPlayer,
+                        selectedPlayerIndex = 1,
                         selectedShove = 0,
                         selectedRoundType = RoundType.WITH_WITHOUT_ONE,
                         selectedTrick = TrickColor.CROSSES,
