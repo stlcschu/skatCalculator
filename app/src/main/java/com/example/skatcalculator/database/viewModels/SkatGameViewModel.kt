@@ -64,6 +64,7 @@ class SkatGameViewModel(
                     skatGameDao.upsertSkatGame(event.skatGame)
                 }
             }
+
             is SkatGameEvent.saveScore -> {
                 viewModelScope.launch {
                     scoreDao.upsertScore(event.score)
