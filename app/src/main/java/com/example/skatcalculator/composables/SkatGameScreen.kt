@@ -304,9 +304,9 @@ fun MainGameScreen(
             RoundVariant.NULLSPIEL -> {
                 DefaultCarouselSelector(
                     values = listOf(
-                        players[2].getPlayerName(),
+                        players[0].getPlayerName(),
                         players[1].getPlayerName(),
-                        players[0].getPlayerName()
+                        players[2].getPlayerName()
                     ),
                     currentSelected = roundState.selectedPlayerIndex,
                     onValueChanged = {
@@ -434,9 +434,9 @@ fun MainGameScreen(
             else -> {
                 DefaultCarouselSelector(
                     values = listOf(
-                        players[2].getPlayerName(),
+                        players[0].getPlayerName(),
                         players[1].getPlayerName(),
-                        players[0].getPlayerName()
+                        players[2].getPlayerName()
                     ),
                     currentSelected = roundState.selectedPlayerIndex,
                     onValueChanged = {
@@ -755,13 +755,8 @@ fun MainGameScreen(
             }
         }
     }
-    val context = LocalContext.current
     Button(
         onClick = {
-            if (roundState.selectedPlayer.player.isEmpty() && roundState.roundVariant != RoundVariant.RAMSCH) {
-                Toast.makeText(context, "No player selected", Toast.LENGTH_SHORT).show()
-                return@Button
-            }
             onShowBottomSheetChanged(true)
         },
         modifier = Modifier
@@ -820,224 +815,222 @@ fun MainGameScreen(
                                 }
                             }
                         )
-                        if (!roundState.selectedPlayer.player.isEmpty()) {
-                            Row(
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Column(
                                 modifier = Modifier
-                                    .fillMaxWidth(),
-                                horizontalArrangement = Arrangement.Center
+                                    .clickable {
+                                        onSkatRoundEvent(
+                                            SkatRoundEvent.onRoundScoreValueChanged(if (roundState.roundScore - 1f < 0) roundState.roundScore else roundState.roundScore - 1f)
+                                        )
+                                    }
+                                    .width(60.dp)
                             ) {
-                                Column(
+                                Text(
+                                    text = roundState.selectedPlayer.getPlayerName(),
                                     modifier = Modifier
-                                        .clickable {
-                                            onSkatRoundEvent(
-                                                SkatRoundEvent.onRoundScoreValueChanged(if (roundState.roundScore - 1f < 0) roundState.roundScore else roundState.roundScore - 1f)
-                                            )
-                                        }
-                                        .width(60.dp)
-                                ) {
-                                    Text(
-                                        text = roundState.selectedPlayer.getPlayerName(),
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        textAlign = TextAlign.Center,
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
-                                    )
-                                    Text(
-                                        text = roundState.roundScore.roundToInt().toString(),
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        textAlign = TextAlign.Right
-                                    )
-                                }
-                                Slider(
-                                    value = roundState.roundScore,
-                                    onValueChange = {
-                                        onSkatRoundEvent(
-                                            SkatRoundEvent.onRoundScoreValueChanged(it)
-                                        )
-                                        onSkatRoundEvent(
-                                            SkatRoundEvent.onIsSpaltarschChanged(
-                                                roundState.roundScore.roundToInt() == 60
-                                            )
-                                        )
-                                        onSkatRoundEvent(
-                                            SkatRoundEvent.onSuccessfulSchneiderChanged(
-                                                if (roundState.schneiderChecked) roundState.roundScore.roundToInt() > 90
-                                                else false
-                                            )
-                                        )
-                                    },
-                                    valueRange = 0f..120f,
-                                    steps = 119,
-                                    modifier = Modifier
-                                        .fillMaxWidth(0.75f)
-                                        .padding(end = 5.dp, start = 5.dp)
+                                        .fillMaxWidth(),
+                                    textAlign = TextAlign.Center,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
                                 )
-                                Column(
+                                Text(
+                                    text = roundState.roundScore.roundToInt().toString(),
                                     modifier = Modifier
-                                        .clickable {
-                                            onSkatRoundEvent(
-                                                SkatRoundEvent.onRoundScoreValueChanged(if (roundState.roundScore + 1f > 120) 120f else roundState.roundScore + 1f)
-                                            )
-                                        }
-                                        .width(60.dp)
-                                ) {
-                                    Text(
-                                        text = "Others",
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        textAlign = TextAlign.Center,
-                                    )
-                                    Text(
-                                        text = (120 - roundState.roundScore.roundToInt()).toString(),
-                                        modifier = Modifier
-                                            .fillMaxWidth(),
-                                        textAlign = TextAlign.Left
-                                    )
-                                }
+                                        .fillMaxWidth(),
+                                    textAlign = TextAlign.Right
+                                )
                             }
-
-                            val checkBoxWidth = 140.dp
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .height(50.dp)
-                                        .width(checkBoxWidth)
-                                ) {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Checkbox(
-                                            checked = roundState.jungfrauChecked,
-                                            onCheckedChange = { isChecked ->
-                                                onSkatRoundEvent(
-                                                    SkatRoundEvent.onJungfrauCheckedChanged(if (roundState.successfulDurchmarschChecked) true else isChecked)
-                                                )
-                                            }
+                            Slider(
+                                value = roundState.roundScore,
+                                onValueChange = {
+                                    onSkatRoundEvent(
+                                        SkatRoundEvent.onRoundScoreValueChanged(it)
+                                    )
+                                    onSkatRoundEvent(
+                                        SkatRoundEvent.onIsSpaltarschChanged(
+                                            roundState.roundScore.roundToInt() == 60
                                         )
-                                        Text(text = "Jungfrau")
-                                    }
-                                }
-                                Box(
-                                    modifier = Modifier
-                                        .height(50.dp)
-                                        .width(checkBoxWidth)
-                                ) {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically
-                                    ) {
-                                        Checkbox(
-                                            checked = roundState.successfulDurchmarschChecked,
-                                            onCheckedChange = { isChecked ->
-                                                onSkatRoundEvent(
-                                                    SkatRoundEvent.onSuccessfulDurchmarschCheckedChanged(
-                                                        isChecked
-                                                    )
-                                                )
-                                                onSkatRoundEvent(
-                                                    SkatRoundEvent.onJungfrauCheckedChanged(isChecked)
-                                                )
-                                            },
-                                            enabled = roundState.roundScore.roundToInt() == 120
+                                    )
+                                    onSkatRoundEvent(
+                                        SkatRoundEvent.onSuccessfulSchneiderChanged(
+                                            if (roundState.schneiderChecked) roundState.roundScore.roundToInt() > 90
+                                            else false
                                         )
-                                        Text(text = "Successful Durchmarsch")
-                                    }
-                                }
-                            }
-                            Row(
+                                    )
+                                },
+                                valueRange = 0f..120f,
+                                steps = 119,
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(bottom = 10.dp),
-                                horizontalArrangement = Arrangement.Center
+                                    .fillMaxWidth(0.75f)
+                                    .padding(end = 5.dp, start = 5.dp)
+                            )
+                            Column(
+                                modifier = Modifier
+                                    .clickable {
+                                        onSkatRoundEvent(
+                                            SkatRoundEvent.onRoundScoreValueChanged(if (roundState.roundScore + 1f > 120) 120f else roundState.roundScore + 1f)
+                                        )
+                                    }
+                                    .width(60.dp)
                             ) {
-                                val playerScore = roundState.selectedPlayer.score.score
-                                val calculatedGainLoss = ScoreCalculator()
-                                    .calculatePotentialSingleScore(
-                                        skatRoundState = roundState,
-                                        isBockRound = currentSpecialRound == SpecialRound.BOCK
-                                    )
-                                Box(
+                                Text(
+                                    text = "Others",
                                     modifier = Modifier
-                                        .width(300.dp)
+                                        .fillMaxWidth(),
+                                    textAlign = TextAlign.Center,
+                                )
+                                Text(
+                                    text = (120 - roundState.roundScore.roundToInt()).toString(),
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    textAlign = TextAlign.Left
+                                )
+                            }
+                        }
+
+                        val checkBoxWidth = 140.dp
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(checkBoxWidth)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Row(
+                                    Checkbox(
+                                        checked = roundState.jungfrauChecked,
+                                        onCheckedChange = { isChecked ->
+                                            onSkatRoundEvent(
+                                                SkatRoundEvent.onJungfrauCheckedChanged(if (roundState.successfulDurchmarschChecked) true else isChecked)
+                                            )
+                                        }
+                                    )
+                                    Text(text = "Jungfrau")
+                                }
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .width(checkBoxWidth)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Checkbox(
+                                        checked = roundState.successfulDurchmarschChecked,
+                                        onCheckedChange = { isChecked ->
+                                            onSkatRoundEvent(
+                                                SkatRoundEvent.onSuccessfulDurchmarschCheckedChanged(
+                                                    isChecked
+                                                )
+                                            )
+                                            onSkatRoundEvent(
+                                                SkatRoundEvent.onJungfrauCheckedChanged(isChecked)
+                                            )
+                                        },
+                                        enabled = roundState.roundScore.roundToInt() == 120
+                                    )
+                                    Text(text = "Successful Durchmarsch")
+                                }
+                            }
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(bottom = 10.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            val playerScore = roundState.selectedPlayer.score.score
+                            val calculatedGainLoss = ScoreCalculator()
+                                .calculatePotentialSingleScore(
+                                    skatRoundState = roundState,
+                                    isBockRound = currentSpecialRound == SpecialRound.BOCK
+                                )
+                            Box(
+                                modifier = Modifier
+                                    .width(300.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    val color = if (calculatedGainLoss > 0) TextPainter(PaintValue.GREEN).getColor() else TextPainter(PaintValue.RED).getColor()
+                                    Column(
                                         modifier = Modifier
-                                            .fillMaxWidth(),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.Center
+                                            .width(100.dp)
                                     ) {
-                                        val color = if (calculatedGainLoss > 0) TextPainter(PaintValue.GREEN).getColor() else TextPainter(PaintValue.RED).getColor()
-                                        Column(
+                                        Text(
+                                            text = "Current Score",
                                             modifier = Modifier
-                                                .width(100.dp)
-                                        ) {
-                                            Text(
-                                                text = "Current Score",
-                                                modifier = Modifier
-                                                    .fillMaxWidth(),
-                                                textAlign = TextAlign.Center,
-                                                fontSize = 3.5.em
-                                            )
-                                            Text(
-                                                text = "$playerScore",
-                                                modifier = Modifier
-                                                    .fillMaxWidth(),
-                                                textAlign = TextAlign.Center,
-                                                fontSize = 3.5.em
-                                            )
-                                        }
-                                        Column(
+                                                .fillMaxWidth(),
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 3.5.em
+                                        )
+                                        Text(
+                                            text = "$playerScore",
                                             modifier = Modifier
-                                                .width(70.dp)
-                                                .height(70.dp)
-                                                .padding(start = 10.dp, end = 10.dp)
-                                        ) {
-                                            val iconId =
-                                                if (calculatedGainLoss > 0) R.drawable.baseline_trending_up_24
-                                                else R.drawable.baseline_trending_down_24
-                                            Icon(
-                                                painter = painterResource(id = iconId),
-                                                contentDescription = "Score trend icon",
-                                                tint = color,
-                                                modifier = Modifier
-                                                    .size(50.dp)
-                                            )
-                                            Text(
-                                                text = "$calculatedGainLoss",
-                                                modifier = Modifier
-                                                    .fillMaxWidth(),
-                                                textAlign = TextAlign.Center,
-                                                color = color,
-                                                fontSize = 3.5.em
-                                            )
-                                        }
-                                        Column(
+                                                .fillMaxWidth(),
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 3.5.em
+                                        )
+                                    }
+                                    Column(
+                                        modifier = Modifier
+                                            .width(70.dp)
+                                            .height(70.dp)
+                                            .padding(start = 10.dp, end = 10.dp)
+                                    ) {
+                                        val iconId =
+                                            if (calculatedGainLoss > 0) R.drawable.baseline_trending_up_24
+                                            else R.drawable.baseline_trending_down_24
+                                        Icon(
+                                            painter = painterResource(id = iconId),
+                                            contentDescription = "Score trend icon",
+                                            tint = color,
                                             modifier = Modifier
-                                                .width(100.dp)
-                                        ) {
-                                            Text(
-                                                text = "After Round",
-                                                modifier = Modifier
-                                                    .fillMaxWidth(),
-                                                textAlign = TextAlign.Center,
-                                                fontSize = 3.5.em
-                                            )
-                                            val newScore = playerScore + calculatedGainLoss
-                                            val newScoreColor = if(newScore > 0) TextPainter(PaintValue.GREEN).getColor()
-                                            else if(newScore < 0) TextPainter(PaintValue.RED).getColor()
-                                            else TextPainter(PaintValue.NONE).getColor()
-                                            Text(
-                                                text = "$newScore",
-                                                color = newScoreColor,
-                                                modifier = Modifier
-                                                    .fillMaxWidth(),
-                                                textAlign = TextAlign.Center,
-                                                fontSize = 3.5.em
-                                            )
-                                        }
+                                                .size(50.dp)
+                                        )
+                                        Text(
+                                            text = "$calculatedGainLoss",
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            textAlign = TextAlign.Center,
+                                            color = color,
+                                            fontSize = 3.5.em
+                                        )
+                                    }
+                                    Column(
+                                        modifier = Modifier
+                                            .width(100.dp)
+                                    ) {
+                                        Text(
+                                            text = "After Round",
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 3.5.em
+                                        )
+                                        val newScore = playerScore + calculatedGainLoss
+                                        val newScoreColor = if(newScore > 0) TextPainter(PaintValue.GREEN).getColor()
+                                        else if(newScore < 0) TextPainter(PaintValue.RED).getColor()
+                                        else TextPainter(PaintValue.NONE).getColor()
+                                        Text(
+                                            text = "$newScore",
+                                            color = newScoreColor,
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 3.5.em
+                                        )
                                     }
                                 }
                             }
@@ -1437,10 +1430,6 @@ fun MainGameScreen(
                 }
                 Button(
                     onClick = {
-                        if (roundState.selectedPlayer.player.isEmpty() && roundState.roundVariant != RoundVariant.RAMSCH) {
-                            Toast.makeText(context, "No player selected", Toast.LENGTH_SHORT).show()
-                            return@Button
-                        }
                         onShowBottomSheetChanged(false)
                         val scoreAndSpecialRounds = ScoreCalculator()
                             .calculateFinalScoreWithSpecialRounds(
@@ -1472,6 +1461,12 @@ fun MainGameScreen(
                         onSkatGameEvent(
                             SkatGameEvent.saveScore(
                                 scorePrime
+                            )
+                        )
+
+                        onSkatRoundEvent(
+                            SkatRoundEvent.onFullReset(
+                                players[1]
                             )
                         )
 
