@@ -8,9 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -52,17 +49,14 @@ class MainActivity : ComponentActivity() {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
         val cardIconProvider = CardIconProvider()
-        var resetRoundState by remember { mutableStateOf(false) }
         Scaffold() { innerPadding ->
             SkatNavHost(
                 navController = navController,
                 modifier = Modifier.padding(innerPadding),
-                resetRoundState = resetRoundState,
                 cardIconProvider = cardIconProvider,
                 playerViewModel = playerViewModel,
                 skatGameViewModel = skatGameViewModel,
-                skatRoundViewModel = skatRoundViewModel,
-                onResetStateChange = { reset -> resetRoundState = reset }
+                skatRoundViewModel = skatRoundViewModel
             )
         }
     }

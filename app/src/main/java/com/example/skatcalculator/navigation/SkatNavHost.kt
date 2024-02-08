@@ -14,17 +14,16 @@ import com.example.skatcalculator.database.viewModels.PlayerViewModel
 import com.example.skatcalculator.database.viewModels.SkatGameViewModel
 import com.example.skatcalculator.database.viewModels.SkatRoundViewModel
 import com.example.skatcalculator.util.CardIconProvider
+import com.example.skatcalculator.util.GroupPlayerWithScore
 
 @Composable
 fun SkatNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    resetRoundState: Boolean,
     cardIconProvider: CardIconProvider,
     playerViewModel: PlayerViewModel,
     skatGameViewModel: SkatGameViewModel,
     skatRoundViewModel: SkatRoundViewModel,
-    onResetStateChange: (Boolean) -> Unit
 ) {
     NavHost(
         navController = navController,
@@ -34,7 +33,6 @@ fun SkatNavHost(
         composable(route = MainMenu.route) {
             val players = playerViewModel.state.collectAsState().value
             val historyGames = skatGameViewModel.historyGames.collectAsState().value
-            onResetStateChange(true)
             MainMenuScreen(
                 players = players,
                 historyGames = historyGames,
@@ -43,8 +41,13 @@ fun SkatNavHost(
                 onPlayerEvent = playerViewModel::onEvent,
                 onSkatGameEvent = skatGameViewModel::onEvent,
                 onClickStartSkatGame = {
+                    val player = GroupPlayerWithScore(skatGameViewModel.state.value.skatGame.getPlayers(), skatGameViewModel.state.value.scores).groupAndGetMiddlePlayer()
+                    skatRoundViewModel.onEvent(
+                        SkatRoundEvent.onFullReset(
+                            player
+                        )
+                    )
                     navController.navigateSingleTopTo(SkatGame.route)
-
                 }
             )
         }
@@ -53,10 +56,6 @@ fun SkatNavHost(
             val skatRoundState = skatRoundViewModel.state.collectAsState().value
             val specialRounds = skatGameViewModel.upcomingSpecialRounds.collectAsState().value
             val roundInformationState = skatRoundViewModel.roundInformationState.collectAsState().value
-            if (resetRoundState) {
-                skatRoundViewModel.onEvent(SkatRoundEvent.onFullReset)
-                onResetStateChange(false)
-            }
             SkatGameScreen(
                 skatGame = skatGame,
                 skatRoundState = skatRoundState,
