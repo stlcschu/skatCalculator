@@ -23,4 +23,9 @@ class GroupPlayerWithScore(
         return playersWithScore
     }
 
+    fun groupAndGetMiddlePlayer() : PlayerWithScore {
+        if (players.isEmpty() || scores.isEmpty()) return PlayerWithScore()
+        return group()[players.size/2]
+    }
+
 }
