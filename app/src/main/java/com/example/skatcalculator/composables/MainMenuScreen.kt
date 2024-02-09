@@ -31,6 +31,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -55,8 +56,10 @@ import androidx.compose.ui.window.Dialog
 import com.example.skatcalculator.R
 import com.example.skatcalculator.composables.defaults.DefaultCardClickable
 import com.example.skatcalculator.composables.defaults.DefaultCardClickableWithButton
+import com.example.skatcalculator.composables.defaults.DefaultColumnRow
 import com.example.skatcalculator.composables.defaults.DefaultColumnRowWithButton
 import com.example.skatcalculator.composables.defaults.DefaultLoadingAnimation
+import com.example.skatcalculator.composables.defaults.DefaultSwipeableContainer
 import com.example.skatcalculator.database.events.PlayerEvent
 import com.example.skatcalculator.database.events.SkatGameEvent
 import com.example.skatcalculator.database.tables.Player
@@ -71,7 +74,7 @@ import com.example.skatcalculator.util.IdGenerator
 import kotlinx.coroutines.delay
 import java.time.Month
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun MainMenuScreen(
     players: List<Player>,
@@ -94,7 +97,7 @@ fun MainMenuScreen(
         var showLoadingHistory by remember { mutableStateOf(true) }
         val loadingIcons = cardIconProvider.getIconsForLoadingAnimation()
 
-        LaunchedEffect(key1 = Unit){
+        LaunchedEffect(key1 = Unit) {
             delay(5000)
             showLoadingHistory = false
         }
@@ -422,17 +425,33 @@ fun MainMenuScreen(
                 .padding(top = 5.dp)
         ) {
             itemsIndexed(historyGames) {index, game ->
-                DefaultColumnRowWithButton(
-                    buttonIcon = R.drawable.baseline_play_arrow_24,
-                    height = 50.dp,
-                    buttonFunction = {
+                var isSelected by remember { mutableStateOf(false) }
+                DefaultSwipeableContainer(
+                    item = game,
+                    isSelected = isSelected,
+                    dismissDirections = setOf(
+                        DismissDirection.EndToStart,
+                        DismissDirection.StartToEnd
+                    ),
+                    onDelete = {
+
+                    },
+                    onSelect = {
+                        isSelected = false
                         onSkatGameEvent(
                             SkatGameEvent.setSkatGameId(game.skatGame.skatGameId)
                         )
                         onClickStartSkatGame()
+                    },
+                    onSelectChange = {
+                        isSelected = it
                     }
                 ) {
-                    HistoryGamePreview(game)
+                    DefaultColumnRow(
+                        height = 50.dp,
+                    ) {
+                        HistoryGamePreview(game)
+                    }
                 }
                 if (index < historyGames.lastIndex)
                     Divider()
