@@ -528,11 +528,13 @@ fun MainGameScreen(
                         )
                     }
                 }
-                val checkBoxWidth = 110.dp
+                val checkBoxWidth = 120.dp
                 FlowRow(
                     horizontalArrangement = Arrangement.SpaceAround,
                     verticalArrangement = Arrangement.Center,
-                    maxItemsInEachRow = 3
+                    maxItemsInEachRow = 3,
+                    modifier = Modifier
+                        .fillMaxWidth()
                 ) {
                     Box(
                         modifier = Modifier
