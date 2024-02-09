@@ -20,6 +20,24 @@ import androidx.compose.ui.unit.dp
 import com.example.skatcalculator.R
 
 @Composable
+fun DefaultColumnRow(
+    height: Dp,
+    color: Color = Color.White,
+    content: @Composable () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(height)
+            .background(color = color),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Absolute.SpaceAround
+    ) {
+        content()
+    }
+}
+
+@Composable
 fun DefaultColumnRowClickable(
     height: Dp,
     color: Color = Color.White,
