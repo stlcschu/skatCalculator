@@ -1,10 +1,11 @@
 package com.example.skatcalculator.composables
 
-import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,8 +29,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
@@ -47,7 +46,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -154,7 +152,7 @@ fun SkatGameScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun MainGameScreen(
     players: List<PlayerWithScore>,
@@ -334,8 +332,10 @@ fun MainGameScreen(
                     }
                 )
                 val checkBoxWidth = 110.dp
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                FlowRow(
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalArrangement = Arrangement.Center,
+                    maxItemsInEachRow = 3
                 ) {
                     Box(
                         modifier = Modifier
@@ -375,10 +375,6 @@ fun MainGameScreen(
                             Text(text = Declaration.OUVER.value)
                         }
                     }
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
                     Box(
                         modifier = Modifier
                             .height(50.dp)
@@ -398,7 +394,6 @@ fun MainGameScreen(
                             Text(text = Declaration.KONTRA.value)
                         }
                     }
-
                     Box(
                         modifier = Modifier
                             .height(50.dp)
@@ -421,15 +416,21 @@ fun MainGameScreen(
                 }
             }
             RoundVariant.RAMSCH -> {
-                DefaultCounter(
-                    currentValue = roundState.selectedShove,
-                    maxValue = 3,
-                    onClick = {
-                        onSkatRoundEvent(
-                            SkatRoundEvent.onSelectedShoveChanged(it)
-                        )
-                    }
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(text = "Shoved")
+                    DefaultCounter(
+                        currentValue = roundState.selectedShove,
+                        maxValue = 3,
+                        onClick = {
+                            onSkatRoundEvent(
+                                SkatRoundEvent.onSelectedShoveChanged(it)
+                            )
+                        }
+                    )
+                    Text(text = "times")
+                }
             }
             else -> {
                 DefaultCarouselSelector(
@@ -528,8 +529,10 @@ fun MainGameScreen(
                     }
                 }
                 val checkBoxWidth = 110.dp
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
+                FlowRow(
+                    horizontalArrangement = Arrangement.SpaceAround,
+                    verticalArrangement = Arrangement.Center,
+                    maxItemsInEachRow = 3
                 ) {
                     Box(
                         modifier = Modifier
@@ -595,11 +598,6 @@ fun MainGameScreen(
                             )
                         }
                     }
-
-                }
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
                     Box(
                         modifier = Modifier
                             .height(50.dp)
@@ -619,7 +617,6 @@ fun MainGameScreen(
                             Text(text = Declaration.KONTRA.value)
                         }
                     }
-
                     Box(
                         modifier = Modifier
                             .height(50.dp)
@@ -639,7 +636,6 @@ fun MainGameScreen(
                             Text(text = Declaration.HAND.value)
                         }
                     }
-
                     Box(
                         modifier = Modifier
                             .height(50.dp)
@@ -893,8 +889,10 @@ fun MainGameScreen(
                         }
 
                         val checkBoxWidth = 140.dp
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                        FlowRow(
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalArrangement = Arrangement.Center,
+                            maxItemsInEachRow = 3
                         ) {
                             Box(
                                 modifier = Modifier
@@ -1306,8 +1304,10 @@ fun MainGameScreen(
                             }
                         }
                         val checkBoxWidth = 175.dp
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
+                        FlowRow(
+                            horizontalArrangement = Arrangement.SpaceAround,
+                            verticalArrangement = Arrangement.Center,
+                            maxItemsInEachRow = 3
                         ) {
                             Box(
                                 modifier = Modifier
@@ -2063,7 +2063,7 @@ fun PreviewMainGameScreen() {
             ),
             showBottomSheet = false,
             roundState = SkatRoundState(
-                roundVariant = RoundVariant.NORMAL
+                roundVariant = RoundVariant.RAMSCH
             ),
             currentRound = 5,
             gameId = "",

@@ -5,10 +5,20 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.skatcalculator.database.AppDatabase
@@ -18,6 +28,8 @@ import com.example.skatcalculator.database.viewModels.SkatGameViewModel
 import com.example.skatcalculator.database.viewModels.SkatGameViewModelFactory
 import com.example.skatcalculator.database.viewModels.SkatRoundViewModel
 import com.example.skatcalculator.database.viewModels.SkatRoundViewModelFactory
+import com.example.skatcalculator.navigation.SkatDestination
+import com.example.skatcalculator.navigation.SkatGame
 import com.example.skatcalculator.navigation.SkatNavHost
 import com.example.skatcalculator.util.CardIconProvider
 
@@ -44,12 +56,42 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun SkatApp() {
         val navController = rememberNavController()
         val currentBackStack by navController.currentBackStackEntryAsState()
         val cardIconProvider = CardIconProvider()
-        Scaffold() { innerPadding ->
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            "Skat App",
+                            maxLines = 1,
+                        )
+                    },
+                    navigationIcon = {
+                        when(val currentRoute = navBackStackEntry?.destination?.route) {
+                            SkatGame.route -> {
+                                IconButton(
+                                    onClick = {
+                                        navController.navigateUp()
+                                    }
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                        contentDescription = "Localized description",
+                                        tint = Color.Black
+                                    )
+                                }
+                            }
+                        }
+                    }
+                )
+            }
+        ) { innerPadding ->
             SkatNavHost(
                 navController = navController,
                 modifier = Modifier.padding(innerPadding),
