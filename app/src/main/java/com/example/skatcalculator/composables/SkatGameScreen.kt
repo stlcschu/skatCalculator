@@ -550,7 +550,11 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = Declaration.RE.value)
+                            Text(
+                                text = Declaration.RE.value,
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip
+                            )
                         }
                     }
                     Box(
@@ -569,7 +573,11 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = Declaration.OUVER.value)
+                            Text(
+                                text = Declaration.OUVER.value,
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip
+                            )
                         }
                     }
                     Box(
@@ -594,7 +602,9 @@ fun MainGameScreen(
                                 }
                             )
                             Text(
-                                text = Declaration.SCHNEIDER.value
+                                text = Declaration.SCHNEIDER.value,
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip
                             )
                         }
                     }
@@ -614,7 +624,11 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = Declaration.KONTRA.value)
+                            Text(
+                                text = Declaration.KONTRA.value,
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip
+                            )
                         }
                     }
                     Box(
@@ -633,7 +647,11 @@ fun MainGameScreen(
                                     )
                                 }
                             )
-                            Text(text = Declaration.HAND.value)
+                            Text(
+                                text = Declaration.HAND.value,
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip
+                            )
                         }
                     }
                     Box(
@@ -654,7 +672,9 @@ fun MainGameScreen(
                                 enabled = roundState.schneiderChecked
                             )
                             Text(
-                                text = Declaration.SCHWARZ.value
+                                text = Declaration.SCHWARZ.value,
+                                maxLines = 1,
+                                overflow = TextOverflow.Clip
                             )
                         }
                     }
@@ -2063,7 +2083,7 @@ fun PreviewMainGameScreen() {
             ),
             showBottomSheet = false,
             roundState = SkatRoundState(
-                roundVariant = RoundVariant.RAMSCH
+                roundVariant = RoundVariant.NORMAL
             ),
             currentRound = 5,
             gameId = "",
