@@ -123,6 +123,7 @@ fun SkatGameScreen(
                 currentContent = screen
             }
         )
+        BottomShadow()
         when(currentContent) {
             SkatScreen.GAME_SCREEN -> {
                 MainGameScreen(
