@@ -50,6 +50,7 @@ fun <T> DefaultSwipeableContainer(
     var isRemoved by remember { mutableStateOf(false) }
 
     val state = rememberDismissState(
+        initialValue = DismissValue.Default,
         confirmValueChange = { value ->
             when (value) {
                 DismissValue.DismissedToStart -> {
@@ -77,6 +78,7 @@ fun <T> DefaultSwipeableContainer(
     LaunchedEffect(key1 = isSelected) {
         if(isSelected) {
             delay(animationDuration.toLong())
+            state.reset()
             onSelect(item)
         }
     }
