@@ -25,7 +25,7 @@ class TextPainter(private val paintValue: PaintValue) {
     }
 
     companion object {
-        enum class PaintValue() {
+        enum class PaintValue {
             RED,
             GREEN,
             HIGHLIGHT,

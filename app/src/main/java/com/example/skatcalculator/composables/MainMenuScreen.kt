@@ -57,7 +57,6 @@ import com.example.skatcalculator.R
 import com.example.skatcalculator.composables.defaults.DefaultCardClickable
 import com.example.skatcalculator.composables.defaults.DefaultCardClickableWithButton
 import com.example.skatcalculator.composables.defaults.DefaultColumnRow
-import com.example.skatcalculator.composables.defaults.DefaultColumnRowWithButton
 import com.example.skatcalculator.composables.defaults.DefaultLoadingAnimation
 import com.example.skatcalculator.composables.defaults.DefaultSwipeableContainer
 import com.example.skatcalculator.database.events.PlayerEvent
@@ -158,7 +157,7 @@ fun MainMenuScreen(
                                             )
                                             IconButton(onClick = {
                                                 onPlayerEvent(
-                                                    PlayerEvent.deletePlayer(player)
+                                                    PlayerEvent.DeletePlayer(player)
                                                 )
                                                 if (playerOne.equalsPlayer(player)) {
                                                     playerOne = Player("")
@@ -210,7 +209,7 @@ fun MainMenuScreen(
                                         }
                                         showNewPlayerDialog = false
                                         onPlayerEvent(
-                                            PlayerEvent.savePlayer(player)
+                                            PlayerEvent.SavePlayer(player)
                                         )
                                     }
                                 },
@@ -327,10 +326,10 @@ fun MainMenuScreen(
                         skatGameId = gameId
                     )
                     onSkatGameEvent(
-                        SkatGameEvent.saveSkatGame(skatGame)
+                        SkatGameEvent.SaveSkatGame(skatGame)
                     )
                     onSkatGameEvent(
-                        SkatGameEvent.saveScore(
+                        SkatGameEvent.SaveScore(
                             Score(
                                 score = 0,
                                 skatGameId = gameId,
@@ -339,7 +338,7 @@ fun MainMenuScreen(
                         )
                     )
                     onSkatGameEvent(
-                        SkatGameEvent.saveScore(
+                        SkatGameEvent.SaveScore(
                             Score(
                                 score = 0,
                                 skatGameId = gameId,
@@ -348,7 +347,7 @@ fun MainMenuScreen(
                         )
                     )
                     onSkatGameEvent(
-                        SkatGameEvent.saveScore(
+                        SkatGameEvent.SaveScore(
                             Score(
                                 score = 0,
                                 skatGameId = gameId,
@@ -357,10 +356,10 @@ fun MainMenuScreen(
                         )
                     )
                     onSkatGameEvent(
-                        SkatGameEvent.setSkatGameId(gameId)
+                        SkatGameEvent.SetSkatGameId(gameId)
                     )
                     onSkatGameEvent(
-                        SkatGameEvent.saveSpecialRounds(SpecialRounds(specialRounds = emptyList(), gameId))
+                        SkatGameEvent.SaveSpecialRounds(SpecialRounds(specialRounds = emptyList(), gameId))
                     )
                     onClickStartSkatGame()
                 },
@@ -439,7 +438,7 @@ fun MainMenuScreen(
                     onSelect = {
                         isSelected = false
                         onSkatGameEvent(
-                            SkatGameEvent.setSkatGameId(game.skatGame.skatGameId)
+                            SkatGameEvent.SetSkatGameId(game.skatGame.skatGameId)
                         )
                         onClickStartSkatGame()
                     },
@@ -461,7 +460,6 @@ fun MainMenuScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PlayerInsert(
     player: Player,

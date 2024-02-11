@@ -25,12 +25,12 @@ class PlayerViewModel(
 
     fun onEvent(event: PlayerEvent) {
         when(event) {
-            is PlayerEvent.deletePlayer -> {
+            is PlayerEvent.DeletePlayer -> {
                 viewModelScope.launch {
                     playerDao.deletePlayer(event.player)
                 }
             }
-            is PlayerEvent.savePlayer -> {
+            is PlayerEvent.SavePlayer -> {
                 viewModelScope.launch {
                     playerDao.upsertPlayer(event.player)
                 }

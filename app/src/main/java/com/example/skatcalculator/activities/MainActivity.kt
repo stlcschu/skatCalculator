@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,7 +29,6 @@ import com.example.skatcalculator.database.viewModels.SkatGameViewModel
 import com.example.skatcalculator.database.viewModels.SkatGameViewModelFactory
 import com.example.skatcalculator.database.viewModels.SkatRoundViewModel
 import com.example.skatcalculator.database.viewModels.SkatRoundViewModelFactory
-import com.example.skatcalculator.navigation.SkatDestination
 import com.example.skatcalculator.navigation.SkatGame
 import com.example.skatcalculator.navigation.SkatNavHost
 import com.example.skatcalculator.util.CardIconProvider

@@ -6,10 +6,10 @@ import com.example.skatcalculator.database.tables.SpecialRounds
 
 sealed interface SkatGameEvent {
 
-    data class setSkatGameId(val skatGameId: String) : SkatGameEvent
-    data class saveSkatGame(val skatGame: SkatGame) : SkatGameEvent
-    data class deleteSkatGame(val skatGame: SkatGame) : SkatGameEvent
-    data class saveScore(val score: Score) : SkatGameEvent
-    data class saveSpecialRounds(val specialRounds: SpecialRounds) : SkatGameEvent
+    data class SetSkatGameId(val skatGameId: String) : SkatGameEvent
+    data class SaveSkatGame(val skatGame: SkatGame) : SkatGameEvent
+    data class DeleteSkatGame(val skatGame: SkatGame) : SkatGameEvent
+    data class SaveScore(val score: Score) : SkatGameEvent
+    data class SaveSpecialRounds(val specialRounds: SpecialRounds) : SkatGameEvent
 
 }

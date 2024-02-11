@@ -7,9 +7,9 @@ enum class RoundVariant(val value: String) {
     NULLSPIEL("Nullspiel");
 
     companion object {
-        fun fromString(value: String) = entries.firstOrNull() { it.value == value } ?: throw IllegalArgumentException("Invalid type requested: $value")
+        fun fromString(value: String) = entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException("Invalid type requested: $value")
 
-        fun toList() = listOf<RoundVariant>(
+        fun toList() = listOf(
             NORMAL,
             RAMSCH,
             GRAND,

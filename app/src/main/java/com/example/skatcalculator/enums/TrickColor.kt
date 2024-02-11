@@ -9,8 +9,8 @@ enum class TrickColor(val value: String, val drawableId: Int, val baseValue: Int
     DIAMONDS("Diamonds", R.drawable.symbol_diamond, 9);
 
     companion object {
-        fun fromString(value: String) = entries.firstOrNull() { it.value == value } ?: throw IllegalArgumentException("Invalid type requested: $value")
-        fun fromInt(value: Int) = entries.firstOrNull() { it.baseValue == value } ?: throw IllegalArgumentException("Invalid type requested: $value")
+        fun fromString(value: String) = entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException("Invalid type requested: $value")
+        fun fromInt(value: Int) = entries.firstOrNull { it.baseValue == value } ?: throw IllegalArgumentException("Invalid type requested: $value")
 
     }
 }

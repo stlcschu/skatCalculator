@@ -7,7 +7,7 @@ enum class SpecialRound(val value: String, val displayValue: String) {
 
 
     companion object {
-        fun fromString(value: String) = entries.firstOrNull() { it.value == value } ?: throw IllegalArgumentException("Invalid type requested: $value")
+        fun fromString(value: String) = entries.firstOrNull { it.value == value } ?: throw IllegalArgumentException("Invalid type requested: $value")
 
     }
 }

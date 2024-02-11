@@ -29,13 +29,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -152,7 +150,7 @@ fun SkatGameScreen(
                     roundInformationState,
                     onRoundStateChange = { round,player ->
                         onSkatRoundEvent(
-                            SkatRoundEvent.onUpdateRoundInformationState(round, player)
+                            SkatRoundEvent.OnUpdateRoundInformationState(round, player)
                         )
                     }
                 )
@@ -218,27 +216,27 @@ fun MainGameScreen(
             tabs = RoundVariant.toList(),
             onTabChange = {
                 onSkatRoundEvent(
-                    SkatRoundEvent.onRoundVariantChanged(it)
+                    SkatRoundEvent.OnRoundVariantChanged(it)
                 )
                 when(it) {
                     RoundVariant.NORMAL -> {
                         onSkatRoundEvent(
-                            SkatRoundEvent.onResetNormalVariant
+                            SkatRoundEvent.OnResetNormalVariant
                         )
                     }
                     RoundVariant.RAMSCH -> {
                         onSkatRoundEvent(
-                            SkatRoundEvent.onResetRamschVariant
+                            SkatRoundEvent.OnResetRamschVariant
                         )
                     }
                     RoundVariant.GRAND -> {
                         onSkatRoundEvent(
-                            SkatRoundEvent.onResetGrandVariant
+                            SkatRoundEvent.OnResetGrandVariant
                         )
                     }
                     RoundVariant.NULLSPIEL -> {
                         onSkatRoundEvent(
-                            SkatRoundEvent.onResetNullSpielVariant
+                            SkatRoundEvent.OnResetNullSpielVariant
                         )
                     }
                 }
@@ -269,23 +267,23 @@ fun MainGameScreen(
                         currentSelected = roundState.selectedPlayerIndex,
                         onValueChanged = {
                             onSkatRoundEvent(
-                                SkatRoundEvent.onSelectedPlayerIndexChanged(it)
+                                SkatRoundEvent.OnSelectedPlayerIndexChanged(it)
                             )
                             when(it) {
                                 0 -> {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedPlayerChanged(players[2])
+                                        SkatRoundEvent.OnSelectedPlayerChanged(players[2])
                                     )
                                 }
                                 1 -> {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedPlayerChanged(players[1])
+                                        SkatRoundEvent.OnSelectedPlayerChanged(players[1])
                                     )
 
                                 }
                                 else -> {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedPlayerChanged(players[0])
+                                        SkatRoundEvent.OnSelectedPlayerChanged(players[0])
                                     )
                                 }
                             }
@@ -311,7 +309,7 @@ fun MainGameScreen(
                                     checked = roundState.reChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onReCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnReCheckedChanged(isChecked)
                                         )
                                     }
                                 )
@@ -330,11 +328,11 @@ fun MainGameScreen(
                                     checked = roundState.ouvertChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onOuvertCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnOuvertCheckedChanged(isChecked)
                                         )
                                     }
                                 )
-                                Text(text = Declaration.OUVER.value)
+                                Text(text = Declaration.OUVERT.value)
                             }
                         }
                         Box(
@@ -349,7 +347,7 @@ fun MainGameScreen(
                                     checked = roundState.kontraChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onKontraCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnKontraCheckedChanged(isChecked)
                                         )
                                     }
                                 )
@@ -368,7 +366,7 @@ fun MainGameScreen(
                                     checked = roundState.handChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onHandCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnHandCheckedChanged(isChecked)
                                         )
                                     }
                                 )
@@ -387,7 +385,7 @@ fun MainGameScreen(
                             maxValue = 3,
                             onClick = {
                                 onSkatRoundEvent(
-                                    SkatRoundEvent.onSelectedShoveChanged(it)
+                                    SkatRoundEvent.OnSelectedShoveChanged(it)
                                 )
                             }
                         )
@@ -404,23 +402,23 @@ fun MainGameScreen(
                         currentSelected = roundState.selectedPlayerIndex,
                         onValueChanged = {
                             onSkatRoundEvent(
-                                SkatRoundEvent.onSelectedPlayerIndexChanged(it)
+                                SkatRoundEvent.OnSelectedPlayerIndexChanged(it)
                             )
                             when(it) {
                                 0 -> {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedPlayerChanged(players[2])
+                                        SkatRoundEvent.OnSelectedPlayerChanged(players[2])
                                     )
                                 }
                                 1 -> {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedPlayerChanged(players[1])
+                                        SkatRoundEvent.OnSelectedPlayerChanged(players[1])
                                     )
 
                                 }
                                 else -> {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onSelectedPlayerChanged(players[0])
+                                        SkatRoundEvent.OnSelectedPlayerChanged(players[0])
                                     )
                                 }
                             }
@@ -438,7 +436,7 @@ fun MainGameScreen(
                                 modifier = Modifier
                                     .clickable {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSelectedTrickChanged(
+                                            SkatRoundEvent.OnSelectedTrickChanged(
                                                 TrickColor.CROSSES
                                             )
                                         )
@@ -452,7 +450,7 @@ fun MainGameScreen(
                                 modifier = Modifier
                                     .clickable {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSelectedTrickChanged(
+                                            SkatRoundEvent.OnSelectedTrickChanged(
                                                 TrickColor.SPADES
                                             )
                                         )
@@ -466,7 +464,7 @@ fun MainGameScreen(
                                 modifier = Modifier
                                     .clickable {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSelectedTrickChanged(
+                                            SkatRoundEvent.OnSelectedTrickChanged(
                                                 TrickColor.HEARTS
                                             )
                                         )
@@ -480,7 +478,7 @@ fun MainGameScreen(
                                 modifier = Modifier
                                     .clickable {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSelectedTrickChanged(
+                                            SkatRoundEvent.OnSelectedTrickChanged(
                                                 TrickColor.DIAMONDS
                                             )
                                         )
@@ -510,7 +508,7 @@ fun MainGameScreen(
                                     checked = roundState.reChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onReCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnReCheckedChanged(isChecked)
                                         )
                                     }
                                 )
@@ -533,12 +531,12 @@ fun MainGameScreen(
                                     checked = roundState.ouvertChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onOuvertCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnOuvertCheckedChanged(isChecked)
                                         )
                                     }
                                 )
                                 Text(
-                                    text = Declaration.OUVER.value,
+                                    text = Declaration.OUVERT.value,
                                     maxLines = 1,
                                     overflow = TextOverflow.Clip
                                 )
@@ -556,11 +554,11 @@ fun MainGameScreen(
                                     checked = roundState.schneiderChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSchneiderCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnSchneiderCheckedChanged(isChecked)
                                         )
                                         if (!isChecked) {
                                             onSkatRoundEvent(
-                                                SkatRoundEvent.onSchwarzCheckedChanged(false)
+                                                SkatRoundEvent.OnSchwarzCheckedChanged(false)
                                             )
                                         }
                                     }
@@ -584,7 +582,7 @@ fun MainGameScreen(
                                     checked = roundState.kontraChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onKontraCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnKontraCheckedChanged(isChecked)
                                         )
                                     }
                                 )
@@ -607,7 +605,7 @@ fun MainGameScreen(
                                     checked = roundState.handChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onHandCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnHandCheckedChanged(isChecked)
                                         )
                                     }
                                 )
@@ -630,7 +628,7 @@ fun MainGameScreen(
                                     checked = roundState.schwarzChecked,
                                     onCheckedChange = { isChecked ->
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSchwarzCheckedChanged(isChecked)
+                                            SkatRoundEvent.OnSchwarzCheckedChanged(isChecked)
                                         )
                                     },
                                     enabled = roundState.schneiderChecked
@@ -675,7 +673,7 @@ fun MainGameScreen(
                                 .size(40.dp),
                             tint = TextPainter(PaintValue.GREEN).getColor()
                         )
-                        Column() {
+                        Column {
                             Text(
                                 text = "Potential gain",
                                 fontSize = 3.5.em,
@@ -713,7 +711,7 @@ fun MainGameScreen(
                                 .size(40.dp),
                             tint = TextPainter(PaintValue.RED).getColor()
                         )
-                        Column() {
+                        Column {
                             Text(
                                 text = "Potential loss",
                                 fontSize = 3.5.em,
@@ -774,23 +772,23 @@ fun MainGameScreen(
                             currentSelected = roundState.selectedPlayerIndex,
                             onValueChanged = {
                                 onSkatRoundEvent(
-                                    SkatRoundEvent.onSelectedPlayerIndexChanged(it)
+                                    SkatRoundEvent.OnSelectedPlayerIndexChanged(it)
                                 )
                                 when(it) {
                                     0 -> {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSelectedPlayerChanged(players[2])
+                                            SkatRoundEvent.OnSelectedPlayerChanged(players[2])
                                         )
                                     }
                                     1 -> {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSelectedPlayerChanged(players[1])
+                                            SkatRoundEvent.OnSelectedPlayerChanged(players[1])
                                         )
 
                                     }
                                     else -> {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSelectedPlayerChanged(players[0])
+                                            SkatRoundEvent.OnSelectedPlayerChanged(players[0])
                                         )
                                     }
                                 }
@@ -805,7 +803,7 @@ fun MainGameScreen(
                                 modifier = Modifier
                                     .clickable {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onRoundScoreValueChanged(if (roundState.roundScore - 1f < 0) roundState.roundScore else roundState.roundScore - 1f)
+                                            SkatRoundEvent.OnRoundScoreValueChanged(if (roundState.roundScore - 1f < 0) roundState.roundScore else roundState.roundScore - 1f)
                                         )
                                     }
                                     .width(60.dp)
@@ -829,15 +827,15 @@ fun MainGameScreen(
                                 value = roundState.roundScore,
                                 onValueChange = {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onRoundScoreValueChanged(it)
+                                        SkatRoundEvent.OnRoundScoreValueChanged(it)
                                     )
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onIsSpaltarschChanged(
+                                        SkatRoundEvent.OnIsSpaltarschChanged(
                                             roundState.roundScore.roundToInt() == 60
                                         )
                                     )
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onSuccessfulSchneiderChanged(
+                                        SkatRoundEvent.OnSuccessfulSchneiderChanged(
                                             if (roundState.schneiderChecked) roundState.roundScore.roundToInt() > 90
                                             else false
                                         )
@@ -853,7 +851,7 @@ fun MainGameScreen(
                                 modifier = Modifier
                                     .clickable {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onRoundScoreValueChanged(if (roundState.roundScore + 1f > 120) 120f else roundState.roundScore + 1f)
+                                            SkatRoundEvent.OnRoundScoreValueChanged(if (roundState.roundScore + 1f > 120) 120f else roundState.roundScore + 1f)
                                         )
                                     }
                                     .width(60.dp)
@@ -891,7 +889,7 @@ fun MainGameScreen(
                                         checked = roundState.jungfrauChecked,
                                         onCheckedChange = { isChecked ->
                                             onSkatRoundEvent(
-                                                SkatRoundEvent.onJungfrauCheckedChanged(if (roundState.successfulDurchmarschChecked) true else isChecked)
+                                                SkatRoundEvent.OnJungfrauCheckedChanged(if (roundState.successfulDurchmarschChecked) true else isChecked)
                                             )
                                         }
                                     )
@@ -910,12 +908,12 @@ fun MainGameScreen(
                                         checked = roundState.successfulDurchmarschChecked,
                                         onCheckedChange = { isChecked ->
                                             onSkatRoundEvent(
-                                                SkatRoundEvent.onSuccessfulDurchmarschCheckedChanged(
+                                                SkatRoundEvent.OnSuccessfulDurchmarschCheckedChanged(
                                                     isChecked
                                                 )
                                             )
                                             onSkatRoundEvent(
-                                                SkatRoundEvent.onJungfrauCheckedChanged(isChecked)
+                                                SkatRoundEvent.OnJungfrauCheckedChanged(isChecked)
                                             )
                                         },
                                         enabled = roundState.roundScore.roundToInt() == 120
@@ -1039,7 +1037,7 @@ fun MainGameScreen(
                                         checked = roundState.successfulNullSpielChecked,
                                         onCheckedChange = {
                                             onSkatRoundEvent(
-                                                SkatRoundEvent.onNullSpielCheckedChanged(it)
+                                                SkatRoundEvent.OnNullSpielCheckedChanged(it)
                                             )
                                         }
                                     )
@@ -1159,7 +1157,7 @@ fun MainGameScreen(
                                 modifier = Modifier
                                     .clickable {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onRoundScoreValueChanged(if (roundState.roundScore - 1f < 0) roundState.roundScore else roundState.roundScore - 1f)
+                                            SkatRoundEvent.OnRoundScoreValueChanged(if (roundState.roundScore - 1f < 0) roundState.roundScore else roundState.roundScore - 1f)
                                         )
                                     }
                                     .width(60.dp)
@@ -1183,21 +1181,21 @@ fun MainGameScreen(
                                 value = roundState.roundScore,
                                 onValueChange = {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onRoundScoreValueChanged(it)
+                                        SkatRoundEvent.OnRoundScoreValueChanged(it)
                                     )
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onIsSpaltarschChanged(
+                                        SkatRoundEvent.OnIsSpaltarschChanged(
                                             roundState.roundScore.roundToInt() == 60
                                         )
                                     )
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onSuccessfulSchneiderChanged(
+                                        SkatRoundEvent.OnSuccessfulSchneiderChanged(
                                             roundState.roundScore.roundToInt() > 90
                                         )
                                     )
                                     if (roundState.successfulSchwarz && roundState.roundScore.roundToInt() < 120) {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onSuccessfulSchwarzCheckedChanged(
+                                            SkatRoundEvent.OnSuccessfulSchwarzCheckedChanged(
                                                 false
                                             )
                                         )
@@ -1213,7 +1211,7 @@ fun MainGameScreen(
                                 modifier = Modifier
                                     .clickable {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.onRoundScoreValueChanged(if (roundState.roundScore + 1f > 120) 120f else roundState.roundScore + 1f)
+                                            SkatRoundEvent.OnRoundScoreValueChanged(if (roundState.roundScore + 1f > 120) 120f else roundState.roundScore + 1f)
                                         )
                                     }
                                     .width(60.dp)
@@ -1236,7 +1234,7 @@ fun MainGameScreen(
                             expanded = roundState.roundTypeDropDownExpanded,
                             onExpandedChange = {
                                 onSkatRoundEvent(
-                                    SkatRoundEvent.onRoundTypeDropDownExpandedChanged(
+                                    SkatRoundEvent.OnRoundTypeDropDownExpandedChanged(
                                         !roundState.roundTypeDropDownExpanded
                                     )
                                 )
@@ -1262,7 +1260,7 @@ fun MainGameScreen(
                                 expanded = roundState.roundTypeDropDownExpanded,
                                 onDismissRequest = {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.onRoundTypeDropDownExpandedChanged(
+                                        SkatRoundEvent.OnRoundTypeDropDownExpandedChanged(
                                             false
                                         )
                                     )
@@ -1273,12 +1271,12 @@ fun MainGameScreen(
                                     DropdownMenuItem(
                                         onClick = {
                                             onSkatRoundEvent(
-                                                SkatRoundEvent.onSelectedRoundTypeChanged(
+                                                SkatRoundEvent.OnSelectedRoundTypeChanged(
                                                     RoundType.fromString(selectionOption.type)
                                                 )
                                             )
                                             onSkatRoundEvent(
-                                                SkatRoundEvent.onRoundTypeDropDownExpandedChanged(
+                                                SkatRoundEvent.OnRoundTypeDropDownExpandedChanged(
                                                     false
                                                 )
                                             )
@@ -1306,7 +1304,7 @@ fun MainGameScreen(
                                         checked = roundState.successfulSchwarz,
                                         onCheckedChange = { isChecked ->
                                             onSkatRoundEvent(
-                                                SkatRoundEvent.onSuccessfulSchwarzCheckedChanged(isChecked)
+                                                SkatRoundEvent.OnSuccessfulSchwarzCheckedChanged(isChecked)
                                             )
                                         },
                                         enabled = roundState.roundScore.roundToInt() == 120
@@ -1432,7 +1430,7 @@ fun MainGameScreen(
                         )
 
                         onSkatRoundEvent(
-                            SkatRoundEvent.addRound(
+                            SkatRoundEvent.AddRound(
                                 skatRound
                             )
                         )
@@ -1444,13 +1442,13 @@ fun MainGameScreen(
                         )
 
                         onSkatGameEvent(
-                            SkatGameEvent.saveScore(
+                            SkatGameEvent.SaveScore(
                                 scorePrime
                             )
                         )
 
                         onSkatRoundEvent(
-                            SkatRoundEvent.onFullReset(
+                            SkatRoundEvent.OnFullReset(
                                 players[1]
                             )
                         )
@@ -1459,7 +1457,7 @@ fun MainGameScreen(
                             addSpecialRounds(specialRounds, scoreAndSpecialRounds.second)
 
                         onSkatGameEvent(
-                            SkatGameEvent.saveSpecialRounds(
+                            SkatGameEvent.SaveSpecialRounds(
                                 SpecialRounds(
                                     specialRounds = newSpecialRounds,
                                     gameId = gameId
@@ -1681,7 +1679,7 @@ fun HistoryGameScreen(
                     .width(65.dp)
             )
         }
-        LazyColumn() {
+        LazyColumn {
             var currentScorePlayerOne = 0
             var currentScorePlayerTwo = 0
             var currentScorePlayerThree = 0
@@ -1961,7 +1959,7 @@ private fun constructSkatRound(
     val declarations = mutableListOf<Declaration>()
     if (roundState.reChecked) declarations.add(Declaration.RE)
     if (roundState.kontraChecked) declarations.add(Declaration.KONTRA)
-    if (roundState.ouvertChecked) declarations.add(Declaration.OUVER)
+    if (roundState.ouvertChecked) declarations.add(Declaration.OUVERT)
     if (roundState.handChecked) declarations.add(Declaration.HAND)
     if (roundState.schneiderChecked) declarations.add(Declaration.SCHNEIDER)
     if (roundState.schwarzChecked) declarations.add(Declaration.SCHWARZ)

@@ -17,7 +17,7 @@ class MainMenuBackgroundProvider(seed: Long = SeedGenerator().generateRandomSeed
     }
 
     companion object {
-        private val BACKGROUNDS = listOf<Int>(
+        private val BACKGROUNDS = listOf(
             R.drawable.menu_background_1,
             R.drawable.menu_background_2,
             R.drawable.menu_background_3,

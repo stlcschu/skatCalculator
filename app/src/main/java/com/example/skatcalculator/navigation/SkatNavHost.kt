@@ -43,7 +43,7 @@ fun SkatNavHost(
                 onClickStartSkatGame = {
                     val player = GroupPlayerWithScore(skatGameViewModel.state.value.skatGame.getPlayers(), skatGameViewModel.state.value.scores).groupAndGetMiddlePlayer()
                     skatRoundViewModel.onEvent(
-                        SkatRoundEvent.onFullReset(
+                        SkatRoundEvent.OnFullReset(
                             player
                         )
                     )

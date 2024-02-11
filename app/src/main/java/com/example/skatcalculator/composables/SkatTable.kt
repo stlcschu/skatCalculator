@@ -103,7 +103,7 @@ fun SkatTable() {
             Column(
                 modifier = Modifier.width(96.dp)
             ) {
-                Row() {
+                Row {
                     Image(painter = painterResource(id = R.drawable.symbol_cross), contentDescription = "Crosses symbol")
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
@@ -117,14 +117,14 @@ fun SkatTable() {
                     Spacer(modifier = Modifier.size(24.dp))
                 }
                 Divider()
-                Row() {
+                Row {
                     Image(painter = painterResource(id = R.drawable.symbol_cross), contentDescription = "Crosses symbol")
                     Spacer(modifier = Modifier.size(24.dp))
                     Image(painter = painterResource(id = R.drawable.symbol_heart), contentDescription = "Heart symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_diamond), contentDescription = "Diamond symbol")
                 }
                 Divider()
-                Row() {
+                Row {
                     Image(painter = painterResource(id = R.drawable.symbol_cross), contentDescription = "Crosses symbol")
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
@@ -162,28 +162,28 @@ fun SkatTable() {
             Column(
                 modifier = Modifier.width(96.dp)
             ) {
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.size(24.dp))
                     Image(painter = painterResource(id = R.drawable.symbol_spade), contentDescription = "Spades symbol")
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
                 }
                 Divider()
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.size(24.dp))
                     Image(painter = painterResource(id = R.drawable.symbol_spade), contentDescription = "Spades symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_heart), contentDescription = "Heart symbol")
                     Spacer(modifier = Modifier.size(24.dp))
                 }
                 Divider()
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.size(24.dp))
                     Image(painter = painterResource(id = R.drawable.symbol_spade), contentDescription = "Spades symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_heart), contentDescription = "Heart symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_diamond), contentDescription = "Diamond symbol")
                 }
                 Divider()
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.size(24.dp))
                     Image(painter = painterResource(id = R.drawable.symbol_spade), contentDescription = "Spades symbol")
                     Spacer(modifier = Modifier.size(24.dp))
@@ -221,14 +221,14 @@ fun SkatTable() {
             Column(
                 modifier = Modifier.width(96.dp)
             ) {
-                Row() {
+                Row {
                     Image(painter = painterResource(id = R.drawable.symbol_cross), contentDescription = "Crosses symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_spade), contentDescription = "Spades symbol")
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
                 }
                 Divider()
-                Row() {
+                Row {
                     Image(painter = painterResource(id = R.drawable.symbol_cross), contentDescription = "Crosses symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_spade), contentDescription = "Spades symbol")
                     Spacer(modifier = Modifier.size(24.dp))
@@ -266,14 +266,14 @@ fun SkatTable() {
             Column(
                 modifier = Modifier.width(96.dp)
             ) {
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
                     Image(painter = painterResource(id = R.drawable.symbol_heart), contentDescription = "Heart symbol")
                     Spacer(modifier = Modifier.size(24.dp))
                 }
                 Divider()
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
                     Image(painter = painterResource(id = R.drawable.symbol_heart), contentDescription = "Heart symbol")
@@ -311,7 +311,7 @@ fun SkatTable() {
             Column(
                 modifier = Modifier.width(96.dp)
             ) {
-                Row() {
+                Row {
                     Image(painter = painterResource(id = R.drawable.symbol_cross), contentDescription = "Crosses symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_spade), contentDescription = "Spades symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_heart), contentDescription = "Heart symbol")
@@ -349,7 +349,7 @@ fun SkatTable() {
             Column(
                 modifier = Modifier.width(96.dp)
             ) {
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
@@ -387,7 +387,7 @@ fun SkatTable() {
             Column(
                 modifier = Modifier.width(96.dp)
             ) {
-                Row() {
+                Row {
                     Image(painter = painterResource(id = R.drawable.symbol_cross), contentDescription = "Crosses symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_spade), contentDescription = "Spades symbol")
                     Image(painter = painterResource(id = R.drawable.symbol_heart), contentDescription = "Heart symbol")
@@ -425,7 +425,7 @@ fun SkatTable() {
             Column(
                 modifier = Modifier.width(96.dp)
             ) {
-                Row() {
+                Row {
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))
                     Spacer(modifier = Modifier.size(24.dp))

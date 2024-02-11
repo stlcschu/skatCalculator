@@ -70,22 +70,20 @@ fun SkatRoundInformation(
                         modifier = Modifier.clickable { onDismissRequest() }
                     )
                 }
-                Row(
-
-                ) {
+                Row {
                     Text(
                         text = player.name,
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
                     if (positiveGain) Icon(painter = painterResource(id = R.drawable.baseline_keyboard_double_arrow_up_24), contentDescription = "Loss icon", tint = Color.Unspecified)
-                    else Icon(painter = painterResource(id = R.drawable.baseline_keyboard_double_arrow_down_24,), contentDescription = "Loss icon", tint = Color.Unspecified)
+                    else Icon(painter = painterResource(id = R.drawable.baseline_keyboard_double_arrow_down_24), contentDescription = "Loss icon", tint = Color.Unspecified)
                     Text(
                         text = "${if (positiveGain) "+" else "-"}$gain",
                         modifier = Modifier.align(Alignment.CenterVertically),
                         color = TextPainter(if (positiveGain) TextPainter.Companion.PaintValue.GREEN else TextPainter.Companion.PaintValue.RED).getColor()
                     )
                 }
-                Row() {
+                Row {
                     Icon(painter = painterResource(id = skatRound.trickColor.drawableId), contentDescription = "Trick icon", tint = Color.Unspecified)
                     Text(
                         text = skatRound.trickColor.value,

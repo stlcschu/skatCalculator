@@ -27,150 +27,150 @@ class SkatRoundViewModel(
 
     fun onEvent(event: SkatRoundEvent) {
         when(event) {
-            is SkatRoundEvent.addRound -> {
+            is SkatRoundEvent.AddRound -> {
                 viewModelScope.launch {
                     skatRoundDao.upsertRound(event.skatRound)
                 }
             }
-            is SkatRoundEvent.deleteRound -> {
+            is SkatRoundEvent.DeleteRound -> {
                 viewModelScope.launch {
                     skatRoundDao.deleteRound(event.skatRound)
                 }
             }
-            is SkatRoundEvent.onHandCheckedChanged -> {
+            is SkatRoundEvent.OnHandCheckedChanged -> {
                 _state.update {
                     it.copy(
                         handChecked = event.handChecked
                     )
                 }
             }
-            is SkatRoundEvent.onJungfrauCheckedChanged -> {
+            is SkatRoundEvent.OnJungfrauCheckedChanged -> {
                 _state.update {
                     it.copy(
                         jungfrauChecked = event.jungfrauChecked
                     )
                 }
             }
-            is SkatRoundEvent.onKontraCheckedChanged -> {
+            is SkatRoundEvent.OnKontraCheckedChanged -> {
                 _state.update {
                     it.copy(
                         kontraChecked = event.kontraChecked
                     )
                 }
             }
-            is SkatRoundEvent.onOuvertCheckedChanged -> {
+            is SkatRoundEvent.OnOuvertCheckedChanged -> {
                 _state.update {
                     it.copy(
                         ouvertChecked = event.ouvertChecked
                     )
                 }
             }
-            is SkatRoundEvent.onReCheckedChanged -> {
+            is SkatRoundEvent.OnReCheckedChanged -> {
                 _state.update {
                     it.copy(
                         reChecked = event.reChecked
                     )
                 }
             }
-            is SkatRoundEvent.onRoundTypeDropDownExpandedChanged -> {
+            is SkatRoundEvent.OnRoundTypeDropDownExpandedChanged -> {
                 _state.update {
                     it.copy(
                         roundTypeDropDownExpanded = event.roundTypeDropDownExpanded
                     )
                 }
             }
-            is SkatRoundEvent.onRoundVariantChanged -> {
+            is SkatRoundEvent.OnRoundVariantChanged -> {
                 _state.update {
                     it.copy(
                         roundVariant = event.roundVariant
                     )
                 }
             }
-            is SkatRoundEvent.onSchneiderCheckedChanged -> {
+            is SkatRoundEvent.OnSchneiderCheckedChanged -> {
                 _state.update {
                     it.copy(
                         schneiderChecked = event.schneiderChecked
                     )
                 }
             }
-            is SkatRoundEvent.onSchwarzCheckedChanged -> {
+            is SkatRoundEvent.OnSchwarzCheckedChanged -> {
                 _state.update {
                     it.copy(
                         schwarzChecked = event.schwarzChecked
                     )
                 }
             }
-            is SkatRoundEvent.onSelectedPlayerChanged -> {
+            is SkatRoundEvent.OnSelectedPlayerChanged -> {
                 _state.update {
                     it.copy(
                         selectedPlayer = event.selectedPlayer,
                     )
                 }
             }
-            is SkatRoundEvent.onSelectedRoundTypeChanged -> {
+            is SkatRoundEvent.OnSelectedRoundTypeChanged -> {
                 _state.update {
                     it.copy(
                         selectedRoundType = event.selectedRoundType
                     )
                 }
             }
-            is SkatRoundEvent.onSelectedShoveChanged -> {
+            is SkatRoundEvent.OnSelectedShoveChanged -> {
                 _state.update {
                     it.copy(
                         selectedShove = event.selectedShove
                     )
                 }
             }
-            is SkatRoundEvent.onSelectedTrickChanged -> {
+            is SkatRoundEvent.OnSelectedTrickChanged -> {
                 _state.update {
                     it.copy(
                         selectedTrick = event.selectedTrick
                     )
                 }
             }
-            is SkatRoundEvent.onSuccessfulDurchmarschCheckedChanged -> {
+            is SkatRoundEvent.OnSuccessfulDurchmarschCheckedChanged -> {
                 _state.update {
                     it.copy(
                         successfulDurchmarschChecked = event.successfulDurchmarschChecked
                     )
                 }
             }
-            is SkatRoundEvent.onNullSpielCheckedChanged -> {
+            is SkatRoundEvent.OnNullSpielCheckedChanged -> {
                 _state.update {
                     it.copy(
                         successfulNullSpielChecked = event.successfulNullSpielChecked
                     )
                 }
             }
-            is SkatRoundEvent.onRoundScoreValueChanged -> {
+            is SkatRoundEvent.OnRoundScoreValueChanged -> {
                 _state.update {
                     it.copy(
                         roundScore = event.roundScore
                     )
                 }
             }
-            is SkatRoundEvent.onIsSpaltarschChanged -> {
+            is SkatRoundEvent.OnIsSpaltarschChanged -> {
                 _state.update {
                     it.copy(
                         isSpaltarsch = event.isSpaltarsch
                     )
                 }
             }
-            is SkatRoundEvent.onSuccessfulSchwarzCheckedChanged -> {
+            is SkatRoundEvent.OnSuccessfulSchwarzCheckedChanged -> {
                 _state.update {
                     it.copy(
                         successfulSchwarz = event.successfulSchwarzChecked
                     )
                 }
             }
-            is SkatRoundEvent.onSuccessfulSchneiderChanged -> {
+            is SkatRoundEvent.OnSuccessfulSchneiderChanged -> {
                 _state.update {
                     it.copy(
                         successfulSchneider = event.successfulSchneider
                     )
                 }
             }
-            is SkatRoundEvent.onUpdateRoundInformationState -> {
+            is SkatRoundEvent.OnUpdateRoundInformationState -> {
                 _roundInformationState.update {
                     it.copy(
                         round = event.round,
@@ -178,7 +178,7 @@ class SkatRoundViewModel(
                     )
                 }
             }
-            is SkatRoundEvent.onSelectedPlayerIndexChanged -> {
+            is SkatRoundEvent.OnSelectedPlayerIndexChanged -> {
                 _state.update {
                     it.copy(
                         selectedPlayerIndex = event.selectedPlayerIndex
@@ -186,7 +186,7 @@ class SkatRoundViewModel(
                 }
             }
 
-            is SkatRoundEvent.onFullReset -> {
+            is SkatRoundEvent.OnFullReset -> {
                 _state.update {
                     it.copy(
                         roundVariant = RoundVariant.NORMAL,
@@ -214,7 +214,7 @@ class SkatRoundViewModel(
                 }
             }
 
-            SkatRoundEvent.onResetGrandVariant -> {
+            SkatRoundEvent.OnResetGrandVariant -> {
                 _state.update {
                     it.copy(
                         selectedPlayer = PlayerWithScore(),
@@ -234,7 +234,7 @@ class SkatRoundViewModel(
                 }
             }
 
-            SkatRoundEvent.onResetNormalVariant -> {
+            SkatRoundEvent.OnResetNormalVariant -> {
                 _state.update {
                     it.copy(
                         selectedPlayer = PlayerWithScore(),
@@ -255,7 +255,7 @@ class SkatRoundViewModel(
                 }
             }
 
-            SkatRoundEvent.onResetNullSpielVariant -> {
+            SkatRoundEvent.OnResetNullSpielVariant -> {
                 _state.update {
                     it.copy(
                         selectedPlayer = PlayerWithScore(),
@@ -268,7 +268,7 @@ class SkatRoundViewModel(
                 }
             }
 
-            SkatRoundEvent.onResetRamschVariant -> {
+            SkatRoundEvent.OnResetRamschVariant -> {
                 _state.update {
                     it.copy(
                         selectedPlayer = PlayerWithScore(),

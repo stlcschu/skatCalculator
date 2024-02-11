@@ -44,34 +44,34 @@ class SkatGameViewModel(
     @OptIn(ExperimentalCoroutinesApi::class)
     val historyGames = _historyGames
         .flatMapLatest { _ -> skatGameDao.getRecentSkatGames() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList<SkatGameWithScores>())
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     fun onEvent(event: SkatGameEvent) {
         when(event) {
 
-            is SkatGameEvent.setSkatGameId -> {
+            is SkatGameEvent.SetSkatGameId -> {
                 _gameId.value = event.skatGameId
             }
 
-            is SkatGameEvent.deleteSkatGame -> {
+            is SkatGameEvent.DeleteSkatGame -> {
                 viewModelScope.launch {
                     skatGameDao.deleteSkatGame(event.skatGame)
                 }
             }
 
-            is SkatGameEvent.saveSkatGame -> {
+            is SkatGameEvent.SaveSkatGame -> {
                 viewModelScope.launch {
                     skatGameDao.upsertSkatGame(event.skatGame)
                 }
             }
 
-            is SkatGameEvent.saveScore -> {
+            is SkatGameEvent.SaveScore -> {
                 viewModelScope.launch {
                     scoreDao.upsertScore(event.score)
                 }
             }
 
-            is SkatGameEvent.saveSpecialRounds -> {
+            is SkatGameEvent.SaveSpecialRounds -> {
                 viewModelScope.launch {
                     specialRoundsDao.upsertSpecialRounds(event.specialRounds)
                 }

@@ -13,9 +13,9 @@ import com.example.skatcalculator.enums.RoundVariant
 import com.example.skatcalculator.enums.TrickColor
 import java.time.LocalDate
 
-class SampleRepository() {
+class SampleRepository {
 
-    fun getPlayerData() = listOf<Player>(
+    fun getPlayerData() = listOf(
         Player("Anna"),
         Player("Florianen"),
         Player("Luca")
@@ -27,7 +27,7 @@ class SampleRepository() {
         roundModifier = RoundModifier(
             declarations = listOf(
                 Declaration.RE,
-                Declaration.OUVER,
+                Declaration.OUVERT,
                 Declaration.HAND
             ),
             roundOutcomes = emptyList()
@@ -39,7 +39,7 @@ class SampleRepository() {
         skatGameId = ""
     )
 
-    fun getSkatGame() = SkatGame(
+    private fun getSkatGame() = SkatGame(
         playerOne = Player("test12ddddddddddddddddddddddddddddddddddddddddd", playerId = "player1"),
         playerTwo = Player("dfffffffffffffffd", playerId = "player2"),
         playerThree = Player("fdfdas", playerId = "player3"),
@@ -71,7 +71,7 @@ class SampleRepository() {
         )
     )
 
-    fun getPlayersWithScore () = listOf<PlayerWithScore>(
+    fun getPlayersWithScore () = listOf(
         getPlayerWithScore(),
         PlayerWithScore(
             Player("Florionae"),

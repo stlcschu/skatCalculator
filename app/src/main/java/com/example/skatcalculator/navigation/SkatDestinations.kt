@@ -52,4 +52,4 @@ object SkatGame : SkatDestination {
         }
 }
 
-val skatScreens = listOf<SkatDestination>(MainMenu, SkatGame)
+val skatScreens = listOf(MainMenu, SkatGame)
