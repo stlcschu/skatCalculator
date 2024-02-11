@@ -1,5 +1,8 @@
 package com.example.skatcalculator.composables
 
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -46,6 +50,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -166,7 +172,6 @@ fun MainGameScreen(
     onShowBottomSheetChanged: (Boolean) -> Unit
 ) {
     val sheetState = rememberModalBottomSheetState(false)
-    val shoveList = listOf<Int>(0, 1, 2, 3)
 
     val currentSpecialRound = if (specialRounds.isEmpty()) SpecialRound.NONE else specialRounds[0]
 
@@ -1903,100 +1908,98 @@ fun Header(
     selectedScreen: SkatScreen,
     onHeaderClicked: (screen: SkatScreen) -> Unit
 ) {
-    ElevatedCard(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 3.dp
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp
+
+    val dividerOffset = animateFloatAsState(
+        targetValue = when (selectedScreen) {
+            SkatScreen.GAME_SCREEN -> screenWidth / 2 - 60f
+            SkatScreen.BID_TABLE -> 10f
+            else -> screenWidth - 130f
+        },
+        animationSpec = tween(
+            durationMillis = 500,
+            easing = FastOutLinearInEasing
         ),
+        label = "",
+    )
+
+    Card(
         colors = CardDefaults.cardColors(
-            containerColor = Color.LightGray
+            containerColor = colorResource(id = R.color.Lavender_web)
         ),
-        shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 5.dp, bottomEnd = 5.dp),
-        modifier = Modifier.fillMaxWidth()
+        shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 0.dp, bottomEnd = 0.dp),
+        modifier = Modifier
+            .fillMaxWidth()
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 50.dp, end = 50.dp, top = 10.dp)
         ) {
-            Column(
+            Row(
                 modifier = Modifier
-                    .fillMaxWidth(0.33f)
-                    .clickable {
-                        onHeaderClicked(SkatScreen.BID_TABLE)
-                    },
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Text(
                     text = "Table",
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .clickable {
+                            onHeaderClicked(SkatScreen.BID_TABLE)
+                        }
+                        .width(110.dp),
                     fontSize = 6.em,
                     fontWeight = if (selectedScreen == SkatScreen.BID_TABLE) FontWeight.Bold else FontWeight.Normal,
                     textAlign = TextAlign.Center
                 )
-                if (selectedScreen == SkatScreen.BID_TABLE) {
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth(0.85f)
-                            .height(3.dp),
-                        color = Color.Magenta
-                    )
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(0.5f)
-                    .clickable {
-                        onHeaderClicked(SkatScreen.GAME_SCREEN)
-                    },
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+
                 Text(
                     text = "Game",
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .clickable {
+                            onHeaderClicked(SkatScreen.GAME_SCREEN)
+                        }
+                        .width(110.dp),
                     fontSize = 6.em,
                     fontWeight = if (selectedScreen == SkatScreen.GAME_SCREEN) FontWeight.Bold else FontWeight.Normal,
                     textAlign = TextAlign.Center
                 )
-                if (selectedScreen == SkatScreen.GAME_SCREEN) {
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth(0.85f)
-                            .height(3.dp),
-                        color = Color.Magenta
-                    )
-                }
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        onHeaderClicked(SkatScreen.ROUND_HISTORY)
-                    },
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
+
                 Text(
-                    text = "History",
+                    text = "Rounds",
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .clickable {
+                            onHeaderClicked(SkatScreen.ROUND_HISTORY)
+                        }
+                        .width(110.dp),
                     fontSize = 6.em,
                     fontWeight = if (selectedScreen == SkatScreen.ROUND_HISTORY) FontWeight.Bold else FontWeight.Normal,
                     textAlign = TextAlign.Center
                 )
-                if (selectedScreen == SkatScreen.ROUND_HISTORY) {
-                    Divider(
-                        modifier = Modifier
-                            .fillMaxWidth(0.85f)
-                            .height(3.dp),
-                        color = Color.Magenta
-                    )
-                }
             }
+            Divider(
+                modifier = Modifier
+                    .height(3.dp)
+                    .width(120.dp)
+                    .offset(
+                        dividerOffset.value.dp,
+                        0.dp
+                    ),
+                color = Color.Magenta
+            )
         }
+
     }
 }
 
-private fun constructSkatRound(roundState: SkatRoundState, isBockRound: Boolean, gameId: String, roundIndex: Int, roundScore: Int, players: List<PlayerWithScore>) : SkatRound {
+private fun constructSkatRound(
+    roundState: SkatRoundState,
+    isBockRound: Boolean,
+    gameId: String,
+    roundIndex: Int,
+    roundScore: Int,
+    players: List<PlayerWithScore>
+) : SkatRound {
     val declarations = mutableListOf<Declaration>()
     if (roundState.reChecked) declarations.add(Declaration.RE)
     if (roundState.kontraChecked) declarations.add(Declaration.KONTRA)
@@ -2113,7 +2116,7 @@ fun PreviewPlayerBox() {
 @Composable
 fun PreviewHeader() {
     Header(
-        SkatScreen.GAME_SCREEN,
+        SkatScreen.BID_TABLE,
         onHeaderClicked = {}
     )
 }

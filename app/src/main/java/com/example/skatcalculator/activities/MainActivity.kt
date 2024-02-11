@@ -19,8 +19,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.skatcalculator.R
 import com.example.skatcalculator.database.AppDatabase
 import com.example.skatcalculator.database.viewModels.PlayerViewModel
 import com.example.skatcalculator.database.viewModels.PlayerViewModelFactory
@@ -66,6 +68,9 @@ class MainActivity : ComponentActivity() {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = colorResource(id = R.color.Lavender_web)
+                    ),
                     title = {
                         Text(
                             "Skat App",
