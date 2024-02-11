@@ -427,6 +427,7 @@ fun MainMenuScreen(
                 var isSelected by remember { mutableStateOf(false) }
                 DefaultSwipeableContainer(
                     item = game,
+                    icons = Pair(R.drawable.baseline_delete_24, R.drawable.baseline_play_arrow_24),
                     isSelected = isSelected,
                     dismissDirections = setOf(
                         DismissDirection.EndToStart,

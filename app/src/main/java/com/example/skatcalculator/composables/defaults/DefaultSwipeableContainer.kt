@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.skatcalculator.R
@@ -39,6 +40,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun <T> DefaultSwipeableContainer(
     item: T,
+    icons: Pair<Int, Int> = Pair(R.drawable.baseline_delete_24, R.drawable.baseline_info_24),
     animationDuration: Int = 500,
     dismissDirections: Set<DismissDirection>,
     isSelected: Boolean,
@@ -93,7 +95,10 @@ fun <T> DefaultSwipeableContainer(
         SwipeToDismiss(
             state = state,
             background = {
-                SwipeBackground(swipeDismissState = state)
+                SwipeBackground(
+                    swipeDismissState = state,
+                    icons = icons
+                )
             },
             dismissContent = { content(item) },
             directions = dismissDirections
@@ -104,7 +109,8 @@ fun <T> DefaultSwipeableContainer(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SwipeBackground(
-    swipeDismissState: DismissState
+    swipeDismissState: DismissState,
+    icons: Pair<Int, Int>
 ) {
     val color = when (swipeDismissState.dismissDirection) {
         DismissDirection.EndToStart -> colorResource(id = R.color.fire_engine_red)
@@ -118,8 +124,8 @@ fun SwipeBackground(
     }
     
     val icon = when (swipeDismissState.dismissDirection) {
-        DismissDirection.EndToStart -> Icons.Default.Delete
-        else -> Icons.Default.Info
+        DismissDirection.EndToStart -> painterResource(id = icons.first)
+        else -> painterResource(id = icons.second)
     }
 
     Box(
@@ -130,7 +136,7 @@ fun SwipeBackground(
         contentAlignment = alignment
     ) {
         Icon(
-            imageVector = icon,
+            painter = icon,
             contentDescription = null,
             tint = Color.White
         )
