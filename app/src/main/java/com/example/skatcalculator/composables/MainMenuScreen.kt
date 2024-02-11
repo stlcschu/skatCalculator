@@ -441,11 +441,7 @@ fun MainMenuScreen(
                         onClickStartSkatGame()
                     }
                 ) {
-                    DefaultColumnRow(
-                        height = 50.dp,
-                    ) {
-                        HistoryGamePreview(game)
-                    }
+                    HistoryGamePreview(game)
                 }
                 if (index < historyGames.lastIndex) Divider()
             }
@@ -493,80 +489,81 @@ fun HistoryGamePreview(
     game: SkatGameWithScores
 ) {
     val playerWithScores = GroupPlayerWithScore(game.skatGame.getPlayers(), game.scores).group()
-    Column(
+    Row(
         modifier = Modifier
-            .width(75.dp)
-            .padding(start = 5.dp, end = 5.dp)
+            .fillMaxWidth()
+            .height(50.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(
+                text = playerWithScores[0].getPlayerName(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = playerWithScores[0].getScoreString(),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(
+                text = playerWithScores[1].getPlayerName(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = playerWithScores[1].getScoreString(),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            verticalArrangement = Arrangement.SpaceAround
+        ) {
+            Text(
+                text = playerWithScores[2].getPlayerName(),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+            Text(
+                text = playerWithScores[2].getScoreString(),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center
+            )
+        }
+        val date ="${game.skatGame.lastPlayed.dayOfMonth}." +
+                "${shortenMonth(game.skatGame.lastPlayed.month)} " +
+                "${game.skatGame.lastPlayed.year}"
         Text(
-            text = playerWithScores[0].getPlayerName(),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = playerWithScores[0].getScoreString(),
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
+            text = date,
+            fontSize = 2.5.em,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
         )
     }
-    Divider(
-        color = Color.Gray,
-        modifier = Modifier
-            .height(47.dp)
-            .width(1.dp)
-    )
-    Column(
-        modifier = Modifier
-            .width(75.dp)
-            .padding(start = 5.dp, end = 5.dp)
-    ) {
-        Text(
-            text = playerWithScores[1].getPlayerName(),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = playerWithScores[1].getScoreString(),
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-    }
-    Divider(
-        color = Color.Gray,
-        modifier = Modifier
-            .height(47.dp)
-            .width(1.dp)
-    )
-    Column(
-        modifier = Modifier
-            .width(75.dp)
-            .padding(start = 5.dp, end = 5.dp)
-    ) {
-        Text(
-            text = playerWithScores[2].getPlayerName(),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-        Text(
-            text = playerWithScores[2].getScoreString(),
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
-    }
-    val date ="${game.skatGame.lastPlayed.dayOfMonth}." +
-            "${shortenMonth(game.skatGame.lastPlayed.month)} " +
-            "${game.skatGame.lastPlayed.year}"
-    Text(
-        text = date,
-        fontSize = 2.5.em,
-        modifier = Modifier.padding(end = 10.dp)
-    )
 }
 
 private fun shortenMonth(month: Month) : String {
