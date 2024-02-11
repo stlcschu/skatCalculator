@@ -112,13 +112,11 @@ fun SkatGameScreen(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (players.isEmpty()) {
-//            LinearProgressIndicator(
-//                modifier = Modifier.width(64.dp),
-//                color = MaterialTheme.colorScheme.secondary,
-//                trackColor = MaterialTheme.colorScheme.surfaceVariant,
-//            )
-            return
+        if (players.isEmpty()) return
+        if (skatRoundState.selectedPlayer.player.isEmpty()) {
+            onSkatRoundEvent(
+                SkatRoundEvent.OnSelectedPlayerChanged(players[1])
+            )
         }
         var currentContent by remember { mutableStateOf(SkatScreen.GAME_SCREEN) }
         Header(
@@ -160,6 +158,7 @@ fun SkatGameScreen(
                 )
             }
         }
+        Text(text = skatGame.skatGame.skatGameId)
     }
 }
 
