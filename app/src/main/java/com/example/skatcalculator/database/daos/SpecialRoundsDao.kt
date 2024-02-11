@@ -1,6 +1,7 @@
 package com.example.skatcalculator.database.daos
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
@@ -16,5 +17,8 @@ interface SpecialRoundsDao {
 
     @Upsert
     suspend fun upsertSpecialRounds(specialRounds: SpecialRounds)
+
+    @Delete
+    suspend fun deleteSpecialRounds(specialRounds: SpecialRounds)
 
 }
