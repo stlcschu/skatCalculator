@@ -27,6 +27,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,8 +62,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import com.example.skatcalculator.R
 import com.example.skatcalculator.composables.defaults.DefaultCarouselSelector
+import com.example.skatcalculator.composables.defaults.DefaultColumnRow
 import com.example.skatcalculator.composables.defaults.DefaultCounter
 import com.example.skatcalculator.composables.defaults.DefaultScoreSlider
+import com.example.skatcalculator.composables.defaults.DefaultSwipeableContainer
 import com.example.skatcalculator.composables.defaults.DefaultTabs
 import com.example.skatcalculator.database.events.SkatGameEvent
 import com.example.skatcalculator.database.events.SkatRoundEvent
@@ -1256,6 +1259,7 @@ fun PlayerBox(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HistoryGameScreen(
     players: List<PlayerWithScore>,
@@ -1280,15 +1284,11 @@ fun HistoryGameScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Absolute.SpaceBetween
         ) {
-            Spacer(
-                modifier = Modifier
-                    .width(65.dp)
-            )
             val boxSize = 80.dp
             Box(
                 modifier = Modifier
-                    .width(boxSize)
-                    .fillMaxHeight()
+                    .fillMaxSize()
+                    .weight(1f)
             ) {
                 Column(
                     modifier = Modifier
@@ -1317,14 +1317,10 @@ fun HistoryGameScreen(
                     )
                 }
             }
-            Spacer(
-                modifier = Modifier
-                    .width(1.dp)
-            )
             Box(
                 modifier = Modifier
-                    .width(boxSize)
-                    .fillMaxHeight()
+                    .fillMaxSize()
+                    .weight(1f)
             ) {
                 Column(
                     modifier = Modifier
@@ -1353,14 +1349,10 @@ fun HistoryGameScreen(
                     )
                 }
             }
-            Spacer(
-                modifier = Modifier
-                    .width(1.dp)
-            )
             Box(
                 modifier = Modifier
-                    .width(boxSize)
-                    .fillMaxHeight()
+                    .fillMaxSize()
+                    .weight(1f)
             ) {
                 Column(
                     modifier = Modifier
@@ -1389,30 +1381,42 @@ fun HistoryGameScreen(
                     )
                 }
             }
-            Spacer(
-                modifier = Modifier
-                    .width(65.dp)
-            )
         }
         LazyColumn {
             var currentScorePlayerOne = 0
             var currentScorePlayerTwo = 0
             var currentScorePlayerThree = 0
-            itemsIndexed(rounds) { _, round ->
+            itemsIndexed(rounds) { index, round ->
                 currentScorePlayerOne += round.pointsGainedPlayerOne
                 currentScorePlayerTwo += round.pointsGainedPlayerTwo
                 currentScorePlayerThree += round.pointsGainedPlayerThree
-                HistoryRound(
-                    currentScorePlayerOne,
-                    currentScorePlayerTwo,
-                    currentScorePlayerThree,
-                    round = round,
-                    onClick = {
+
+                DefaultSwipeableContainer(
+                    item = round,
+                    dismissDirections = setOf(
+                        DismissDirection.EndToStart,
+                        DismissDirection.StartToEnd
+                    ),
+                    onDelete = {
+
+                    },
+                    onSelect = {
                         showHistoryInfo = true
                         val player = if(round.pointsGainedPlayerOne != 0) players[0].player else if (round.pointsGainedPlayerTwo != 0) players[1].player else players[2].player
                         onRoundStateChange(round, player)
                     }
-                )
+                ) {
+                    DefaultColumnRow(height = 80.dp) {
+                        HistoryRound(
+                            currentScorePlayerOne,
+                            currentScorePlayerTwo,
+                            currentScorePlayerThree,
+                            round = round
+                        )
+                    }
+                }
+
+                if (index < rounds.lastIndex) Divider()
             }
         }
     }
@@ -1423,154 +1427,134 @@ fun HistoryRound(
     currentScorePlayerOne: Int,
     currentScorePlayerTwo: Int,
     currentScorePlayerThree: Int,
-    round: SkatRound,
-    onClick: () -> Unit
+    round: SkatRound
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
-            .clickable { onClick() },
+            .height(80.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Absolute.SpaceBetween
     ) {
-        Text(
-            text = round.roundIndex.toString(),
-            modifier = Modifier
-                .width(60.dp)
-                .padding(end = 5.dp),
-            textAlign = TextAlign.Center,
-            fontSize = 5.em
-        )
-
-        Divider(color = Color.Gray, modifier = Modifier
-            .height(47.dp)
-            .width(1.dp))
-
-        val boxSize = 80.dp
-        Box(
-            modifier = Modifier
-                .width(boxSize)
-                .fillMaxHeight()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center
-            ) {
-                val roundColor = if (currentScorePlayerOne > 0) TextPainter(PaintValue.GREEN).getColor()
-                else if(currentScorePlayerOne < 0) TextPainter(PaintValue.RED).getColor()
-                else TextPainter(PaintValue.NONE).getColor()
+        Column {
+            Row {
                 Text(
-                    text = currentScorePlayerOne.toString(),
+                    text = round.roundIndex.toString(),
                     modifier = Modifier
-                        .fillMaxWidth(),
+                        .width(60.dp)
+                        .padding(end = 5.dp),
                     textAlign = TextAlign.Center,
-                    fontSize = 4.em,
-                    color = roundColor
-                )
-                val roundScoreColor = if (round.pointsGainedPlayerOne > 0) TextPainter(PaintValue.GREEN).getColor()
-                else if(round.pointsGainedPlayerOne < 0) TextPainter(PaintValue.RED).getColor()
-                else TextPainter(PaintValue.NONE).getColor()
-                Text(
-                    text = round.pointsGainedPlayerOne.toString(),
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 3.em,
-                    color = roundScoreColor
+                    fontSize = 3.em
                 )
             }
-        }
-
-        Divider(color = Color.Gray, modifier = Modifier
-            .height(47.dp)
-            .width(1.dp))
-
-        Box(
-            modifier = Modifier
-                .width(boxSize)
-                .fillMaxHeight()
-        ) {
-            Column(
+            Row(
                 modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center
+                    .height(100.dp)
             ) {
-                val roundColor = if (currentScorePlayerTwo > 0) TextPainter(PaintValue.GREEN).getColor()
-                else if(currentScorePlayerTwo < 0) TextPainter(PaintValue.RED).getColor()
-                else TextPainter(PaintValue.NONE).getColor()
-                Text(
-                    text = currentScorePlayerTwo.toString(),
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 4.em,
-                    color = roundColor
-                )
-                val roundScoreColor = if (round.pointsGainedPlayerTwo > 0) TextPainter(PaintValue.GREEN).getColor()
-                else if(round.pointsGainedPlayerTwo < 0) TextPainter(PaintValue.RED).getColor()
-                else TextPainter(PaintValue.NONE).getColor()
-                Text(
-                    text = round.pointsGainedPlayerTwo.toString(),
+                        .fillMaxSize()
+                        .weight(1f)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        val roundColor = if (currentScorePlayerOne > 0) TextPainter(PaintValue.GREEN).getColor()
+                        else if(currentScorePlayerOne < 0) TextPainter(PaintValue.RED).getColor()
+                        else TextPainter(PaintValue.NONE).getColor()
+                        Text(
+                            text = currentScorePlayerOne.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontSize = 4.em,
+                            color = roundColor
+                        )
+                        val roundScoreColor = if (round.pointsGainedPlayerOne > 0) TextPainter(PaintValue.GREEN).getColor()
+                        else if(round.pointsGainedPlayerOne < 0) TextPainter(PaintValue.RED).getColor()
+                        else TextPainter(PaintValue.NONE).getColor()
+                        Text(
+                            text = round.pointsGainedPlayerOne.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontSize = 3.em,
+                            color = roundScoreColor
+                        )
+                    }
+                }
+                Box(
                     modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 3.em,
-                    color = roundScoreColor
-                )
+                        .fillMaxSize()
+                        .weight(1f)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        val roundColor = if (currentScorePlayerTwo > 0) TextPainter(PaintValue.GREEN).getColor()
+                        else if(currentScorePlayerTwo < 0) TextPainter(PaintValue.RED).getColor()
+                        else TextPainter(PaintValue.NONE).getColor()
+                        Text(
+                            text = currentScorePlayerTwo.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontSize = 4.em,
+                            color = roundColor
+                        )
+                        val roundScoreColor = if (round.pointsGainedPlayerTwo > 0) TextPainter(PaintValue.GREEN).getColor()
+                        else if(round.pointsGainedPlayerTwo < 0) TextPainter(PaintValue.RED).getColor()
+                        else TextPainter(PaintValue.NONE).getColor()
+                        Text(
+                            text = round.pointsGainedPlayerTwo.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontSize = 3.em,
+                            color = roundScoreColor
+                        )
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        val roundColor = if (currentScorePlayerThree > 0) TextPainter(PaintValue.GREEN).getColor()
+                        else if(currentScorePlayerThree < 0) TextPainter(PaintValue.RED).getColor()
+                        else TextPainter(PaintValue.NONE).getColor()
+                        Text(
+                            text = currentScorePlayerThree.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontSize = 4.em,
+                            color = roundColor
+                        )
+                        val roundScoreColor = if (round.pointsGainedPlayerThree > 0) TextPainter(PaintValue.GREEN).getColor()
+                        else if(round.pointsGainedPlayerThree < 0) TextPainter(PaintValue.RED).getColor()
+                        else TextPainter(PaintValue.NONE).getColor()
+                        Text(
+                            text = round.pointsGainedPlayerThree.toString(),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            fontSize = 3.em,
+                            color = roundScoreColor
+                        )
+                    }
+                }
             }
         }
-
-        Divider(color = Color.Gray, modifier = Modifier
-            .height(47.dp)
-            .width(1.dp))
-
-        Box(
-            modifier = Modifier
-                .width(boxSize)
-                .fillMaxHeight()
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                verticalArrangement = Arrangement.Center
-            ) {
-                val roundColor = if (currentScorePlayerThree > 0) TextPainter(PaintValue.GREEN).getColor()
-                else if(currentScorePlayerThree < 0) TextPainter(PaintValue.RED).getColor()
-                else TextPainter(PaintValue.NONE).getColor()
-                Text(
-                    text = currentScorePlayerThree.toString(),
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 4.em,
-                    color = roundColor
-                )
-                val roundScoreColor = if (round.pointsGainedPlayerThree > 0) TextPainter(PaintValue.GREEN).getColor()
-                else if(round.pointsGainedPlayerThree < 0) TextPainter(PaintValue.RED).getColor()
-                else TextPainter(PaintValue.NONE).getColor()
-                Text(
-                    text = round.pointsGainedPlayerThree.toString(),
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 3.em,
-                    color = roundScoreColor
-                )
-            }
-        }
-
-        Divider(color = Color.Gray, modifier = Modifier
-            .height(47.dp)
-            .width(1.dp))
-
-        Icon(
-            painter = painterResource(id = R.drawable.baseline_info_24),
-            contentDescription = "Round info",
-            modifier = Modifier
-                .width(60.dp)
-        )
     }
 }
 
@@ -1800,8 +1784,7 @@ fun PreviewHistoryRound() {
         currentScorePlayerOne = 0,
         currentScorePlayerTwo = 0,
         currentScorePlayerThree = 0,
-        round = round,
-        onClick = {}
+        round = round
     )
 }
 

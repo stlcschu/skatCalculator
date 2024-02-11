@@ -424,11 +424,9 @@ fun MainMenuScreen(
                 .padding(top = 5.dp)
         ) {
             itemsIndexed(historyGames) {index, game ->
-                var isSelected by remember { mutableStateOf(false) }
                 DefaultSwipeableContainer(
                     item = game,
                     icons = Pair(R.drawable.baseline_delete_24, R.drawable.baseline_play_arrow_24),
-                    isSelected = isSelected,
                     dismissDirections = setOf(
                         DismissDirection.EndToStart,
                         DismissDirection.StartToEnd
@@ -437,14 +435,10 @@ fun MainMenuScreen(
 
                     },
                     onSelect = {
-                        isSelected = false
                         onSkatGameEvent(
                             SkatGameEvent.SetSkatGameId(game.skatGame.skatGameId)
                         )
                         onClickStartSkatGame()
-                    },
-                    onSelectChange = {
-                        isSelected = it
                     }
                 ) {
                     DefaultColumnRow(
@@ -453,8 +447,7 @@ fun MainMenuScreen(
                         HistoryGamePreview(game)
                     }
                 }
-                if (index < historyGames.lastIndex)
-                    Divider()
+                if (index < historyGames.lastIndex) Divider()
             }
         }
 

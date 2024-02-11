@@ -43,13 +43,12 @@ fun <T> DefaultSwipeableContainer(
     icons: Pair<Int, Int> = Pair(R.drawable.baseline_delete_24, R.drawable.baseline_info_24),
     animationDuration: Int = 500,
     dismissDirections: Set<DismissDirection>,
-    isSelected: Boolean,
     onDelete: (T) -> Unit,
     onSelect: (T) -> Unit,
-    onSelectChange: (Boolean) -> Unit,
     content: @Composable (T) -> Unit
 ) {
     var isRemoved by remember { mutableStateOf(false) }
+    var isSelected by remember { mutableStateOf(false) }
 
     val state = rememberDismissState(
         initialValue = DismissValue.Default,
@@ -60,7 +59,7 @@ fun <T> DefaultSwipeableContainer(
                     true
                 }
                 DismissValue.DismissedToEnd -> {
-                    onSelectChange(true)
+                    isSelected = true
                     true
                 }
                 else -> {
@@ -81,6 +80,7 @@ fun <T> DefaultSwipeableContainer(
         if(isSelected) {
             delay(animationDuration.toLong())
             state.reset()
+            isSelected = false
             onSelect(item)
         }
     }
@@ -150,21 +150,14 @@ fun SwipeBackground(
 @Composable
 fun PreviewDefaultSwipeableRow() {
     val skatRound = SampleRepository().getSkatRound()
-    var isSelected by remember { mutableStateOf(false) }
     DefaultSwipeableContainer(
         item = skatRound,
         dismissDirections =  setOf(
             DismissDirection.EndToStart,
             DismissDirection.StartToEnd
         ),
-        isSelected = isSelected,
         onDelete = {},
-        onSelect = {
-                   isSelected = false
-        },
-        onSelectChange = {
-            isSelected = it
-        }
+        onSelect = {}
     ) {
         Text(text = "HI")
     }
