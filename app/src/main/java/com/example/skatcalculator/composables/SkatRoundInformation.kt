@@ -3,13 +3,13 @@ package com.example.skatcalculator.composables
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -25,11 +25,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.skatcalculator.R
+import com.example.skatcalculator.composables.defaults.DefaultCustomChip
 import com.example.skatcalculator.database.tables.Player
 import com.example.skatcalculator.database.tables.SkatRound
 import com.example.skatcalculator.helper.SampleRepository
 import com.example.skatcalculator.util.TextPainter
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SkatRoundInformation(
     skatRound: SkatRound,
@@ -95,20 +97,38 @@ fun SkatRoundInformation(
                         modifier = Modifier.align(Alignment.CenterVertically)
                     )
                 }
-                Row() {
-                    LazyColumn() {
-                        items(skatRound.roundModifier.declarations) { declaration ->
-                            Text(text = declaration.value)
-                        }
-                        if (skatRound.isBockRound) {
-                            item {
-                                Text(text = "Bock")
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Declarations:",
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                    )
+                    FlowRow {
+                        skatRound.roundModifier.declarations.forEachIndexed { index, declaration ->
+                            DefaultCustomChip {
+                                Text(text = declaration.value)
                             }
+                            if (index < skatRound.roundModifier.declarations.size) Spacer(modifier = Modifier.width(5.dp))
                         }
+                        if (skatRound.isBockRound) Text(text = "Bock")
                     }
-                    LazyColumn() {
-                        items(skatRound.roundModifier.roundOutcomes) { outcome ->
-                            Text(text = outcome.value)
+                }
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Outcomes:",
+                        modifier = Modifier
+                            .padding(end = 5.dp)
+                    )
+                    FlowRow {
+                        skatRound.roundModifier.roundOutcomes.forEachIndexed { index, outcome ->
+                            DefaultCustomChip {
+                                Text(text = outcome.value)
+                            }
+                            if (index < skatRound.roundModifier.declarations.size) Spacer(modifier = Modifier.width(5.dp))
                         }
                     }
                 }
