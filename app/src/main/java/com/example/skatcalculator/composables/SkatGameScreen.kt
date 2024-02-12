@@ -281,7 +281,9 @@ fun MainGameScreen(
             if (currentSpecialRound == SpecialRound.RAMSCH ||
                 roundState.roundVariant == RoundVariant.RAMSCH) {
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .height(100.dp)
                 ) {
                     Text(text = "Shoved")
                     DefaultCounter(
@@ -1757,7 +1759,7 @@ fun PreviewMainGameScreen() {
             ),
             showBottomSheet = false,
             roundState = SkatRoundState(
-                roundVariant = RoundVariant.NULLSPIEL
+                roundVariant = RoundVariant.RAMSCH
             ),
             currentRound = 5,
             gameId = "",

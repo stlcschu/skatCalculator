@@ -19,13 +19,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 
 @Composable
 fun DefaultCounter(
     currentValue: Int = 0,
     minValue: Int = 0,
     maxValue: Int,
+    size: Dp = 100.dp,
     onClick: (Int) -> Unit
 ) {
     var lastValue by remember{ mutableIntStateOf(currentValue) }
@@ -35,7 +38,7 @@ fun DefaultCounter(
                 lastValue = currentValue
                 onClick(if (currentValue + 1 <= maxValue) currentValue + 1 else minValue)
             }
-            .size(50.dp),
+            .size(size),
         contentAlignment = Alignment.Center
     ) {
         AnimatedContent(
@@ -58,7 +61,8 @@ fun DefaultCounter(
             label = ""
         ) {target ->
             Text(
-                text = "$target"
+                text = "$target",
+                fontSize = (800 * (1f/size.value)).em
             )
         }
     }
