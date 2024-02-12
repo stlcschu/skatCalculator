@@ -41,11 +41,8 @@ fun SkatNavHost(
                 onPlayerEvent = playerViewModel::onEvent,
                 onSkatGameEvent = skatGameViewModel::onEvent,
                 onClickStartSkatGame = {
-                    val player = GroupPlayerWithScore(skatGameViewModel.state.value.skatGame.getPlayers(), skatGameViewModel.state.value.scores).groupAndGetMiddlePlayer()
                     skatRoundViewModel.onEvent(
-                        SkatRoundEvent.OnFullReset(
-                            player
-                        )
+                        SkatRoundEvent.OnFullReset
                     )
                     navController.navigateSingleTopTo(SkatGame.route)
                 }
@@ -61,6 +58,7 @@ fun SkatNavHost(
                 skatRoundState = skatRoundState,
                 specialRoundsState = specialRounds,
                 roundInformationState = roundInformationState,
+                cardIconProvider = cardIconProvider,
                 onSkatRoundEvent = skatRoundViewModel::onEvent,
                 onSkatGameEvent = skatGameViewModel::onEvent
             )

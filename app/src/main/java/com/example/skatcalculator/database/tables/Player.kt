@@ -10,8 +10,8 @@ data class Player(
     val playerId: String = "NA"
 ) {
 
-    fun isEmpty() : Boolean {
-        return name.isBlank() && playerId <= "NA"
+    fun equalsDefault() : Boolean {
+        return name.isBlank() && name.isEmpty() && playerId == "NA"
     }
 
     fun equalsPlayer(player: Player) : Boolean {

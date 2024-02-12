@@ -86,7 +86,6 @@ fun MainMenuScreen(
 ) {
     val historyLazyListState = rememberLazyListState()
     Column(
-//        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(color = colorResource(id = R.color.anti_flash_white))
@@ -106,7 +105,7 @@ fun MainMenuScreen(
         var playerThree by remember { mutableStateOf(Player("")) }
         var showNewPlayerDialog by remember { mutableStateOf(false) }
         var addPlayerOnIndex by remember { mutableIntStateOf(0) }
-        val gameIsReady = !playerOne.isEmpty() && !playerTwo.isEmpty() && !playerThree.isEmpty()
+        val gameIsReady = !playerOne.equalsDefault() && !playerTwo.equalsDefault() && !playerThree.equalsDefault()
 
 
         if (showNewPlayerDialog) {
@@ -458,7 +457,7 @@ private fun PlayerInsert(
     onRemove: () -> Unit
 ) {
 
-    if (player.isEmpty()) {
+    if (player.equalsDefault()) {
         DefaultCardClickable(
             header = "Player",
             onClick = onClick

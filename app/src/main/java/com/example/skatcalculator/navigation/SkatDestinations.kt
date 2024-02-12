@@ -46,6 +46,7 @@ object SkatGame : SkatDestination {
                 skatRoundState = SkatRoundState(),
                 specialRoundsState = SpecialRounds(),
                 roundInformationState = SkatRoundInformationState(),
+                cardIconProvider = CardIconProvider(),
                 onSkatRoundEvent = {},
                 onSkatGameEvent = {}
             )

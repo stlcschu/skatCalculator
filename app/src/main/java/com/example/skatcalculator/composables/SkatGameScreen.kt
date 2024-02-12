@@ -64,6 +64,7 @@ import com.example.skatcalculator.R
 import com.example.skatcalculator.composables.defaults.DefaultCarouselSelector
 import com.example.skatcalculator.composables.defaults.DefaultColumnRow
 import com.example.skatcalculator.composables.defaults.DefaultCounter
+import com.example.skatcalculator.composables.defaults.DefaultLoadingAnimation
 import com.example.skatcalculator.composables.defaults.DefaultScoreSlider
 import com.example.skatcalculator.composables.defaults.DefaultSwipeableContainer
 import com.example.skatcalculator.composables.defaults.DefaultTabs
@@ -86,10 +87,12 @@ import com.example.skatcalculator.enums.TrickColor
 import com.example.skatcalculator.helper.SampleRepository
 import com.example.skatcalculator.states.SkatRoundInformationState
 import com.example.skatcalculator.states.SkatRoundState
+import com.example.skatcalculator.util.CardIconProvider
 import com.example.skatcalculator.util.GroupPlayerWithScore
 import com.example.skatcalculator.util.ScoreCalculator
 import com.example.skatcalculator.util.TextPainter
 import com.example.skatcalculator.util.TextPainter.Companion.PaintValue
+import kotlinx.coroutines.delay
 import kotlin.math.roundToInt
 
 @Composable
@@ -98,6 +101,7 @@ fun SkatGameScreen(
     skatRoundState: SkatRoundState,
     specialRoundsState: SpecialRounds,
     roundInformationState: SkatRoundInformationState,
+    cardIconProvider: CardIconProvider,
     onSkatRoundEvent: (SkatRoundEvent) -> Unit,
     onSkatGameEvent: (SkatGameEvent) -> Unit
 ) {
@@ -113,11 +117,6 @@ fun SkatGameScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (players.isEmpty()) return
-        if (skatRoundState.selectedPlayer.player.isEmpty()) {
-            onSkatRoundEvent(
-                SkatRoundEvent.OnSelectedPlayerChanged(players[1])
-            )
-        }
         var currentContent by remember { mutableStateOf(SkatScreen.GAME_SCREEN) }
         Header(
             selectedScreen = currentContent,
@@ -135,6 +134,7 @@ fun SkatGameScreen(
                     currentRound = currentRound,
                     gameId = skatGame.skatGame.skatGameId,
                     specialRounds = specialRounds,
+                    cardIconProvider = cardIconProvider,
                     onSkatRoundEvent = onSkatRoundEvent,
                     onSkatGameEvent = onSkatGameEvent,
                     onShowBottomSheetChanged = {
@@ -158,7 +158,6 @@ fun SkatGameScreen(
                 )
             }
         }
-        Text(text = skatGame.skatGame.skatGameId)
     }
 }
 
@@ -171,6 +170,7 @@ fun MainGameScreen(
     currentRound: Int,
     gameId: String,
     specialRounds: List<SpecialRound>,
+    cardIconProvider: CardIconProvider,
     onSkatRoundEvent: (SkatRoundEvent) -> Unit,
     onSkatGameEvent: (SkatGameEvent) -> Unit,
     onShowBottomSheetChanged: (Boolean) -> Unit
@@ -178,7 +178,7 @@ fun MainGameScreen(
     val sheetState = rememberModalBottomSheetState(false)
 
     val currentSpecialRound = if (specialRounds.isEmpty()) SpecialRound.NONE else specialRounds[0]
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(true) {
         if (currentSpecialRound == SpecialRound.RAMSCH) {
             onSkatRoundEvent(
                 SkatRoundEvent.OnRoundVariantChanged(RoundVariant.RAMSCH)
@@ -312,7 +312,7 @@ fun MainGameScreen(
                                 when(it) {
                                     0 -> {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.OnSelectedPlayerChanged(players[2])
+                                            SkatRoundEvent.OnSelectedPlayerChanged(players[0])
                                         )
                                     }
                                     1 -> {
@@ -323,7 +323,7 @@ fun MainGameScreen(
                                     }
                                     else -> {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.OnSelectedPlayerChanged(players[0])
+                                            SkatRoundEvent.OnSelectedPlayerChanged(players[2])
                                         )
                                     }
                                 }
@@ -773,6 +773,21 @@ fun MainGameScreen(
             modifier = Modifier.height(500.dp),
             sheetState = sheetState
         ) {
+            
+            var showLoadingRoundEndScreen by remember { mutableStateOf(true) }
+            val loadingIcons = cardIconProvider.getIconsForLoadingAnimation()
+
+            LaunchedEffect(key1 = Unit) {
+                delay(5000)
+                showLoadingRoundEndScreen = false
+            }
+            if (roundState.selectedPlayer.player.equalsDefault() && showLoadingRoundEndScreen) {
+                onSkatRoundEvent(
+                    SkatRoundEvent.OnSelectedPlayerChanged(players[1])
+                )
+                DefaultLoadingAnimation(cardIcons = loadingIcons)
+                return@ModalBottomSheet
+            }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -1164,9 +1179,7 @@ fun MainGameScreen(
                         )
 
                         onSkatRoundEvent(
-                            SkatRoundEvent.OnFullReset(
-                                players[1]
-                            )
+                            SkatRoundEvent.OnFullReset
                         )
 
                         val newSpecialRounds =
@@ -1713,6 +1726,8 @@ private fun addSpecialRounds(currentSpecialRound: List<SpecialRound>, toAddSpeci
 @Preview
 @Composable
 fun PreviewMainGameScreen() {
+
+    val cardIconProvider = CardIconProvider()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -1747,6 +1762,7 @@ fun PreviewMainGameScreen() {
             currentRound = 5,
             gameId = "",
             specialRounds = listOf(SpecialRound.BOCK),
+            cardIconProvider = cardIconProvider,
             onSkatRoundEvent = {},
             onSkatGameEvent = {},
             onShowBottomSheetChanged = {}

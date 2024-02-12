@@ -190,7 +190,7 @@ class SkatRoundViewModel(
                 _state.update {
                     it.copy(
                         roundVariant = RoundVariant.NORMAL,
-                        selectedPlayer = event.defaultPlayer,
+                        selectedPlayer = PlayerWithScore(),
                         selectedPlayerIndex = 1,
                         selectedShove = 0,
                         selectedRoundType = RoundType.WITH_WITHOUT_ONE,

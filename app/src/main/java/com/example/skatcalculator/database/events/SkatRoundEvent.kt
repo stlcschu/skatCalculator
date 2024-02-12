@@ -33,7 +33,7 @@ sealed interface SkatRoundEvent {
     data class OnSuccessfulSchneiderChanged(val successfulSchneider: Boolean) : SkatRoundEvent
     data class OnSelectedPlayerIndexChanged(val selectedPlayerIndex: Int) : SkatRoundEvent
 
-    data class OnFullReset(val defaultPlayer: PlayerWithScore) : SkatRoundEvent
+    data object OnFullReset : SkatRoundEvent
     data object OnResetNormalVariant : SkatRoundEvent
     data object OnResetGrandVariant : SkatRoundEvent
     data object OnResetNullSpielVariant : SkatRoundEvent

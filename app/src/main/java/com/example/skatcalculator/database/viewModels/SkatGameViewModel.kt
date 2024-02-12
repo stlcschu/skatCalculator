@@ -25,8 +25,6 @@ class SkatGameViewModel(
 
     private val _gameId = MutableStateFlow("")
 
-    val gameId = _gameId
-
     private val _upcomingSpecialRounds = MutableStateFlow(SpecialRounds())
 
     @OptIn(ExperimentalCoroutinesApi::class)

@@ -82,7 +82,7 @@ fun DefaultCarouselSelector(
     }
 
     val fontSizeOne by animateFloatAsState(
-        targetValue = if (currentSelected == 2) 4.5f else 3f,
+        targetValue = if (currentSelected == 0) 4.5f else 3f,
         animationSpec = tween(500),
         label = "fontSizeOne"
     )
@@ -92,13 +92,13 @@ fun DefaultCarouselSelector(
         label = "fontSizeTwo"
     )
     val fontSizeThree by animateFloatAsState(
-        targetValue = if (currentSelected ==  0) 4.5f else 3f,
+        targetValue = if (currentSelected ==  2) 4.5f else 3f,
         animationSpec = tween(500),
         label = "fontSizeThree"
     )
 
     val fontColorOne by animateColorAsState(
-        targetValue = if (currentSelected == 2) colorResource(id = R.color.gunmetal)
+        targetValue = if (currentSelected == 0) colorResource(id = R.color.gunmetal)
         else colorResource(id = R.color.Davys_gray),
         animationSpec = tween(500),
         label = "fontColorOne"
@@ -110,7 +110,7 @@ fun DefaultCarouselSelector(
         label = "fontColorTwo"
     )
     val fontColorThree by animateColorAsState(
-        targetValue = if (currentSelected == 0) colorResource(id = R.color.gunmetal)
+        targetValue = if (currentSelected == 2) colorResource(id = R.color.gunmetal)
         else colorResource(id = R.color.Davys_gray),
         animationSpec = tween(500),
         label = "fontColorThree"
@@ -142,8 +142,8 @@ fun DefaultCarouselSelector(
             Text(
                 text = values[0],
                 textAlign = TextAlign.Center,
-                fontSize = fontSizeThree.em,
-                color = fontColorThree,
+                fontSize = fontSizeOne.em,
+                color = fontColorOne,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.fillMaxWidth()
@@ -190,8 +190,8 @@ fun DefaultCarouselSelector(
             Text(
                 text = values[2],
                 textAlign = TextAlign.Center,
-                fontSize = fontSizeOne.em,
-                color = fontColorOne,
+                fontSize = fontSizeThree.em,
+                color = fontColorThree,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.fillMaxWidth()
