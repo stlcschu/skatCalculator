@@ -25,13 +25,13 @@ class SkatGameViewModel(
 
     private val _gameId = MutableStateFlow("")
 
-    private val _state = MutableStateFlow(SkatGameWithRoundsAndScores())
+    val gameId = _gameId
 
     private val _upcomingSpecialRounds = MutableStateFlow(SpecialRounds())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val state = _state
-        .flatMapLatest { _ -> skatGameDao.getSkatGame(_gameId.value) }
+    val state = _gameId
+        .flatMapLatest { gameId -> skatGameDao.getSkatGame(gameId) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SkatGameWithRoundsAndScores())
 
     @OptIn(ExperimentalCoroutinesApi::class)
