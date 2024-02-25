@@ -124,16 +124,16 @@ class ScoreCalculator {
             }
             if (skatRoundState.successfulNullSpielChecked) {
                 val gain = base
-                if (skatRoundState.kontraChecked || skatRoundState.reChecked) specialRounds.add(SpecialRound.BOCK)
+                if (skatRoundState.kontraChecked || skatRoundState.reChecked) specialRounds.addAll(TRIPLE_BOCK)
                 return Pair(gain, specialRounds)
             }
             val loss = base * -2
-            if (skatRoundState.kontraChecked) specialRounds.addAll(arrayOf(SpecialRound.BOCK, SpecialRound.RAMSCH))
+            if (skatRoundState.kontraChecked) specialRounds.addAll(TRIPLE_BOCK_RAMSCH)
             return Pair(loss, specialRounds)
         }
 
         if  (skatRoundState.isSpaltarsch) {
-            specialRounds.add(SpecialRound.BOCK)
+            specialRounds.addAll(TRIPLE_BOCK)
         }
 
         if (skatRoundState.roundVariant == RoundVariant.RAMSCH) {
@@ -161,7 +161,7 @@ class ScoreCalculator {
         if (skatRoundState.handChecked) {
             base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
             else skatRoundState.selectedTrick.baseValue
-            if (skatRoundState.roundVariant == RoundVariant.GRAND) specialRounds.add(SpecialRound.RAMSCH)
+            if (skatRoundState.roundVariant == RoundVariant.GRAND) specialRounds.addAll(TRIPLE_RAMSCH)
         }
         if (skatRoundState.ouvertChecked) {
             base += if (skatRoundState.roundVariant == RoundVariant.GRAND) 24
@@ -208,19 +208,19 @@ class ScoreCalculator {
             else (skatRoundState.selectedTrick.baseValue * multiplier)
 
             val loss = base * -2
-            if (skatRoundState.kontraChecked) specialRounds.addAll(arrayOf(SpecialRound.BOCK, SpecialRound.RAMSCH))
+            if (skatRoundState.kontraChecked) specialRounds.addAll(TRIPLE_BOCK_RAMSCH)
             return Pair(loss, specialRounds)
         }
 
         if (skatRoundState.roundScore.roundToInt() <= 60 ||
             (skatRoundState.schneiderChecked && !skatRoundState.successfulSchneider)) {
             val loss = base * -2
-            if (skatRoundState.kontraChecked) specialRounds.addAll(arrayOf(SpecialRound.BOCK, SpecialRound.RAMSCH))
+            if (skatRoundState.kontraChecked) specialRounds.addAll(TRIPLE_BOCK_RAMSCH)
             return Pair(loss, specialRounds)
         }
 
         val gain = base
-        if (skatRoundState.kontraChecked || skatRoundState.reChecked) specialRounds.add(SpecialRound.BOCK)
+        if (skatRoundState.kontraChecked || skatRoundState.reChecked) specialRounds.addAll(TRIPLE_BOCK)
         return Pair(gain, specialRounds)
     }
 
@@ -323,8 +323,13 @@ class ScoreCalculator {
         if (skatRoundState.roundScore.roundToInt() <= 60 ||
             (skatRoundState.schneiderChecked && !skatRoundState.successfulSchneider)) return base * -2
 
-
         return base
+    }
+
+    companion object {
+        val TRIPLE_BOCK = arrayOf(SpecialRound.BOCK, SpecialRound.BOCK, SpecialRound.BOCK)
+        val TRIPLE_RAMSCH = arrayOf(SpecialRound.RAMSCH, SpecialRound.RAMSCH, SpecialRound.RAMSCH)
+        val TRIPLE_BOCK_RAMSCH = arrayOf(SpecialRound.RAMSCH, SpecialRound.RAMSCH, SpecialRound.RAMSCH, SpecialRound.BOCK, SpecialRound.BOCK, SpecialRound.BOCK)
     }
 
 }

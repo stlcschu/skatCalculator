@@ -178,14 +178,6 @@ fun MainGameScreen(
     val sheetState = rememberModalBottomSheetState(false)
 
     val currentSpecialRound = if (specialRounds.isEmpty()) SpecialRound.NONE else specialRounds[0]
-    LaunchedEffect(true) {
-        if (currentSpecialRound == SpecialRound.RAMSCH) {
-            onSkatRoundEvent(
-                SkatRoundEvent.OnRoundVariantChanged(RoundVariant.RAMSCH)
-            )
-        }
-    }
-
     val focusRequester = remember { FocusRequester() }
     Row(
         modifier = Modifier
@@ -783,6 +775,14 @@ fun MainGameScreen(
                 delay(5000)
                 showLoadingRoundEndScreen = false
             }
+            LaunchedEffect(key1 = Unit) {
+                if (currentSpecialRound == SpecialRound.RAMSCH) {
+                    onSkatRoundEvent(
+                        SkatRoundEvent.OnRoundVariantChanged(RoundVariant.RAMSCH)
+                    )
+                }
+            }
+
             if (roundState.selectedPlayer.player.equalsDefault() && showLoadingRoundEndScreen) {
                 onSkatRoundEvent(
                     SkatRoundEvent.OnSelectedPlayerChanged(players[1])
