@@ -432,7 +432,7 @@ fun MainGameScreen(
                                 when(it) {
                                     0 -> {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.OnSelectedPlayerChanged(players[2])
+                                            SkatRoundEvent.OnSelectedPlayerChanged(players[0])
                                         )
                                     }
                                     1 -> {
@@ -443,7 +443,7 @@ fun MainGameScreen(
                                     }
                                     else -> {
                                         onSkatRoundEvent(
-                                            SkatRoundEvent.OnSelectedPlayerChanged(players[0])
+                                            SkatRoundEvent.OnSelectedPlayerChanged(players[2])
                                         )
                                     }
                                 }
@@ -816,7 +816,7 @@ fun MainGameScreen(
                             when(it) {
                                 0 -> {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.OnSelectedPlayerChanged(players[2])
+                                        SkatRoundEvent.OnSelectedPlayerChanged(players[0])
                                     )
                                 }
                                 1 -> {
@@ -827,7 +827,7 @@ fun MainGameScreen(
                                 }
                                 else -> {
                                     onSkatRoundEvent(
-                                        SkatRoundEvent.OnSelectedPlayerChanged(players[0])
+                                        SkatRoundEvent.OnSelectedPlayerChanged(players[2])
                                     )
                                 }
                             }
@@ -950,15 +950,24 @@ fun MainGameScreen(
                                     onSkatRoundEvent(
                                         SkatRoundEvent.OnRoundScoreValueChanged(it)
                                     )
+                                    onSkatRoundEvent(
+                                        SkatRoundEvent.OnSuccessfulSchneiderChanged(roundState.roundScore > 90)
+                                    )
                                 },
                                 onClickRight = {
                                     onSkatRoundEvent(
                                         SkatRoundEvent.OnRoundScoreValueChanged(it)
                                     )
+                                    onSkatRoundEvent(
+                                        SkatRoundEvent.OnSuccessfulSchneiderChanged(roundState.roundScore > 90)
+                                    )
                                 },
                                 onValueChanged = {
                                     onSkatRoundEvent(
                                         SkatRoundEvent.OnRoundScoreValueChanged(it)
+                                    )
+                                    onSkatRoundEvent(
+                                        SkatRoundEvent.OnSuccessfulSchneiderChanged(roundState.roundScore > 90)
                                     )
                                 }
                             )
@@ -1701,13 +1710,13 @@ private fun constructSkatRound(
 
 private fun decideCardGiverAndFirstBidder(roundCount: Int) : Pair<Int, Int> {
     if (roundCount == 1) {
-        return Pair(0, 2)
-    }
-    if (roundCount == 2) {
         return Pair(1, 0)
     }
-    if (roundCount == 3) {
+    if (roundCount == 2) {
         return Pair(2, 1)
+    }
+    if (roundCount == 3) {
+        return Pair(0, 2)
     }
     var tmp = roundCount
     while ((tmp - 3) >= 0) {
